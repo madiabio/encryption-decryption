@@ -3,7 +3,6 @@
 /// Handles members that will be shared by derived classes.
 /// <\summary>
 #pragma once
-#include <string>
 class MessageHandler
 {
 protected:
@@ -23,15 +22,31 @@ protected:
 	int gridSize;
 
 	/// <summary>
-	/// The number of encryption rounds that will be used or were used.
+	/// The number of encryption/decryption rounds that will be done.
 	/// </summary>
-	int rounds;
+	int totalRounds;
+
+	/// <summary>
+	/// The number of encryption/decryption rounds that have been done so far for the current message.
+	/// </summary>
+	int roundsCompleted;
+
+	/// <summary>
+	/// 2d grid that is used to create and display the encrypted message
+	/// </summary>
+	std::vector<std::vector<char>> grid;
+
+	/// <summary>
+	/// Puts the encrypted message in its grid format.
+	/// </summary>
+	void makeGrid();
+
 
 public:
 	/// <summary>
 	/// Default constructor.
 	/// </summary>
-	MessageHandler() : msg(""), encryptedMsg(""), gridSize(0), rounds(0) {}
+	MessageHandler();
 
 	/// <summary>
 	/// Constructor that takes in unencrypted message, encrypted message and number of rounds. 
@@ -41,12 +56,8 @@ public:
 	/// <param name="e">Encrypted message</param> 
 	/// <param name="r">Number of rounds</param> 
 	/// <param name="g">Size of grid</param>
-	MessageHandler(const std::string& m, const std::string& e, int r) : msg(m), encryptedMsg(e), rounds(r), gridSize(0) 
-	{
-		// TODO: implement functionality for automatic grid size calculation (might need to move this definition to
-		// the .cpp file)
-	}
-
+	
+	MessageHandler(const std::string& m, const std::string& e, int r);
 	/// <summary>
 	/// Constructor that takes in unencrypted message, encrypted message, number of rounds and grid size. 
 	/// To be used with manual grid size setting.
@@ -55,7 +66,7 @@ public:
 	/// <param name="e">Encrypted message</param> 
 	/// <param name="r">Number of rounds</param> 
 	/// <param name="g">Size of grid</param>
-	MessageHandler(const std::string& m, const std::string& e, int r, int g) : msg(m), encryptedMsg(e), rounds(r), gridSize(g) {}
+	MessageHandler(const std::string& m, const std::string& e, int r, int g);
 
 	/// <summary>
 	/// Gets the unencrypted message.
@@ -70,21 +81,69 @@ public:
 	std::string getEncryptedMsg() const { return encryptedMsg; }
 
 	/// <summary>
-	/// Gets the number of encryption rounds.
+	/// Gets the number of encryption rounds required to encrypt or decrypt the unencrypted message.
 	/// </summary>
 	/// <returns>The number of encrpytion rounds as an int.</returns>
-	int getRounds() const { return rounds; }
+	int getTotalRounds() const { return totalRounds; }
+
+	/// <summary>
+	/// Gets the number of rounds that have been completed by the current encryption or decryption process.
+	/// </summary>
+	/// <returns>The number of encryption or decryption rounds that have been completed as an int.</returns>
+	int getRoundsCompleted() const { return roundsCompleted; }
 
 	/// <summary>
 	/// Gets the grid size.
 	/// </summary>
 	/// <returns>The size of the grid as an int.</returns>
-	int getGridSize() const { return gridSize; }
+	int getGridSize() const { return gridSize ; }
 
 	/// <summary>
-	/// Prints the encrypted message in its grid format.
+	/// Gets the 2d grid as a 2d vector of chars.
 	/// </summary>
-	void printEncryptedMsg() const;
+	/// <returns>The encrypyted message as a 2d vector of chars</returns>
+	std::vector<std::vector<char>> getGrid() const{ return grid; }
+
+	/// <summary>
+	/// Sets the unencrypted message
+	/// </summary>
+	/// <param name="m">Unencrypted message.</param>
+	void setMessage(const std::string& m) { msg = m; }
+
+	/// <summary>
+	///	Sets the encrypted message
+	/// </summary>
+	/// <param name="e">Encrypted message.</param>
+	void setEncryptedMessage(const std::string& e) { encryptedMsg = e; }
+
+	/// <summary>
+	/// Sets the grid size to the specified value.
+	/// </summary>
+	/// <param name="g">The new grid size.</param>
+	void setGridSize(int g) { gridSize = g; }
+
+	/// <summary>
+	/// Sets the total number of rounds.
+	/// </summary>
+	/// <param name="r">The total number of rounds to set.</param>
+	void setTotalRounds(int r) { totalRounds = r; }
+
+	/// <summary>
+	/// Sets the number of completed rounds.
+	/// </summary>
+	/// <param name="rc">The number of rounds that have been completed.</param>
+	void setRoundsCompleted(int rc) { roundsCompleted = rc; }
+
+	/// <summary>
+	/// Sets the grid to a new two-dimensional character array.
+	/// </summary>
+	/// <param name="newGrid">The new grid to assign, represented as a two-dimensional vector of characters.</param>
+	void setGrid(std::vector<std::vector<char>> newGrid) { grid = newGrid; }
+
+	/// <summary>
+	/// Prints the 2d grid.
+	/// </summary>
+	void printGrid() const;
 
 	/// <summary>
 	/// Virtual destructor.

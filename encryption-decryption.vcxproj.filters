@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="MessageHandlerTests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
     <ClCompile Include="MessageHandler.cpp">
@@ -10,6 +10,9 @@
     </ClCompile>
     <ClCompile Include="Encoder.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="EncoderTests.cpp">
+      <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
