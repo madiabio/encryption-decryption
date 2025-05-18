@@ -1,5 +1,10 @@
 #pragma once
-class encoder
+#include "MessageHandler.h"
+class Encoder :
+    public MessageHandler
 {
+protected:
+public:
+
 };
 

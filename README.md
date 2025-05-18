@@ -14,4 +14,17 @@
 - To indicate end of original plain message, a fullstop should be appended if not already there. This should only be done in the first round.
 
 
-# Status
+# Week 1 - Basic C++ Coding
+The whole assignment is written in C++.
+
+# Week 2 - STL (Container, Iterator, Vector, Set)
+
+# Week 3 - STL (Container - Map Class, Algorithms (min/max, sort, search, copying/moving, swap, shuffle, set, merge, generate, etc..))
+
+# Week 4 - Classes (Intro, Defining a Class Instance, Constructors & Destructors, this Pointer, Operator Overloading, Class Templates)
+
+# Week 5 - Classes & OOP Design 1 (Static Members & Friend Functions), Copying Objects (Copy Constructer/Assignment, Lvalue & Rvalue, Move Constructor/Assignment), UML, Class Aggregation
+
+# Week 6 - OOP Design 2 (Inheritance, Polymorphism, Abstract Base Class)
+
+# Week 7 - Exceptions & Lambda Functions
