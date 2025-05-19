@@ -20,7 +20,7 @@ TEST(EncoderTest, DefaultConstructorInitializesMembers)
 
 TEST(EncoderTest, AutoGridSizeConstructorInitializesMembers)
 {
-    std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
+    std::string message = "GENERALTSONEEDSCHICKENNOW";
     std::string encryptedMessage = "";
     TestEncoder encoder(message, 1);
     EXPECT_EQ(encoder.getMsg(), message);
@@ -30,7 +30,7 @@ TEST(EncoderTest, AutoGridSizeConstructorInitializesMembers)
 
 }
 
-TEST(EncoderTest, AutoGridSizeConstructorInitializesMembers2)
+TEST(EncoderTest, AutoGridSizeWorks)
 {
     std::string message = "ABCDE";
     std::string encryptedMessage = "";
@@ -38,7 +38,46 @@ TEST(EncoderTest, AutoGridSizeConstructorInitializesMembers2)
     EXPECT_EQ(encoder.getMsg(), message);
     EXPECT_EQ(encoder.getEncryptedMsg(), encryptedMessage);
     EXPECT_EQ(encoder.getTotalRounds(), 1);
-    EXPECT_EQ(encoder.getGridSize(), 7);
+    EXPECT_EQ(encoder.getGridSize(),  5);
+}
+
+
+TEST(EncoderTest, ManualGridSizeConstructorFormatsMsgWithNoFullstop)
+{
+    std::string message = "ABCDE";
+    std::string encryptedMessage = "";
+    int gridSize = 7;
+    TestEncoder encoder(message, 1, gridSize);
+    EXPECT_EQ(encoder.getMsg(), message+'.');
+}
+
+
+TEST(EncoderTest, ManualGridSizeConstructorFormatsMsgWithWhitespace)
+{
+    std::string message = "ABC DE";
+    std::string encryptedMessage = "";
+    int gridSize = 5;
+    TestEncoder encoder(message, 1, gridSize);
+    EXPECT_EQ(encoder.getMsg(), "ABCDE");
+}
+
+TEST(EncoderTest, ManualGridSizeConstructorFormatsMsgWithWhitespaceAndNoFullstop)
+{
+    std::string message = "ABC DE";
+    std::string encryptedMessage = "";
+    int gridSize = 7;
+    TestEncoder encoder(message, 1, gridSize);
+    EXPECT_EQ(encoder.getMsg(), "ABCDE.");
+}
+
+
+TEST(EncoderTest, ManualGridSizeConstructorDoesntDoubleFullstop)
+{
+    std::string message = "ABC DE";
+    std::string encryptedMessage = "";
+    int gridSize = 7;
+    TestEncoder encoder(message, 1, gridSize);
+    EXPECT_EQ(encoder.getMsg(), "ABCDE.");
 }
 TEST(EncoderTest, ManualGridSizeConstructorInitializesMembers)
 {
@@ -130,3 +169,27 @@ TEST(EncoderTest, MakeGridSimpleDiamondPatternSmallestGridSize)
     EXPECT_EQ(grid[2][2], '*');
 }
 
+TEST(EncoderTest, MakeGridAddsFullstopSimple)
+{
+    std::string message = "A";
+    int gridSize = 3;
+    TestEncoder h(message, 1, gridSize);
+
+    auto grid = h.getGrid();
+
+    EXPECT_EQ(grid[0][1], 'A');
+    EXPECT_EQ(grid[1][0], '.');
+}
+
+TEST(EncoderTest, MakeGridAddsFullstopWhitespace)
+{
+    std::string message = "A B";
+    int gridSize = 3;
+    TestEncoder h(message, 1, gridSize);
+
+    auto grid = h.getGrid();
+
+    EXPECT_EQ(grid[0][1], 'A');
+    EXPECT_EQ(grid[1][0], 'B');
+    EXPECT_EQ(grid[1][1], '.');
+}

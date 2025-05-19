@@ -35,7 +35,7 @@ void MessageHandler::makeGrid()
 				grid[row][col] = this->encryptedMsg[idx++];
 			}
 			else {
-				grid[row][col] = ' ';
+				grid[row][col] = '*';
 			}
 		}
 	}
