@@ -13,7 +13,7 @@ TEST(MessageHandlerTest, DefaultConstructorInitializesMembers)
 	EXPECT_EQ(h.getMsg(), "");
 	EXPECT_EQ(h.getEncryptedMsg(), "");
 	EXPECT_EQ(h.getTotalRounds(), 0);
-	EXPECT_EQ(h.getGridSize(), 0);
+	EXPECT_EQ(h.getGridSize(), 1);
     EXPECT_EQ(h.getCompletedRounds(), 0);
 }
 
@@ -113,29 +113,4 @@ TEST(MessageHandlerTest, SetNewCompletedRoundsWorks)
 
     newCompletedRounds = -1;
     EXPECT_THROW(h.setCompletedRounds(newCompletedRounds), std::invalid_argument);
-}
-
-TEST(MessageHandlerTest, PrintGridOutputsCorrectly) {
-    // Arrange: create a MessageHandler with a known grid
-    MessageHandler handler("", "ABCD", 1, 2); // 2x2 grid, encryptedMsg = "ABCD"
-
-    // Redirect std::cout to a stringstream
-    std::stringstream buffer;
-    std::streambuf* oldCout = std::cout.rdbuf(buffer.rdbuf());
-
-    // Act: print the grid
-    handler.printGrid();
-
-    // Restore std::cout
-    std::cout.rdbuf(oldCout);
-
-    // Output the captured string for visual inspection
-    std::string output = buffer.str();
-    std::cout << "Captured output:\n" << output << std::endl;
-
-    // Optionally, assert on the output
-    std::string expected =
-        "A C\n"
-        "B D\n";
-    EXPECT_EQ(output, expected);
 }

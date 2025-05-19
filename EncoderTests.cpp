@@ -15,7 +15,7 @@ TEST(EncoderTest, DefaultConstructorInitializesMembers)
     EXPECT_EQ(encoder.getMsg(), "");
     EXPECT_EQ(encoder.getEncryptedMsg(), "");
     EXPECT_EQ(encoder.getTotalRounds(), 0);
-    EXPECT_EQ(encoder.getGridSize(), 0);
+    EXPECT_EQ(encoder.getGridSize(), 1);
 }
 
 TEST(EncoderTest, AutoGridSizeConstructorInitializesMembers)
@@ -28,6 +28,17 @@ TEST(EncoderTest, AutoGridSizeConstructorInitializesMembers)
     EXPECT_EQ(encoder.getTotalRounds(), 1);
     EXPECT_EQ(encoder.getGridSize(), 7);
 
+}
+
+TEST(EncoderTest, AutoGridSizeConstructorInitializesMembers2)
+{
+    std::string message = "ABCDE";
+    std::string encryptedMessage = "";
+    TestEncoder encoder(message, 1);
+    EXPECT_EQ(encoder.getMsg(), message);
+    EXPECT_EQ(encoder.getEncryptedMsg(), encryptedMessage);
+    EXPECT_EQ(encoder.getTotalRounds(), 1);
+    EXPECT_EQ(encoder.getGridSize(), 7);
 }
 TEST(EncoderTest, ManualGridSizeConstructorInitializesMembers)
 {
@@ -42,21 +53,21 @@ TEST(EncoderTest, ManualGridSizeConstructorInitializesMembers)
 
 TEST(EncoderTest, AutoGridSizeConstructorThrowsForInvalidNumRounds)
 {
-    // number of rounds must be >=0
+    // number of rounds must be >= 0
     std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
     EXPECT_THROW(TestEncoder encoder(message, -1), std::invalid_argument);
 }
 
 TEST(EncoderTest, ManualGridSizeConstructorThrowsForInvalidNumRounds)
 {
-    // number of rounds must be >=0
+    // number of rounds must be > 0
     std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
     EXPECT_THROW(TestEncoder encoder(message, -1, 7), std::invalid_argument);
 }
 
 TEST(EncoderTest, ManualGridSizeConstructorThrowsForInvalidGridSize)
 {
-    // Grid size must be <= 0.
+    // Grid size must be > 0.
     int g = -1;
     EXPECT_THROW(TestEncoder encoder("", 1, g), std::invalid_argument);
 }
@@ -77,7 +88,6 @@ TEST(EncoderTest, ManualGridSizeConstructorThrowsForEvenGridSize)
     std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
     EXPECT_THROW(TestEncoder encoder(message, 1, g), std::invalid_argument);
 }
-
 
 TEST(EncoderTest, MakeGridSimpleDiamondPatternSmallestGridSize) 
 {

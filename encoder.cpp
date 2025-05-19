@@ -6,13 +6,6 @@
 #include <vector>
 
 
-Encoder::Encoder(const std::string& m, int r, int g) : MessageHandler(m, "", r, g)
-{
-    if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
-    if (g < minDiamondGridSize(m.size())) throw std::invalid_argument("Grid size too small.");
-    else gridSize = g;
-}
-
 char Encoder::getRandomLetter()
 {
 	// Seed the random number generator with the current time
@@ -25,22 +18,6 @@ char Encoder::getRandomLetter()
 	char randomLetter = static_cast<char>('A' + randomNumber);
 
 	return randomLetter;
-}
-
-int Encoder::diamondCellCount(int n) {
-    if (n <= 0 || n % 2 == 0)
-        throw std::invalid_argument("Grid size must be a positive odd integer.");
-    return n * n - ((n - 1) * (n - 1)) / 2;
-}
-
-int Encoder::minDiamondGridSize(int messageLength) {
-    if (messageLength <= 0)
-        throw std::invalid_argument("Message length must be positive.");
-    int n = 1;
-    while (diamondCellCount(n) < messageLength) {
-        n += 2; // Only odd sizes
-    }
-    return n;
 }
 
 void Encoder::makeGrid()

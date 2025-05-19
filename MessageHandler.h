@@ -37,6 +37,19 @@ protected:
 	std::vector<std::vector<char>> grid;
 
 
+	/// <summary>
+	/// Returns the number of cells in a diamond for an odd grid size n
+	/// </summary>
+	/// <param name="n">Odd grid size n</param
+	int diamondCellCount(int n);
+
+	/// <summary>
+	/// Calculates the minimum grid size required to fit a message in a diamond-shaped grid.
+	/// </summary>
+	/// <param name="messageLength">The length of the message to be placed in the diamond grid.</param>
+	/// <returns>The smallest integer grid size that can accommodate the entire message in a diamond pattern.</returns>
+	int minDiamondGridSize(int messageLength);
+
 public:
 	/// <summary>
 	/// Default constructor.
