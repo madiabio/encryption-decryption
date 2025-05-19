@@ -177,8 +177,8 @@ TEST(EncoderTest, MakeGridAddsFullstopSimple)
 
     auto grid = h.getGrid();
 
-    EXPECT_EQ(grid[0][1], 'A');
-    EXPECT_EQ(grid[1][0], '.');
+    EXPECT_EQ(grid[1][0], 'A');
+    EXPECT_EQ(grid[0][1], '.');
 }
 
 TEST(EncoderTest, MakeGridAddsFullstopWhitespace)
@@ -189,7 +189,7 @@ TEST(EncoderTest, MakeGridAddsFullstopWhitespace)
 
     auto grid = h.getGrid();
 
-    EXPECT_EQ(grid[0][1], 'A');
-    EXPECT_EQ(grid[1][0], 'B');
-    EXPECT_EQ(grid[1][1], '.');
+    EXPECT_EQ(grid[1][0], 'A');
+    EXPECT_EQ(grid[0][1], 'B');
+    EXPECT_EQ(grid[1][2], '.');
 }

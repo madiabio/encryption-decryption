@@ -102,10 +102,11 @@ void Encoder::makeGrid()
     }
 }
 
-static std::string removeWhitespace(std::string str)
+std::string Encoder::removeWhitespace(std::string str)
 {
     str.erase(
         std::remove_if(str.begin(), str.end(),
             [](unsigned char c) { return std::isspace(c); }),
         str.end());
+    return str;
 }
