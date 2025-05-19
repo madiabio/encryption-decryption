@@ -172,3 +172,52 @@ TEST(EncoderTest, OneRoundEncodingSimple)
     EXPECT_EQ(encryptedMsg[1], 'A');
     EXPECT_EQ(encryptedMsg[3], '.');
 }
+
+TEST(EncoderTest, OneRoundEncodingGenTsoManualGrid)
+{
+    std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
+    int gridSize = 7;
+    Encoder encoder(message, 1, gridSize);
+
+    encoder.encode();
+    auto encryptedMsg = encoder.getEncryptedMsg();
+
+    // col 1
+    EXPECT_EQ(encryptedMsg[3], 'G');
+
+    // col 2
+    EXPECT_EQ(encryptedMsg[9], 'E');
+    EXPECT_EQ(encryptedMsg[10], 'E');
+    EXPECT_EQ(encryptedMsg[11], 'E');
+    
+    // col 3
+    EXPECT_EQ(encryptedMsg[15], 'N');
+    EXPECT_EQ(encryptedMsg[16], 'D');
+    EXPECT_EQ(encryptedMsg[17], 'E');
+    EXPECT_EQ(encryptedMsg[18], 'K');
+    EXPECT_EQ(encryptedMsg[19], 'N');
+
+    // col 4
+    EXPECT_EQ(encryptedMsg[21], 'E');
+    EXPECT_EQ(encryptedMsg[22], 'S');
+    EXPECT_EQ(encryptedMsg[23], 'N');
+    EXPECT_EQ(encryptedMsg[24], 'W');
+    EXPECT_EQ(encryptedMsg[25], 'O');
+    EXPECT_EQ(encryptedMsg[26], 'C');
+    EXPECT_EQ(encryptedMsg[27], 'O');
+
+    // col 5
+    EXPECT_EQ(encryptedMsg[29], 'R');
+    EXPECT_EQ(encryptedMsg[30], 'C');
+    EXPECT_EQ(encryptedMsg[31], 'N');
+    EXPECT_EQ(encryptedMsg[32], 'I');
+    EXPECT_EQ(encryptedMsg[33], 'S');
+
+    // col 6
+    EXPECT_EQ(encryptedMsg[37], 'A');
+    EXPECT_EQ(encryptedMsg[38], 'H');
+    EXPECT_EQ(encryptedMsg[39], 'T');
+
+    // col 7
+    EXPECT_EQ(encryptedMsg[45], 'L');
+}

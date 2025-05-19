@@ -8,6 +8,7 @@
 
 char Encoder::getRandomLetter()
 {
+    // FIXME: this is not working because the function is too fast.
 	// Seed the random number generator with the current time
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
@@ -128,3 +129,4 @@ void Encoder::encode()
     // Update encrypted msg
     setEncryptedMsg(newEncryptedMsg);
 }
+
