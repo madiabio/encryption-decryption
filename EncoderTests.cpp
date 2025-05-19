@@ -221,3 +221,15 @@ TEST(EncoderTest, OneRoundEncodingGenTsoManualGrid)
     // col 7
     EXPECT_EQ(encryptedMsg[45], 'L');
 }
+
+
+TEST(EncoderTest, TwoRoundEncodingWorksNoErrors)
+{
+    std::string message = "A.";
+    int gridSize = 3;
+    Encoder encoder(message, 2, gridSize);
+
+    encoder.encrypt();
+    auto encryptedMsg = encoder.getEncryptedMsg();
+}
+

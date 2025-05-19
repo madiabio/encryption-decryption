@@ -121,7 +121,6 @@ public:
 	/// </summary>
 	virtual void makeGrid();
 
-
 	/// <summary>
 	/// Sets the unencrypted message.
 	/// </summary>

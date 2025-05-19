@@ -46,7 +46,6 @@ public:
     /// <param name="r">Number of encryption rounds</param> 
     Encoder(const std::string& m, int r) : MessageHandler(removeWhitespace(m), "", r) { makeGrid(); }
 
-
     /// <summary>
     /// Constructor that takes in an unencrypted message, the number of desired encryption rounds, and the grid size.
     /// To be used with manual grid sizing.
@@ -58,10 +57,15 @@ public:
     Encoder(const std::string& m, int r, int g) : MessageHandler(removeWhitespace(m), "", r, g) { makeGrid(); }
 
     /// <summary>
-    /// Encodes the message using the encryption algorithm.
+    /// Collapses the grid into an encrypted message string.
     /// </summary>
-    void encode();
+    void encode(); // TODO: move this to private!
     
+    /// <summary>
+    /// Performs encrpytion based upon the number of encryption rounds. Updates the encryptedMsg member.
+    /// </summary>
+    void encrypt();
+
 };
 
 

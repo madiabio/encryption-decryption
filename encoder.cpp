@@ -8,17 +8,9 @@
 
 char Encoder::getRandomLetter()
 {
-    // FIXME: this is not working because the function is too fast.
-	// Seed the random number generator with the current time
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-
-	// Generate a random number between 0 and 25
-	int randomNumber = std::rand() % 26;
-
-	// Convert the random number to a capital letter (A=65, B=66, etc.)
-	char randomLetter = static_cast<char>('A' + randomNumber);
-
-	return randomLetter;
+    static std::mt19937 rng(static_cast<unsigned int>(std::time(nullptr)));
+    static std::uniform_int_distribution<int> dist(0, 25);
+    return static_cast<char>('A' + dist(rng));
 }
 
 void Encoder::makeGrid()
@@ -130,3 +122,22 @@ void Encoder::encode()
     setEncryptedMsg(newEncryptedMsg);
 }
 
+void Encoder::encrypt()
+{
+
+    // Make grid & encode based off of current params
+    makeGrid();
+    encode();
+    setCompletedRounds(1);
+
+    // If there's more rounds to do, handle it here.
+    for (int round = 1; round < totalRounds; ++round)
+    {
+        msg = encryptedMsg;
+        setGridSize(minDiamondGridSize(msg.size())); // update the grid size for the new string length
+        setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
+        makeGrid(); // make the grid again
+        encode(); // update the encrypted msg with the new encrypted msg.
+        setCompletedRounds(round); // finish the round
+    }
+}
