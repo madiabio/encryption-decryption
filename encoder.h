@@ -1,19 +1,50 @@
 /// Header file for the encoder class.
 #pragma once
 #include "MessageHandler.h"
-
+#include <vector>
 /// <summary>
 /// Class with tools to encrypt a message using the encryption algorithm.
 /// </summary>
 class Encoder : public MessageHandler
 {
+private:
+    /// <summary>
+    /// Sets the encrypted message. Same as base class but moved to private.
+    /// </summary>
+    /// <param name="e">The encrypted message to set.</param>
+    using MessageHandler::setEncryptedMsg;
+
+    /// <summary>
+    /// Returns the number of cells in a diamond for an odd grid size n
+    /// </summary>
+    /// <param name="n">Odd grid size n</param
+    int diamondCellCount(int n);
+
+    /// <summary>
+    /// Calculates the minimum grid size required to fit a message in a diamond-shaped grid.
+    /// </summary>
+    /// <param name="messageLength">The length of the message to be placed in the diamond grid.</param>
+    /// <returns>The smallest integer grid size that can accommodate the entire message in a diamond pattern.</returns>
+    int minDiamondGridSize(int messageLength);
+
 protected:
+    // These are here so they can be inherited by the test class.
+    // TODO: once 'encrypt' is made, change the tests to just look at getGrid()
 
     /// <summary>
     /// Gets a random upper case letter between A-Z.
     /// </summary>
     /// <returns>Returns a random upper case letter.</returns>
-    char getRandomLetter();
+    virtual char getRandomLetter();
+    /// <summary>
+    
+    /// Creates or initializes a grid structure. Overrides a virtual function from a base class.
+    /// This method differs from the base class by first initializing the grid using random letters,
+    /// then filling it with the encrypted message.
+    /// It can only be called after the encrypted message is complete.
+    /// </summary>
+    void makeGrid() override;
+
 public:
 
     /// <summary>
@@ -27,7 +58,7 @@ public:
     /// </summary>
     /// <param name="m">Unencryped message</param>
     /// <param name="r">Number of encryption rounds</param> 
-    Encoder(const std::string& m, int r) : MessageHandler(m, "", r) {}
+    Encoder(const std::string& m, int r) : MessageHandler(m, "", r) {gridSize = minDiamondGridSize(m.size());}
 
     /// <summary>
     /// Constructor that takes in an unencrypted message, the number of desired encryption rounds, and the grid size.
@@ -36,12 +67,13 @@ public:
     /// <param name="m">Unencryped message</param>
     /// <param name="r">Number of encryption rounds</param> 
     /// <param name="g">Size of grid</param>
-    Encoder(const std::string& m, int r, int g) : MessageHandler(m, "", r, g) {}
+    Encoder(const std::string& m, int r, int g);
 
     /// <summary>
     /// Encodes the message using the encryption algorithm.
     /// </summary>
     void encode();
+    
 };
 
 

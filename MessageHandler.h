@@ -29,18 +29,12 @@ protected:
 	/// <summary>
 	/// The number of encryption/decryption rounds that have been done so far for the current message.
 	/// </summary>
-	int roundsCompleted;
+	int completedRounds;
 
 	/// <summary>
 	/// 2d grid that is used to create and display the encrypted message
 	/// </summary>
 	std::vector<std::vector<char>> grid;
-
-	/// <summary>
-	/// Puts the encrypted message in its grid format.
-	/// </summary>
-	void makeGrid();
-
 
 public:
 	/// <summary>
@@ -90,7 +84,7 @@ public:
 	/// Gets the number of rounds that have been completed by the current encryption or decryption process.
 	/// </summary>
 	/// <returns>The number of encryption or decryption rounds that have been completed as an int.</returns>
-	int getRoundsCompleted() const { return roundsCompleted; }
+	int getCompletedRounds() const { return completedRounds; }
 
 	/// <summary>
 	/// Gets the grid size.
@@ -105,45 +99,52 @@ public:
 	std::vector<std::vector<char>> getGrid() const{ return grid; }
 
 	/// <summary>
-	/// Sets the unencrypted message
+	/// Prints the 2d grid.
+	/// </summary>
+	void printGrid() const;
+
+	/// <summary>
+	/// Puts the encrypted message in its grid format.
+	/// </summary>
+	virtual void makeGrid();
+
+
+	/// <summary>
+	/// Sets the unencrypted message.
 	/// </summary>
 	/// <param name="m">Unencrypted message.</param>
-	void setMessage(const std::string& m) { msg = m; }
+	virtual void setMsg(const std::string& m) { msg = m; }
 
 	/// <summary>
-	///	Sets the encrypted message
+	///	Sets the encrypted message.
 	/// </summary>
 	/// <param name="e">Encrypted message.</param>
-	void setEncryptedMessage(const std::string& e) { encryptedMsg = e; }
+	virtual void setEncryptedMsg(const std::string& e) { encryptedMsg = e; }
 
 	/// <summary>
-	/// Sets the grid size to the specified value.
+	/// Sets the grid size to the specified value if valid. If new number < 0, throws invalid argument.
 	/// </summary>
 	/// <param name="g">The new grid size.</param>
-	void setGridSize(int g) { gridSize = g; }
+	virtual void setGridSize(int g) { (g < 0) ? throw std::invalid_argument("Grid size must be greater than zero.") : gridSize = g; }
 
 	/// <summary>
-	/// Sets the total number of rounds.
+	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.
 	/// </summary>
 	/// <param name="r">The total number of rounds to set.</param>
-	void setTotalRounds(int r) { totalRounds = r; }
+	virtual void setTotalRounds(int r) { (r < 0) ? throw std::invalid_argument("Total rounds must be greater than zero.") : totalRounds = r; }
 
 	/// <summary>
-	/// Sets the number of completed rounds.
+	/// Sets the number of completed rounds if valid. If new number < 0, throws invalid argument.
 	/// </summary>
 	/// <param name="rc">The number of rounds that have been completed.</param>
-	void setRoundsCompleted(int rc) { roundsCompleted = rc; }
-
+	virtual void setCompletedRounds(int rc) { (rc < 0) ? throw std::invalid_argument("Number of completed rounds must be greater than zero.") : completedRounds = rc; }
+	
 	/// <summary>
 	/// Sets the grid to a new two-dimensional character array.
 	/// </summary>
 	/// <param name="newGrid">The new grid to assign, represented as a two-dimensional vector of characters.</param>
-	void setGrid(std::vector<std::vector<char>> newGrid) { grid = newGrid; }
+	virtual void setGrid(std::vector<std::vector<char>> newGrid) { grid = newGrid; }
 
-	/// <summary>
-	/// Prints the 2d grid.
-	/// </summary>
-	void printGrid() const;
 
 	/// <summary>
 	/// Virtual destructor.

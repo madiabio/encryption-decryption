@@ -6,22 +6,20 @@
 #include "MessageHandler.h"
 #include <string>
 
-MessageHandler::MessageHandler() : msg(""), encryptedMsg(""), gridSize(0), grid(gridSize, std::vector<char>(gridSize)), totalRounds(0), roundsCompleted(0) {}
-MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : msg(m), encryptedMsg(e), totalRounds(r), gridSize(0), roundsCompleted(0)
+MessageHandler::MessageHandler() : msg(""), encryptedMsg(""), gridSize(0), grid(gridSize, std::vector<char>(gridSize)), totalRounds(0), completedRounds(0) {}
+MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : msg(m), encryptedMsg(e), totalRounds(r), gridSize(0), completedRounds(0)
 {
 	if (r < 0) throw std::invalid_argument("Number of rounds must be greater than or equal to zero.");
-	// TODO: handle automatic grid sizing
 }
 
-MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r, int g) : msg(m), encryptedMsg(e), totalRounds(r), gridSize(g), grid(gridSize, std::vector<char>(gridSize)), roundsCompleted(0)
+MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r, int g) : msg(m), encryptedMsg(e), totalRounds(r), gridSize(g), grid(gridSize, std::vector<char>(gridSize)), completedRounds(0)
 {
 	if (r < 0) throw std::invalid_argument("Number of rounds must be greater than or equal to zero.");
 	if (g < 0) throw std::invalid_argument("Grid size must be greater than or equal to zero.");
-	// TODO: check grid sizing is proper.
-
+	makeGrid();
 }
 
-void MessageHandler::makeGrid()
+ void MessageHandler::makeGrid()
 {
 	if (gridSize == 0)
 	{
@@ -36,7 +34,7 @@ void MessageHandler::makeGrid()
 					grid[row][col] = this->encryptedMsg[idx++];
 				}
 				else {
-					grid[row][col] = ' '; // or any placeholder for unused cells
+					grid[row][col] = ' ';
 				}
 			}
 		}
