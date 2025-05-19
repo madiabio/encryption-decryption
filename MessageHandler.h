@@ -65,7 +65,6 @@ public:
 	/// <param name="r">Number of rounds</param> 
 	/// <param name="g">Size of grid</param>
 	MessageHandler(const std::string& m, const std::string& e, int r);
-
 	/// <summary>
 	/// Constructor that takes in unencrypted message, encrypted message, number of rounds and grid size. 
 	/// To be used with manual grid size setting.

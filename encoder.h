@@ -16,10 +16,6 @@ private:
 
     static std::string Encoder::removeWhitespace(std::string str);
 
-protected:
-    // These are here so they can be inherited by the test class.
-    // TODO: once 'encrypt' is made, change the tests to just look at getGrid()
-
     /// <summary>
     /// Gets a random upper case letter between A-Z.
     /// </summary>

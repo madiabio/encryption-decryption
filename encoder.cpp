@@ -6,7 +6,6 @@
 #include <vector>
 
 
-
 char Encoder::getRandomLetter()
 {
 	// Seed the random number generator with the current time
@@ -41,6 +40,7 @@ void Encoder::makeGrid()
         // up & right diagonal
         for (int row = gridSize / 2; row > top_row_of_layer; --row) {
             if (i < msg.length()) {
+                if (msg[i] == '.') fullstop_placed = true;
                 grid[row][current_col] = msg[i++];
             }
             else if (!fullstop_placed) {
@@ -53,6 +53,7 @@ void Encoder::makeGrid()
         // down & right diagonal
         for (int row = top_row_of_layer; row < gridSize / 2; ++row) {
             if (i < msg.length()) {
+                if (msg[i] == '.') fullstop_placed = true;
                 grid[row][current_col] = msg[i++];
             }
             else if (!fullstop_placed) {
@@ -67,6 +68,7 @@ void Encoder::makeGrid()
         // down & left diagonal
         for (int row = gridSize / 2; row < bottom_row_of_layer - 1; ++row) {
             if (i < msg.length()) {
+                if (msg[i] == '.') fullstop_placed = true;
                 grid[row][current_col] = msg[i++];
             }
             else if (!fullstop_placed) {
@@ -79,6 +81,7 @@ void Encoder::makeGrid()
         // up & left diagonal
         for (int row = bottom_row_of_layer - 1; row > gridSize / 2; --row) {
             if (i < msg.length()) {
+                if (msg[i] == '.') fullstop_placed = true;
                 grid[row][current_col] = msg[i++];
             }
             else if (!fullstop_placed) {
@@ -92,6 +95,7 @@ void Encoder::makeGrid()
         if (starting_col == gridSize / 2) {
             // Center cell
             if (i < msg.length()) {
+                if (msg[i] == '.') fullstop_placed = true;
                 grid[gridSize / 2][gridSize / 2] = msg[i++];
             }
             else if (!fullstop_placed) {
@@ -109,4 +113,18 @@ std::string Encoder::removeWhitespace(std::string str)
             [](unsigned char c) { return std::isspace(c); }),
         str.end());
     return str;
+}
+
+void Encoder::encode()
+{
+    // Flatten grid.
+    std::string newEncryptedMsg;
+    for (const auto& row : grid) {
+        for (char c : row) {
+            newEncryptedMsg += c;
+        }
+    }
+    
+    // Update encrypted msg
+    setEncryptedMsg(newEncryptedMsg);
 }
