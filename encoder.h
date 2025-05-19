@@ -14,6 +14,11 @@ private:
     /// <param name="e">The encrypted message to set.</param>
     using MessageHandler::setEncryptedMsg;
 
+    /// <summary>
+    /// Helper function to remove whitespace.
+    /// </summary>
+    /// <param name="str">String to remove whitespace from.</param>
+    /// <returns></returns>
     static std::string Encoder::removeWhitespace(std::string str);
 
     /// <summary>
@@ -29,6 +34,11 @@ private:
     /// It can only be called after the encrypted message is complete.
     /// </summary>
     void makeGrid() override;
+
+    /// <summary>
+    /// Collapses the grid into an encrypted message string.
+    /// </summary>
+    void encode();
 
 public:
 
@@ -55,11 +65,6 @@ public:
     /// <param name="r">Number of encryption rounds</param> 
     /// <param name="g">Size of grid</param>
     Encoder(const std::string& m, int r, int g) : MessageHandler(removeWhitespace(m), "", r, g) { makeGrid(); }
-
-    /// <summary>
-    /// Collapses the grid into an encrypted message string.
-    /// </summary>
-    void encode(); // TODO: move this to private!
     
     /// <summary>
     /// Performs encrpytion based upon the number of encryption rounds. Updates the encryptedMsg member.

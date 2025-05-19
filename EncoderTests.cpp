@@ -160,26 +160,26 @@ TEST(EncoderTest, MakeGridDoesntDuplicateFullstop)
 }
 
 
-TEST(EncoderTest, OneRoundEncodingSimple)
+TEST(EncoderTest, OneRoundEncryptionSimple)
 {
     std::string message = "A.";
     int gridSize = 3;
     Encoder encoder(message, 1, gridSize);
 
-    encoder.encode();
+    encoder.encrypt();
     auto encryptedMsg = encoder.getEncryptedMsg();
 
     EXPECT_EQ(encryptedMsg[1], 'A');
     EXPECT_EQ(encryptedMsg[3], '.');
 }
 
-TEST(EncoderTest, OneRoundEncodingGenTsoManualGrid)
+TEST(EncoderTest, OneRoundEncryptionGenTsoManualGrid)
 {
     std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
     int gridSize = 7;
     Encoder encoder(message, 1, gridSize);
 
-    encoder.encode();
+    encoder.encrypt();
     auto encryptedMsg = encoder.getEncryptedMsg();
 
     // col 1
@@ -223,7 +223,7 @@ TEST(EncoderTest, OneRoundEncodingGenTsoManualGrid)
 }
 
 
-TEST(EncoderTest, TwoRoundEncodingWorksNoErrors)
+TEST(EncoderTest, TwoRoundEncryptionWorksNoErrors)
 {
     std::string message = "A.";
     int gridSize = 3;
@@ -233,3 +233,12 @@ TEST(EncoderTest, TwoRoundEncodingWorksNoErrors)
     auto encryptedMsg = encoder.getEncryptedMsg();
 }
 
+TEST(EncoderTest, ManyRoundEncryptionWorksNoErrors)
+{
+    std::string message = "A.";
+    int gridSize = 3;
+    Encoder encoder(message, 10, gridSize);
+
+    encoder.encrypt();
+    auto encryptedMsg = encoder.getEncryptedMsg();
+}

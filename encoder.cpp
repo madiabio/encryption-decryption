@@ -141,3 +141,4 @@ void Encoder::encrypt()
         setCompletedRounds(round); // finish the round
     }
 }
+
