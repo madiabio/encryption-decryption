@@ -1,4 +1,4 @@
-#include "pch.h""
+#include "pch.h"
 class TestEncoder : public Encoder {
 public:
     using Encoder::Encoder; // Inherit constructors
@@ -78,7 +78,9 @@ TEST(EncoderTest, ManualGridSizeConstructorThrowsForEvenGridSize)
     EXPECT_THROW(TestEncoder encoder(message, 1, g), std::invalid_argument);
 }
 
-TEST(EncoderTest, MakeGridDiamondPattern) {
+
+TEST(EncoderTest, MakeGridSimpleDiamondPatternSmallestGridSize) 
+{
     std::string message = "ABCDE";
     int gridSize = 3; // Smallest odd grid for easy checking
     TestEncoder encoder(message, 1, gridSize);
@@ -117,3 +119,4 @@ TEST(EncoderTest, MakeGridDiamondPattern) {
     EXPECT_EQ(grid[0][2], '*');
     EXPECT_EQ(grid[2][2], '*');
 }
+

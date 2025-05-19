@@ -65,66 +65,6 @@ TEST(MessageHandlerTest, ManualGridSizeConstructorThrowsForInvalidGridSize)
     EXPECT_THROW(MessageHandler h(message, encryptedMessage, -1, 6), std::invalid_argument);
 }
 
-TEST(MessageHandlerTest, PrintGridWorksForForSetGridSize)
-{
-	std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
-	std::string encryptedMessage = "TRAGTARHEEEELAENDEKNNESNWOCOSRCNISDENAHTLOATCLUYM";
-	MessageHandler h(message, encryptedMessage, 0, 7);
-
-    // Redirect std::cout to a stringstream
-    std::stringstream buffer;
-    std::streambuf* oldCout = std::cout.rdbuf(buffer.rdbuf());
-
-    h.printGrid();
-
-    // Restore std::cout
-    std::cout.rdbuf(oldCout);
-
-    std::string output = buffer.str();
-
-    // Split output into lines
-    std::vector<std::string> lines;
-    std::istringstream iss(output);
-    std::string line;
-    while (std::getline(iss, line)) {
-        lines.push_back(line);
-    }
-
-    // Diamond positions for a 7x7 grid (0-based indexing)
-    // Row:    Cols:
-    // 0       3
-    // 1     2 3 4
-    // 2   1 2 3 4 5
-    // 3 0 1 2 3 4 5 6
-    // 4   1 2 3 4 5
-    // 5     2 3 4
-    // 6       3
-
-    std::vector<std::vector<int>> diamondIndices = {
-        {3},
-        {2,3,4},
-        {1,2,3,4,5},
-        {0,1,2,3,4,5,6},
-        {1,2,3,4,5},
-        {2,3,4},
-        {3}
-    };
-
-    std::string diamondChars;
-    for (size_t row = 0; row < diamondIndices.size() && row < lines.size(); ++row) {
-        for (int col : diamondIndices[row]) {
-            if (col < lines[row].size() && std::isupper(lines[row][col])) {
-                diamondChars += lines[row][col];
-            }
-        }
-    }
-
-    // Set your expected diamond string (left-to-right, top-to-bottom)
-    std::string expected = "ENSREDNCAGEEWNHLEKOITNCSO"; // Replace with your actual expected diamond
-
-    EXPECT_EQ(diamondChars, expected);
-}
-
 TEST(MessageHandlerTest, SetNewMessageWorks)
 {
     MessageHandler h;

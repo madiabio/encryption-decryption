@@ -55,51 +55,44 @@ void Encoder::makeGrid()
 
     int i = 0;
     int starting_col = 0;
-    while (i < msg.length() && starting_col < gridSize / 2) // once starting frm=om middle col, can't keep going anymore
-    {
+
+    while (i < msg.length() && starting_col < (gridSize / 2)) {
         int top_row_of_layer = starting_col;
-        int bottom_row_of_layer = gridSize - top_row_of_layer;
-        int current_col = starting_col; // col that's being interated on
+        int current_col = starting_col;
 
         // up & right diagonal
-        for (int row = gridSize / 2; row > top_row_of_layer; -row)
-        {
+        for (int row = gridSize / 2; row > top_row_of_layer; --row) {
             if (i == msg.length()) break;
-            grid[row][current_col] = msg[i];
-            i += 1;
-            current_col += 1;
+            grid[row][current_col] = msg[i++];
+            current_col++;
         }
 
         // down & right diagonal
-        for (int row = top_row_of_layer; row < gridSize/2; ++row)
-        {
+        for (int row = top_row_of_layer; row < gridSize / 2; ++row) {
             if (i == msg.length()) break;
-            grid[row][current_col] = msg[i];
-            i += 1;
-            current_col += 1;
+            grid[row][current_col] = msg[i++];
+            current_col++;
         }
 
+        int bottom_row_of_layer = gridSize - top_row_of_layer;
 
         // down & left diagonal
-        for (int row = gridSize/2; row < bottom_row_of_layer-1; ++row)
-        {
+        for (int row = gridSize / 2; row < bottom_row_of_layer-1; ++row) {
             if (i == msg.length()) break;
-            grid[row][current_col] = msg[i];
-            i += 1;
-            current_col -= 1;
+            grid[row][current_col] = msg[i++];
+            current_col--;
         }
-
 
         // up & left diagonal
-        for (int row = bottom_row_of_layer - 1; row < gridSize / 2; --row)
-        {
+        for (int row = bottom_row_of_layer - 1; row > gridSize / 2; --row) {
             if (i == msg.length()) break;
-            grid[row][current_col] = msg[i];
-            i += 1;
-            current_col -= 1;
+            grid[row][current_col] = msg[i++];
+            current_col--;
         }
 
-        starting_col += 1;
-        if (starting_col == gridSize / 2) grid[gridSize / 2][gridSize / 2] = msg[i];
+        starting_col++;
+        if (starting_col == gridSize / 2 && i < msg.length()) {
+            grid[gridSize / 2][gridSize / 2] = msg[i++];
+        }
     }
 }

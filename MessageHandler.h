@@ -36,6 +36,7 @@ protected:
 	/// </summary>
 	std::vector<std::vector<char>> grid;
 
+
 public:
 	/// <summary>
 	/// Default constructor.
