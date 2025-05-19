@@ -166,6 +166,7 @@ TEST(EncoderTest, OneRoundEncodingSimple)
     int gridSize = 3;
     Encoder encoder(message, 1, gridSize);
 
+    encoder.encode();
     auto encryptedMsg = encoder.getEncryptedMsg();
 
     EXPECT_EQ(encryptedMsg[1], 'A');

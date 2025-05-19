@@ -84,10 +84,17 @@ TEST(MessageHandlerTest, SetNewEncryptedMessageWorks)
 
 TEST(MessageHandlerTest, SetNewGridSizeWorks)
 {
-    MessageHandler h;
-    int newGridSize = 10;
+    std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
+    std::string encryptedMessage = "TRAGTARHEEEELAENDEKNNESNWOCOSRCNISDENAHTLOATCLUYM";
+    MessageHandler h(message, encryptedMessage, 1);
+    int newGridSize = 11;
+
     h.setGridSize(newGridSize);
     EXPECT_EQ(h.getGridSize(), newGridSize);
+
+    newGridSize = 10;
+    EXPECT_THROW(h.setGridSize(newGridSize), std::invalid_argument);
+
 
     newGridSize = -1;
     EXPECT_THROW(h.setGridSize(newGridSize), std::invalid_argument);

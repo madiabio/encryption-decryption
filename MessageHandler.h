@@ -138,7 +138,7 @@ public:
 	/// Sets the grid size to the specified value if valid. If new number < 0, throws invalid argument.
 	/// </summary>
 	/// <param name="g">The new grid size.</param>
-	virtual void setGridSize(int g) { (g < 0) ? throw std::invalid_argument("Grid size must be greater than zero.") : gridSize = g; }
+	virtual void setGridSize(int g);
 
 	/// <summary>
 	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.
@@ -156,7 +156,7 @@ public:
 	/// Sets the grid to a new two-dimensional character array.
 	/// </summary>
 	/// <param name="newGrid">The new grid to assign, represented as a two-dimensional vector of characters.</param>
-	virtual void setGrid(std::vector<std::vector<char>> newGrid) { grid = newGrid; }
+	virtual void setGrid(std::vector<std::vector<char>> newGrid);
 
 
 	/// <summary>

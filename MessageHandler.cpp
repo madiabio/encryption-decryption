@@ -7,23 +7,18 @@
 #include <string>
 
 MessageHandler::MessageHandler() : msg(""), encryptedMsg(""), gridSize(1), totalRounds(0), completedRounds(0) {}
-MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : msg(m), encryptedMsg(e), totalRounds(r), gridSize(0), completedRounds(0)
+MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : msg(m), encryptedMsg(e), gridSize(0), completedRounds(0)
 {
-	if (r < 0) throw std::invalid_argument("Number of rounds must be greater than or equal to zero.");
-	gridSize = minDiamondGridSize(m.size());
-	grid = std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)); 
-	makeGrid();
+	setTotalRounds(r);
+	setGridSize(minDiamondGridSize(m.size()));
+	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
 }
 
-MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r, int g) : msg(m), encryptedMsg(e), totalRounds(r), completedRounds(0)
+MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r, int g) : msg(m), encryptedMsg(e), completedRounds(0)
 {
-	if (g <= 0) throw std::invalid_argument("Grid size must be greater than zero.");
-	if (r < 0) throw std::invalid_argument("Number of rounds must be greater than or equal to zero.");
-	if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
-	if (g < minDiamondGridSize(m.size())) throw std::invalid_argument("Grid size too small.");
-	gridSize = g;
-	grid = std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize));
-	makeGrid();
+	setTotalRounds(r);
+	setGridSize(g);
+	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
 }
 
 void MessageHandler::makeGrid()
@@ -51,6 +46,22 @@ void MessageHandler::printGrid() const
 		}
 		std::cout << '\n'; // Newline after each row
 	}
+}
+
+void MessageHandler::setGrid(std::vector<std::vector<char>> newGrid)
+{
+	grid = newGrid;
+	makeGrid();
+}
+
+
+void MessageHandler::setGridSize(int g)
+{
+	if (g <= 0) throw std::invalid_argument("Grid size must be greater than zero.");
+	if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
+	if (g < minDiamondGridSize(msg.size())) throw std::invalid_argument("Grid size too small.");
+	gridSize = g;
+
 }
 
 int MessageHandler::diamondCellCount(int n) {
