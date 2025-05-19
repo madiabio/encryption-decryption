@@ -96,11 +96,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Decoder.h" />
     <ClInclude Include="Encoder.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Decoder.cpp" />
+    <ClCompile Include="DecoderTests.cpp" />
     <ClCompile Include="Encoder.cpp" />
     <ClCompile Include="EncoderTests.cpp" />
     <ClCompile Include="encrypt_decrypt.cpp" />

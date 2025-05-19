@@ -71,8 +71,8 @@ int MessageHandler::diamondCellCount(int n) {
 }
 
 int MessageHandler::minDiamondGridSize(int messageLength) {
-	if (messageLength <= 0)
-		throw std::invalid_argument("Message length must be positive.");
+	if (messageLength < 0)
+		throw std::invalid_argument("Message length must be > 0.");
 	int n = 1;
 	while (diamondCellCount(n) < messageLength) {
 		n += 2; // Only odd sizes

@@ -2,6 +2,8 @@
 #pragma once
 #include "MessageHandler.h"
 #include <vector>
+#include <string>
+
 /// <summary>
 /// Class with tools to encrypt a message using the encryption algorithm.
 /// </summary>
@@ -9,17 +11,11 @@ class Encoder : public MessageHandler
 {
 private:
     /// <summary>
-    /// Sets the encrypted message. Same as base class but moved to private.
-    /// </summary>
-    /// <param name="e">The encrypted message to set.</param>
-    using MessageHandler::setEncryptedMsg;
-
-    /// <summary>
-    /// Helper function to remove whitespace.
+    /// Helper function to remove whitespace before encryption.
     /// </summary>
     /// <param name="str">String to remove whitespace from.</param>
     /// <returns></returns>
-    static std::string Encoder::removeWhitespace(std::string str);
+    static std::string removeWhitespace(std::string str);
 
     /// <summary>
     /// Gets a random upper case letter between A-Z.
