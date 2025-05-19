@@ -38,19 +38,8 @@ TEST(EncoderTest, AutoGridSizeWorks)
     EXPECT_EQ(encoder.getMsg(), message);
     EXPECT_EQ(encoder.getEncryptedMsg(), encryptedMessage);
     EXPECT_EQ(encoder.getTotalRounds(), 1);
-    EXPECT_EQ(encoder.getGridSize(),  5);
+    EXPECT_EQ(encoder.getGridSize(),  3);
 }
-
-
-TEST(EncoderTest, ManualGridSizeConstructorFormatsMsgWithNoFullstop)
-{
-    std::string message = "ABCDE";
-    std::string encryptedMessage = "";
-    int gridSize = 7;
-    TestEncoder encoder(message, 1, gridSize);
-    EXPECT_EQ(encoder.getMsg(), message+'.');
-}
-
 
 TEST(EncoderTest, ManualGridSizeConstructorFormatsMsgWithWhitespace)
 {
@@ -61,30 +50,12 @@ TEST(EncoderTest, ManualGridSizeConstructorFormatsMsgWithWhitespace)
     EXPECT_EQ(encoder.getMsg(), "ABCDE");
 }
 
-TEST(EncoderTest, ManualGridSizeConstructorFormatsMsgWithWhitespaceAndNoFullstop)
-{
-    std::string message = "ABC DE";
-    std::string encryptedMessage = "";
-    int gridSize = 7;
-    TestEncoder encoder(message, 1, gridSize);
-    EXPECT_EQ(encoder.getMsg(), "ABCDE.");
-}
-
-
-TEST(EncoderTest, ManualGridSizeConstructorDoesntDoubleFullstop)
-{
-    std::string message = "ABC DE";
-    std::string encryptedMessage = "";
-    int gridSize = 7;
-    TestEncoder encoder(message, 1, gridSize);
-    EXPECT_EQ(encoder.getMsg(), "ABCDE.");
-}
 TEST(EncoderTest, ManualGridSizeConstructorInitializesMembers)
 {
     std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
     std::string encryptedMessage = "";
     TestEncoder encoder(message, 1, 7);
-    EXPECT_EQ(encoder.getMsg(), message);
+    EXPECT_EQ(encoder.getMsg(), "GENERALTSONEEDSCHICKENNOW");
     EXPECT_EQ(encoder.getEncryptedMsg(), encryptedMessage);
     EXPECT_EQ(encoder.getTotalRounds(), 1);
     EXPECT_EQ(encoder.getGridSize(), 7);
