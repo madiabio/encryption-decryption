@@ -8,6 +8,8 @@ TEST(DecoderTest, EncryptedMessageNotOddPerfectSquare)
 }
 
 TEST(DecoderTest, FillsGridCorrectly) {
+	// Tests the grid is filled correctly with the encrypted message.
+
     // for a 3x3 grid, use "ABCDEFGHI"
     std::string encrypted = "ABCDEFGHI";
     Decoder decoder(encrypted, 1); // 1 round, gridSize will be 3
@@ -27,4 +29,17 @@ TEST(DecoderTest, FillsGridCorrectly) {
     EXPECT_EQ(grid[2][0], 'C');
     EXPECT_EQ(grid[2][1], 'F');
     EXPECT_EQ(grid[2][2], 'I');
+}
+
+TEST(DecoderTest, SingleRoundDecryptionGenTso)
+{
+    std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
+    int totalRounds = 1;
+
+    Encoder e(message, totalRounds);
+    auto encryptedMsg = e.getEncryptedMsg();
+
+    Decoder d(encryptedMsg, totalRounds);
+
+    EXPECT_EQ(d.getMsg(), e.getMsg());
 }

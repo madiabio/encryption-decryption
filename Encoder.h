@@ -47,15 +47,17 @@ public:
     /// Constructor that takes in an unencrypted message, the number of desired encryption rounds, and the grid size.
     /// To be used with automatic grid sizing.
     /// Handles if a message has whitespace or needs to have a fullstop appended.
+    /// Automatically encrypts the message based upon the number of rounds.
     /// </summary>
     /// <param name="m">Unencryped message</param>
     /// <param name="r">Number of encryption rounds</param> 
-    Encoder(const std::string& m, int r) : MessageHandler(removeWhitespace(m), "", r) { makeGrid(); }
+    Encoder(const std::string& m, int r);
 
     /// <summary>
     /// Constructor that takes in an unencrypted message, the number of desired encryption rounds, and the grid size.
     /// To be used with manual grid sizing.
     /// Handles if a message has whitespace or needs to have a fullstop appended.
+    /// Automatically encrypts the message based upon the number of rounds.
     /// </summary>
     /// <param name="m">Unencryped message</param>
     /// <param name="r">Number of encryption rounds</param> 

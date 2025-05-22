@@ -6,6 +6,16 @@
 #include <vector>
 
 
+Encoder::Encoder(const std::string& m, int r) : MessageHandler(removeWhitespace(m), "", r) 
+{ 
+    encrypt(); 
+}
+
+Encoder::Encoder(const std::string& m, int r, int g) : MessageHandler(removeWhitespace(m), "", r, g) 
+{ 
+    encrypt(); 
+}
+
 char Encoder::getRandomLetter()
 {
     static std::mt19937 rng(static_cast<unsigned int>(std::time(nullptr)));
@@ -124,11 +134,19 @@ void Encoder::encode()
 
 void Encoder::encrypt()
 {
-
-    // Make grid & encode based off of current params
-    makeGrid();
-    encode();
-    setCompletedRounds(1);
+    if (totalRounds > 0)
+    {
+        // Make grid & encode based off of current params
+        makeGrid();
+        encode();
+        setCompletedRounds(1);
+    }
+    else
+    {
+        // if total rounds is 0, just fill the grid with the encrypted message.
+        makeGrid();
+        setEncryptedMsg(msg);
+    }
 
     // If there's more rounds to do, handle it here.
     for (int round = 1; round < totalRounds; ++round)

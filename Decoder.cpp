@@ -20,17 +20,18 @@ Decoder::Decoder(const std::string& e, int r) : MessageHandler("", e, r)
 
 void Decoder::makeGrid()
 {
-	int n = gridSize;
-	int idx = 0;
-	for (int diag = 0; diag <= 2 * (n - 1); ++diag) {
-		for (int row = 0; row < n; ++row) {
-			int col = diag - row;
-			if (col >= 0 && col < n && idx < encryptedMsg.length()) {
-				grid[row][col] = encryptedMsg[idx++];
-			}
+	// Fill the grid with the encrypted message.
+	int i = 0;
+	for (int j = 0; j < gridSize; ++j)
+	{
+		for (int k = 0; k < gridSize; ++k)
+		{
+			grid[k][j] = encryptedMsg[i];
+			++i;
 		}
 	}
 }
+
 
 void Decoder::decode()
 {
@@ -77,7 +78,7 @@ void Decoder::decode()
     int i = 0;
     int starting_col = 0;
     bool fullstop_located = false;
-    std::string& decryptedMsg;
+    std::string decryptedMsg;
 	int row;
 
     while ((i < msg.length() || !fullstop_located) && starting_col < (gridSize / 2)) {
@@ -120,5 +121,10 @@ void Decoder::decode()
 			if (grid[row][current_col] == '.' && fullstop) { break; }
         }
     }
+
+}
+
+void Decoder::decrypt()
+{
 
 }
