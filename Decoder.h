@@ -17,6 +17,11 @@ private:
 	/// </summary>  
 	void decode();
 
+	/// <summary>
+	/// Handles the automatic grid size setting for decoding.
+	/// </summary>
+	void setGridSize(int g) override;
+
 public:  
 
 	/// <summary>  
