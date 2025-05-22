@@ -92,15 +92,15 @@ void Decoder::decode()
 
         // up & right diagonal
         for (row = gridSize / 2; row > top_row_of_layer; --row) {
-            decryptedMsg += grid[row][current_col];
-            if (grid[row][current_col] == '.' && fullstop) { break; }
+			if (grid[row][current_col] == '.' && fullstop) { break; }
+			decryptedMsg += grid[row][current_col];
             current_col++;
         }
 
         // down & right diagonal
         for (row = top_row_of_layer; row < gridSize / 2; ++row) {
-            decryptedMsg += grid[row][current_col];
-            if (grid[row][current_col] == '.' && fullstop) { break; }
+			if (grid[row][current_col] == '.' && fullstop) { break; }
+			decryptedMsg += grid[row][current_col];
             current_col++;
         }
 
@@ -108,22 +108,22 @@ void Decoder::decode()
 
         // down & left diagonal
         for (row = gridSize / 2; row < bottom_row_of_layer - 1; ++row) {
-			decryptedMsg += grid[row][current_col];
 			if (grid[row][current_col] == '.' && fullstop) { break; }
+			decryptedMsg += grid[row][current_col];
 			current_col--;
         }
 
         // up & left diagonal
         for (row = bottom_row_of_layer - 1; row > gridSize / 2; --row) {
-			decryptedMsg += grid[row][current_col];
 			if (grid[row][current_col] == '.' && fullstop) { break; }
+			decryptedMsg += grid[row][current_col];
             current_col--;
         }
 
         starting_col++;
         if (starting_col == gridSize / 2) {
+			if (grid[row][current_col+1] == '.' && fullstop) { break; }
 			decryptedMsg += grid[row][current_col+1];
-			if (grid[row][current_col] == '.' && fullstop) { break; }
         }
     }
 	msg = decryptedMsg;
