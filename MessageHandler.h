@@ -145,7 +145,7 @@ public:
 	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.
 	/// </summary>
 	/// <param name="r">The total number of rounds to set.</param>
-	virtual void setTotalRounds(int r) { (r <= 0) ? throw std::invalid_argument("Total rounds must be greater than or equal to zero.") : totalRounds = r; }
+	virtual void setTotalRounds(int r) { (r < 0) ? throw std::invalid_argument("Total rounds must be greater than zero.") : totalRounds = r; }
 
 	/// <summary>
 	/// Sets the number of completed rounds if valid. If new number < 0, throws invalid argument.

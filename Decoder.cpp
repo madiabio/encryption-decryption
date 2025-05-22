@@ -16,6 +16,8 @@ Decoder::Decoder(const std::string& e, int r) : MessageHandler("", e, r)
 	setGridSize(static_cast<int>(std::sqrt(encryptedMsg.length())));
 	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
 	makeGrid();
+
+	decrypt();
 }
 
 void Decoder::makeGrid()
@@ -85,6 +87,9 @@ void Decoder::decode()
         int top_row_of_layer = starting_col;
         int current_col = starting_col;
 
+		// TODO: refactor this to the MessageHandler class and replace the inner function that happens inside of the diagonal code with a function call so it can be overridden
+		// by each child class.
+
         // up & right diagonal
         for (row = gridSize / 2; row > top_row_of_layer; --row) {
             decryptedMsg += grid[row][current_col];
@@ -117,14 +122,32 @@ void Decoder::decode()
 
         starting_col++;
         if (starting_col == gridSize / 2) {
-			decryptedMsg += grid[row][current_col];
+			decryptedMsg += grid[row][current_col+1];
 			if (grid[row][current_col] == '.' && fullstop) { break; }
         }
     }
-
+	msg = decryptedMsg;
 }
 
 void Decoder::decrypt()
 {
+	if (totalRounds > 0)
+	{
+		// Make grid & encode based off of current params
+		makeGrid();
+		decode();
+		setCompletedRounds(1);
+	}
+
+	// If there's more rounds to do, handle it here.
+	for (int round = 1; round < totalRounds; ++round)
+	{
+		encryptedMsg = msg;
+		setGridSize(minDiamondGridSize(msg.size())); // update the grid size for the new string length
+		setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
+		makeGrid(); // make the grid again
+		decode(); // update the encrypted msg with the new encrypted msg.
+		setCompletedRounds(round); // finish the round
+	}
 
 }

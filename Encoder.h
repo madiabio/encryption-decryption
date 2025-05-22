@@ -62,7 +62,7 @@ public:
     /// <param name="m">Unencryped message</param>
     /// <param name="r">Number of encryption rounds</param> 
     /// <param name="g">Size of grid</param>
-    Encoder(const std::string& m, int r, int g) : MessageHandler(removeWhitespace(m), "", r, g) { makeGrid(); }
+    Encoder(const std::string& m, int r, int g);
     
     /// <summary>
     /// Performs encrpytion based upon the number of encryption rounds. Updates the encryptedMsg member.

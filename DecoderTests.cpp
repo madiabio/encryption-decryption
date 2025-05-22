@@ -43,3 +43,32 @@ TEST(DecoderTest, SingleRoundDecryptionGenTso)
 
     EXPECT_EQ(d.getMsg(), e.getMsg());
 }
+
+TEST(DecoderTest, SingleRoundManualGridsizeMyFullNameSmallGrid)
+{
+    std::string message = "MADELINEABIO";
+    int gridSize = 5;
+    int totalRounds = 1;
+
+    Encoder e(message, totalRounds);
+    auto encryptedMsg = e.getEncryptedMsg();
+
+    Decoder d(encryptedMsg, totalRounds);
+
+    EXPECT_EQ(d.getMsg(), e.getMsg());
+}
+
+TEST(DecoderTest, SingleRoundManualGridsizeMyFullNameBigGrids)
+{
+    std::string message = "MADELINEABIO";
+
+    int totalRounds = 1;
+    for (int gridSize = 6; gridSize < 100; ++gridSize) 
+    {
+        Encoder e(message, totalRounds);
+        auto encryptedMsg = e.getEncryptedMsg();
+
+        Decoder d(encryptedMsg, totalRounds);
+        EXPECT_EQ(d.getMsg(), e.getMsg());
+    }
+}

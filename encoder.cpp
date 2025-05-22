@@ -134,19 +134,11 @@ void Encoder::encode()
 
 void Encoder::encrypt()
 {
-    if (totalRounds > 0)
-    {
-        // Make grid & encode based off of current params
-        makeGrid();
-        encode();
-        setCompletedRounds(1);
-    }
-    else
-    {
-        // if total rounds is 0, just fill the grid with the encrypted message.
-        makeGrid();
-        setEncryptedMsg(msg);
-    }
+
+    // Make grid & encode based off of current params
+    makeGrid();
+    encode();
+    setCompletedRounds(1);
 
     // If there's more rounds to do, handle it here.
     for (int round = 1; round < totalRounds; ++round)
