@@ -22,7 +22,7 @@ void Encoder::setGridSize(int g)
 {
     if (g < 3) throw std::invalid_argument("Grid size must be greater than or equal to 3.");
     if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
-    int minSize = minDiamondGridSize(msg.size());
+    int minSize = minDiamondGridSize(getMsg().size());
     if (g < minSize) throw std::invalid_argument("Grid size too small for message length.");
     gridSize = g;
 
@@ -64,7 +64,7 @@ void Encoder::makeGrid()
     int starting_col = 0;
     bool fullstop_placed = false;
 
-    while ((i < msg.length() || !fullstop_placed) && starting_col < (getGridSize() / 2)) {
+    while ((i < getMsg().length() || !fullstop_placed) && starting_col < (getGridSize() / 2)) {
         int top_row_of_layer = starting_col;
         int current_col = starting_col;
 
@@ -72,9 +72,9 @@ void Encoder::makeGrid()
         for (int row = getGridSize() / 2; row > top_row_of_layer; --row) {
             if (completedRounds == 0) // if its the first round, handle the fullstop logic.
             {
-                if (i < msg.length()) {
-                    if (msg[i] == '.') fullstop_placed = true;
-                    grid[row][current_col] = msg[i++];
+                if (i < getMsg().length()) {
+                    if (getMsg()[i] == '.') fullstop_placed = true;
+                    grid[row][current_col] = getMsg()[i++];
                 }
                 else if (!fullstop_placed) {
                     grid[row][current_col] = '.';
@@ -83,7 +83,7 @@ void Encoder::makeGrid()
             }
             else // if its not the first round, ignore fullstop logic.
             {
-                if (i < msg.length()) grid[row][current_col] = msg[i++];
+                if (i < getMsg().length()) grid[row][current_col] = getMsg()[i++];
                 else return;
             }
                     
@@ -94,9 +94,9 @@ void Encoder::makeGrid()
         for (int row = top_row_of_layer; row < getGridSize() / 2; ++row) {
             if (completedRounds == 0) // if its the first round, handle fullstop logic.
             {
-                if (i < msg.length()) {
-                    if (msg[i] == '.') fullstop_placed = true;
-                    grid[row][current_col] = msg[i++];
+                if (i < getMsg().length()) {
+                    if (getMsg()[i] == '.') fullstop_placed = true;
+                    grid[row][current_col] = getMsg()[i++];
                 }
                 else if (!fullstop_placed) {
                     grid[row][current_col] = '.';
@@ -105,7 +105,7 @@ void Encoder::makeGrid()
             }
             else // if its not the first round, ignore fullstop logic.
             {
-                if (i < msg.length()) grid[row][current_col] = msg[i++];
+                if (i < getMsg().length()) grid[row][current_col] = getMsg()[i++];
                 else return;
             }
             current_col++;
@@ -117,9 +117,9 @@ void Encoder::makeGrid()
         for (int row = getGridSize() / 2; row < bottom_row_of_layer - 1; ++row) {
             if (completedRounds == 0) // if its the first round, handle fullstop logic.
             {
-                if (i < msg.length()) {
-                    if (msg[i] == '.') fullstop_placed = true;
-                    grid[row][current_col] = msg[i++];
+                if (i < getMsg().length()) {
+                    if (getMsg()[i] == '.') fullstop_placed = true;
+                    grid[row][current_col] = getMsg()[i++];
                 }
                 else if (!fullstop_placed) {
                     grid[row][current_col] = '.';
@@ -128,7 +128,7 @@ void Encoder::makeGrid()
             }
             else // if its not the first round, ignore fullstop logic.
             {
-                if (i < msg.length()) grid[row][current_col] = msg[i++];
+                if (i < getMsg().length()) grid[row][current_col] = getMsg()[i++];
                 else return;
             }
             current_col--;
@@ -138,9 +138,9 @@ void Encoder::makeGrid()
         for (int row = bottom_row_of_layer - 1; row > getGridSize() / 2; --row) {
             if (completedRounds == 0) // if its the first round, handle fullstop logic.
             {
-                if (i < msg.length()) {
-                    if (msg[i] == '.') fullstop_placed = true;
-                    grid[row][current_col] = msg[i++];
+                if (i < getMsg().length()) {
+                    if (getMsg()[i] == '.') fullstop_placed = true;
+                    grid[row][current_col] = getMsg()[i++];
                 }
                 else if (!fullstop_placed) {
                     grid[row][current_col] = '.';
@@ -149,7 +149,7 @@ void Encoder::makeGrid()
             }
             else // if its not the first round, ignore fullstop logic.
             {
-                if (i < msg.length()) grid[row][current_col] = msg[i++];
+                if (i < getMsg().length()) grid[row][current_col] = getMsg()[i++];
                 else return;
             }
             current_col--;
@@ -160,9 +160,9 @@ void Encoder::makeGrid()
             if (completedRounds == 0) // if its the first round, handle fullstop logic.
             {
                 // Center cell
-                if (i < msg.length()) {
-                    if (msg[i] == '.') fullstop_placed = true;
-                    grid[getGridSize() / 2][getGridSize() / 2] = msg[i++];
+                if (i < getMsg().length()) {
+                    if (getMsg()[i] == '.') fullstop_placed = true;
+                    grid[getGridSize() / 2][getGridSize() / 2] = getMsg()[i++];
                 }
                 else if (!fullstop_placed) {
                     grid[getGridSize() / 2][getGridSize() / 2] = '.';
@@ -171,7 +171,7 @@ void Encoder::makeGrid()
             }
             else // if its not the first round, ignore fullstop logic.
             {
-                if (i < msg.length()) grid[getGridSize() / 2][getGridSize() / 2] = msg[i++];
+                if (i < getMsg().length()) grid[getGridSize() / 2][getGridSize() / 2] = getMsg()[i++];
                 else return;
             }
         }
@@ -198,27 +198,27 @@ void Encoder::encrypt()
 
     // Make grid & encode based off of current params
     
-    setMsg(msg); // check msg is ok.
+    setMsg(getMsg()); // check msg is ok.
     setGridSize(getGridSize()); // check grid size is ok.
     setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the grid
     makeGrid();
     encode();
     setCompletedRounds(1);
-    printRoundInfo("Encrypted", encryptedMsg);
+    printRoundInfo("Encrypted", getEncryptedMsg());
 
     
     // If there's more rounds to do, handle it here.
     while (completedRounds < totalRounds)
     {
-        setMsg(encryptedMsg); // update the msg to the current encrypted msg.
-        setGridSize(minDiamondGridSize(msg.size())); // update the grid size to be the minimum grid size of the new msg.
+        setMsg(getEncryptedMsg()); // update the msg to the current encrypted msg.
+        setGridSize(minDiamondGridSize(getMsg().size())); // update the grid size to be the minimum grid size of the new msg.
         
         setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the new grid
         makeGrid(); // make (fill) the new grid
 
         encode(); // update the encrypted msg with the new encrypted msg.
-        setCompletedRounds(completedRounds + 1); // finish the round
-        printRoundInfo("Encrypted", encryptedMsg);
+        setCompletedRounds(getCompletedRounds() + 1); // finish the round
+        printRoundInfo("Encrypted", getEncryptedMsg());
     }
 }
 

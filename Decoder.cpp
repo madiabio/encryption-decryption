@@ -97,7 +97,7 @@ void Decoder::decode()
     std::string decryptedMsg;
 	int row;
 
-    while ((i < msg.length() || !fullstop_located) && starting_col < (getGridSize() / 2)) {
+    while ((i < getMsg().length() || !fullstop_located) && starting_col < (getGridSize() / 2)) {
         int top_row_of_layer = starting_col;
         int current_col = starting_col;
 
@@ -140,7 +140,7 @@ void Decoder::decode()
 			decryptedMsg += grid[row][current_col+1];
         }
     }
-	msg = decryptedMsg;
+	setMsg(decryptedMsg);
 }
 
 
@@ -187,26 +187,26 @@ void Decoder::decrypt()
 {
 	// Make grid & encode based off of current params
 
-	setEncryptedMsg(encryptedMsg); // verify encrypted msg is ok.
+	setEncryptedMsg(encryptedMsg); // verify the encryptedMsg is ok.
 	setGridSize(getGridSize()); // verify gridsize is ok.
 	makeGrid();
 	decode();
 	setCompletedRounds(1);
-	printRoundInfo("Decrypted", msg);
+	printRoundInfo("Decrypted", getMsg());
 
 	// If there's more rounds to do, handle it here.
 	while (completedRounds < totalRounds)
 	{
-		setEncryptedMsg(msg); // Set the new encrypted message to be the output of the previous decryption.
+		setEncryptedMsg(getMsg()); // Set the new encrypted message to be the output of the previous decryption.
 		if (!isPerfectSquareOfOddNumber(encryptedMsg.length())) trimToPerfectSquareOfOddNumberLength(encryptedMsg); // Trim to the correct length if necessary
 		setGridSize(sqrt(encryptedMsg.length())); // update the grid size
 
 		setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the grid
 		makeGrid(); // make the grid again
 
-		decode(); // update the encrypted msg with the new encrypted msg.
+		decode(); // update the encrypted getMsg() with the new encrypted getMsg().
 		setCompletedRounds(completedRounds + 1); // finish the round
-		printRoundInfo("Decrypted", msg);
+		printRoundInfo("Decrypted", getMsg());
 	}
 
 }
