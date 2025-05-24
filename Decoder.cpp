@@ -38,11 +38,11 @@ void Decoder::makeGrid()
 {
 	// Fill the grid with the encrypted message.
 	int i = 0;
-	for (int j = 0; j < gridSize; ++j)
+	for (int j = 0; j < getGridSize(); ++j)
 	{
-		for (int k = 0; k < gridSize; ++k)
+		for (int k = 0; k < getGridSize(); ++k)
 		{
-			if (i < encryptedMsg.size()) grid[k][j] = encryptedMsg[i];
+			if (i < getEncryptedMsg().size()) grid[k][j] = getEncryptedMsg()[i];
 			else grid[k][j] = getRandomLetter();
 			++i;
 		}
@@ -53,8 +53,8 @@ void Decoder::decode()
 {
 	// if no fullstop, then the unencrypted message ends in the middle of the grid.
     bool fullstop = false;
-    int stop_row = gridSize / 2;
-	int stop_col = gridSize / 2;
+    int stop_row = getGridSize() / 2;
+	int stop_col = getGridSize() / 2;
 
 	// if in last round of decryption, look for fullstop.
 	if (completedRounds == totalRounds-1)
@@ -73,9 +73,9 @@ void Decoder::decode()
 		if (fullstop)
 		{
 			bool found = false;
-			for (int i = 0; i < gridSize; ++i)
+			for (int i = 0; i < getGridSize(); ++i)
 			{
-				for (int j = 0; j < gridSize; ++j)
+				for (int j = 0; j < getGridSize(); ++j)
 				{
 					if (grid[i][j] == '.')
 					{
@@ -97,7 +97,7 @@ void Decoder::decode()
     std::string decryptedMsg;
 	int row;
 
-    while ((i < msg.length() || !fullstop_located) && starting_col < (gridSize / 2)) {
+    while ((i < msg.length() || !fullstop_located) && starting_col < (getGridSize() / 2)) {
         int top_row_of_layer = starting_col;
         int current_col = starting_col;
 
@@ -105,37 +105,37 @@ void Decoder::decode()
 		// by each child class.
 
         // up & right diagonal
-        for (row = gridSize / 2; row > top_row_of_layer; --row) {
+        for (row = getGridSize() / 2; row > top_row_of_layer; --row) {
 			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
 			decryptedMsg += grid[row][current_col];
             current_col++;
         }
 
         // down & right diagonal
-        for (row = top_row_of_layer; row < gridSize / 2; ++row) {
+        for (row = top_row_of_layer; row < getGridSize() / 2; ++row) {
 			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
 			decryptedMsg += grid[row][current_col];
             current_col++;
         }
 
-        int bottom_row_of_layer = gridSize - top_row_of_layer;
+        int bottom_row_of_layer = getGridSize() - top_row_of_layer;
 
         // down & left diagonal
-        for (row = gridSize / 2; row < bottom_row_of_layer - 1; ++row) {
+        for (row = getGridSize() / 2; row < bottom_row_of_layer - 1; ++row) {
 			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
 				decryptedMsg += grid[row][current_col];
 			current_col--;
         }
 
         // up & left diagonal
-        for (row = bottom_row_of_layer - 1; row > gridSize / 2; --row) {
+        for (row = bottom_row_of_layer - 1; row > getGridSize() / 2; --row) {
 			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
 				decryptedMsg += grid[row][current_col];
             current_col--;
         }
 
         starting_col++;
-        if (starting_col == gridSize / 2) {
+        if (starting_col == getGridSize() / 2) {
 			if (grid[row][current_col+1] == '.' && fullstop) { setMsg(decryptedMsg); return; }
 			decryptedMsg += grid[row][current_col+1];
         }
@@ -188,7 +188,7 @@ void Decoder::decrypt()
 	// Make grid & encode based off of current params
 
 	setEncryptedMsg(encryptedMsg); // verify encrypted msg is ok.
-	setGridSize(gridSize); // verify gridsize is ok.
+	setGridSize(getGridSize()); // verify gridsize is ok.
 	makeGrid();
 	decode();
 	setCompletedRounds(1);
@@ -201,7 +201,7 @@ void Decoder::decrypt()
 		if (!isPerfectSquareOfOddNumber(encryptedMsg.length())) trimToPerfectSquareOfOddNumberLength(encryptedMsg); // Trim to the correct length if necessary
 		setGridSize(sqrt(encryptedMsg.length())); // update the grid size
 
-		setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
+		setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the grid
 		makeGrid(); // make the grid again
 
 		decode(); // update the encrypted msg with the new encrypted msg.
