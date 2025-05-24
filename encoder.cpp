@@ -8,7 +8,6 @@
 
 Encoder::Encoder(const std::string& m, int r) : MessageHandler(m, "", r) 
 { 
-
     encrypt(); 
 }
 
@@ -125,7 +124,6 @@ void Encoder::encode()
     // Update encrypted msg
     setEncryptedMsg(newEncryptedMsg);
 }
-
 void Encoder::encrypt()
 {
     // for one round:

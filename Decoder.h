@@ -19,6 +19,14 @@ private:
 
 public:  
 
+	/// <summary>
+	/// Removes characters from string str until the length is a perfect square of an odd number.
+	/// </summary>
+	/// <param name="str">String to remove chars from</param>
+	void trimToPerfectSquareOfOddNumberLength(std::string& str);
+
+
+
 	/// <summary>  
 	/// Default constructor  
 	/// </summary>  

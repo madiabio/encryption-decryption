@@ -72,3 +72,17 @@ TEST(DecoderTest, SingleRoundManualGridsizeMyFullNameBigGrids)
         EXPECT_EQ(d.getMsg(), e.getMsg());
     }
 }
+
+TEST(DecoderTest, TrimToPerfectSquareOfOddNumberWorks)
+{
+    std::string message = "abcde";
+    Encoder e(message, 2);
+    auto encryptedMsg = e.getEncryptedMsg();
+    EXPECT_EQ(encryptedMsg.length(), 25);
+
+    Decoder d(encryptedMsg, 1);
+    auto decryptedMsg = d.getMsg();
+    d.trimToPerfectSquareOfOddNumberLength(decryptedMsg);
+
+    EXPECT_EQ(encryptedMsg.length(), 9);
+}

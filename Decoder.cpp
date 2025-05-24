@@ -134,25 +134,64 @@ void Decoder::decode()
 	msg = decryptedMsg;
 }
 
-void Decoder::decrypt()
+
+void Decoder::trimToPerfectSquareOfOddNumberLength(std::string& str)
 {
-	if (totalRounds > 0)
-	{
-		// Make grid & encode based off of current params
-		makeGrid();
-		decode();
-		setCompletedRounds(1);
+	size_t len = str.length();
+	int n = static_cast<int>(std::sqrt(len));
+
+	// Ensure n is odd and n*n <= len
+	if (n % 2 == 0) --n;
+	while (n > 0 && n * n > static_cast<int>(len)) {
+		n -= 2;
 	}
 
+	if (n <= 0) {
+		throw std::invalid_argument("No valid perfect square of odd number length");  // No valid odd perfect square
+	}
+
+	str.erase(n * n); // Trim to the largest odd perfect square length
+}
+
+
+
+void Decoder::decrypt()
+{
+	// Make grid & encode based off of current params
+	makeGrid();
+	decode();
+	setCompletedRounds(1);
+
 	// If there's more rounds to do, handle it here.
-	for (int round = 1; round < totalRounds; ++round)
+	while (completedRounds < totalRounds)
 	{
-		encryptedMsg = msg;
-		setGridSize(minDiamondGridSize(msg.size())); // update the grid size for the new string length
-		setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
-		makeGrid(); // make the grid again
+		if ( completedRounds == totalRounds ) // if its the last round, do special stuff.
+		{
+			// check if fullstop is present, remove all chars after the fullstop if there is one.
+			size_t pos = msg.find('.');
+			if (pos != std::string::npos) {
+				msg.erase(pos + 1); // Keeps the fullstop, removes everything after
+			}
+			else
+			{
+				// otherwise, just proceed as normal.
+				int x;
+			}
+
+		}
+		else // otherwise, keep doing it like this.
+		{
+			// 1) check if lenght of last round's output is a perfect square of an odd number.
+				// if not, remove characters until it is one.
+
+			setEncryptedMsg(msg); // Set the new encrypted message to be the output of the previous decryption.
+			setGridSize(minDiamondGridSize(msg.size())); // update the grid size for the new string length
+			setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
+			makeGrid(); // make the grid again
+		}
+
 		decode(); // update the encrypted msg with the new encrypted msg.
-		setCompletedRounds(round); // finish the round
+		setCompletedRounds(completedRounds + 1); // finish the round
 	}
 
 }
