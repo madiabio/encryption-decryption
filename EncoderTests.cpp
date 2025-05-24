@@ -222,11 +222,21 @@ TEST(EncoderTest, TwoRoundEncryptionThrowsNoErrors)
 {
     std::string message = "A.";
     int gridSize = 3;
-    Encoder encoder(message, 2, gridSize);
-
-    encoder.encrypt();
+    int numRounds = 2;
+    Encoder encoder(message, numRounds, gridSize);
     auto encryptedMsg = encoder.getEncryptedMsg();
 }
+
+TEST(EncoderTest, TwoRoundEncryptionCorrectSize)
+{
+    std::string message = "A.";
+    int gridSize = 3;
+    int numRounds = 2;
+    Encoder encoder(message, numRounds, gridSize);
+    auto encryptedMsg = encoder.getEncryptedMsg();
+    EXPECT_EQ(encryptedMsg.length(), 25);
+}
+
 
 /*
 TEST(EncoderTest, ManyRoundEncryptionThrowsNoErrors)
@@ -234,8 +244,6 @@ TEST(EncoderTest, ManyRoundEncryptionThrowsNoErrors)
     std::string message = "A.";
     int gridSize = 3;
     Encoder encoder(message, 10, gridSize);
-
-    encoder.encrypt();
     auto encryptedMsg = encoder.getEncryptedMsg();
 }
 */

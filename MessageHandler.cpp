@@ -20,6 +20,7 @@ MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r
 	setTotalRounds(r);
 	setGridSize(g);
 	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
+	makeGrid();
 }
 
 void MessageHandler::makeGrid()
