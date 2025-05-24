@@ -167,7 +167,7 @@ void Encoder::encrypt()
     makeGrid();
     encode();
     setCompletedRounds(1);
-    printRoundInfo();
+    printRoundInfo("Encrypted", encryptedMsg);
 
     
     // If there's more rounds to do, handle it here.
@@ -181,7 +181,7 @@ void Encoder::encrypt()
 
         encode(); // update the encrypted msg with the new encrypted msg.
         setCompletedRounds(completedRounds + 1); // finish the round
-        printRoundInfo();
+        printRoundInfo("Encrypted", encryptedMsg);
     }
 }
 

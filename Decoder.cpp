@@ -180,7 +180,7 @@ void Decoder::decrypt()
 	makeGrid();
 	decode();
 	setCompletedRounds(1);
-	printRoundInfo();
+	printRoundInfo("Decrypted", msg);
 
 	// If there's more rounds to do, handle it here.
 	while (completedRounds < totalRounds)
@@ -194,7 +194,7 @@ void Decoder::decrypt()
 
 		decode(); // update the encrypted msg with the new encrypted msg.
 		setCompletedRounds(completedRounds + 1); // finish the round
-		printRoundInfo();
+		printRoundInfo("Decrypted", msg);
 	}
 
 }

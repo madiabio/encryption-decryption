@@ -67,10 +67,10 @@ void MessageHandler::printEncryptedMsg() const
 	std::cout << encryptedMsg << std::endl;
 }
 
-void MessageHandler::printRoundInfo() const
+void MessageHandler::printRoundInfo(std::string msgType, std::string& output) const
 {
 	std::cout << "=================== ROUND: " << completedRounds << "===================" << std::endl;
-	std::cout << "Encrypted Msg: " << encryptedMsg << std::endl;
+	std::cout << msgType << " message: " << output << std::endl;
 	printGrid();
 	std::cout << "======================================================================" << std::endl;
 }

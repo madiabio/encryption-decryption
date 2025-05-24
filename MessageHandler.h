@@ -177,7 +177,8 @@ public:
 	/// <summary>
 	/// Prints the current round num, the encrypted message, and the grid.
 	/// </summary>
-	void printRoundInfo() const;
+	/// <param name="msgType">Either 'encrypted' or 'unencrypted'.</param>
+	void printRoundInfo(std::string msgType, std::string& output) const;
 
 	/// <summary>
 	/// Virtual destructor.
