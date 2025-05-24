@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Menu.h"
 #include <iostream>
-
 Menu::Menu() : str(""), gridSize(-1), totalRounds(0), state("lvlOne")
 {
 	lvlOne();
@@ -36,20 +35,36 @@ void Menu::transition()
 	if (prevState != state) {
 		prevState = state; // Save the current state before transitioning
 	}
-	int input;
+
+	std::string line;
 	while (true) {
 		std::cout << "Enter choice: ";
-		std::cin >> input;
+		std::getline(std::cin, line);
 
-		if (std::cin.fail() || 1 > input || input > transitions.size()) {
+		// Handle empty input (user just pressed Enter)
+		if (line.empty()) {
+			std::cout << "Input cannot be empty. Please enter an integer corresponding to the available choices." << std::endl;
+			continue;
+		}
+
+		// Try to convert input to integer
+		try {
+			input = std::stoi(line);
+		}
+		catch (const std::invalid_argument&) {
 			std::cout << "Invalid input. Please enter an integer corresponding to the available choices." << std::endl;
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			continue;
 		}
-		else {
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear any extra input
-			break;
+		catch (const std::out_of_range&) {
+			std::cout << "Input is out of range. Please enter a valid integer." << std::endl;
+			continue;
 		}
+
+		if (input < 1 || input > static_cast<int>(transitions.size())) {
+			std::cout << "Invalid input. Please enter an integer corresponding to the available choices." << std::endl;
+			continue;
+		}
+		break;
 	}
 	(this->*transitions[input - 1])(); // transition to the chosen state.
 }
@@ -194,25 +209,36 @@ void Menu::instantiateEncoder()
 
 }
 
-
 void Menu::setStr()
 {
-	std::string s;
-	while (true) {
-		std::cout << "Enter message to decrypt/encrypt: ";
-		std::getline(std::cin >> std::ws, s); // Reads the whole line, including spaces
+    std::string s;
+    while (true) {
+        std::cout << "Enter message: ";
+        std::getline(std::cin, s); // Reads the whole line, including spaces
 
-		if (s.empty()) {
-			std::cout << "Message cannot be empty. Please try again." << std::endl;
-		}
-		else {
-			str = s;
-			break;
-		}
-	}
-	displayCurrentStateMenu();   
+        if (s.empty()) {
+            std::cout << "Message cannot be empty. Please try again." << std::endl;
+            continue;
+        }
+
+        // Check for non-ASCII characters
+        bool isAscii = true;
+        for (char c : s) {
+            if (static_cast<unsigned char>(c) > 127) {
+                isAscii = false;
+                break;
+            }
+        }
+        if (!isAscii) {
+            std::cout << "Message contains non-ASCII characters. Please enter only ASCII characters." << std::endl;
+            continue;
+        }
+
+        str = s;
+        break;
+    }
+    displayCurrentStateMenu();
 }
-
 
 void Menu::setTotalRounds()
 {
@@ -242,8 +268,8 @@ void Menu::setGridSize()
 		std::cout << "Enter grid size: ";
 		std::cin >> g;
 
-		if (std::cin.fail() || g < 3) {
-			std::cout << "Invalid input. Please ensure an integer >= 3 is entered." << std::endl;
+		if (std::cin.fail()) {
+			std::cout << "Invalid input. Please ensure an integer is being inputted." << std::endl;
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
