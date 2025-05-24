@@ -159,6 +159,8 @@ void Menu::lvlThreeMultiEncryption()
 		transitions.push_back(&Menu::instantiateEncoder);
 		transitions.push_back(&Menu::lvlTwoEncryption);
 
+		gridSize = -1; // automatically choose grid size.
+
 		std::cout << "****************************************************************************" << std::endl;
 		std::cout << "Menu - Lvl 3 : Encryption" << std::endl;
 		std::cout << "1. Enter the round number" << std::endl;

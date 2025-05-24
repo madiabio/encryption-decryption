@@ -70,7 +70,7 @@ void Encoder::makeGrid()
 
         // up & right diagonal
         for (int row = getGridSize() / 2; row > top_row_of_layer; --row) {
-            if (completedRounds == 0) // if its the first round, handle the fullstop logic.
+            if (getCompletedRounds() == 0) // if its the first round, handle the fullstop logic.
             {
                 if (i < getMsg().length()) {
                     if (getMsg()[i] == '.') fullstop_placed = true;
@@ -92,7 +92,7 @@ void Encoder::makeGrid()
 
         // down & right diagonal
         for (int row = top_row_of_layer; row < getGridSize() / 2; ++row) {
-            if (completedRounds == 0) // if its the first round, handle fullstop logic.
+            if (getCompletedRounds() == 0) // if its the first round, handle fullstop logic.
             {
                 if (i < getMsg().length()) {
                     if (getMsg()[i] == '.') fullstop_placed = true;
@@ -115,7 +115,7 @@ void Encoder::makeGrid()
 
         // down & left diagonal
         for (int row = getGridSize() / 2; row < bottom_row_of_layer - 1; ++row) {
-            if (completedRounds == 0) // if its the first round, handle fullstop logic.
+            if (getCompletedRounds() == 0) // if its the first round, handle fullstop logic.
             {
                 if (i < getMsg().length()) {
                     if (getMsg()[i] == '.') fullstop_placed = true;
@@ -136,7 +136,7 @@ void Encoder::makeGrid()
 
         // up & left diagonal
         for (int row = bottom_row_of_layer - 1; row > getGridSize() / 2; --row) {
-            if (completedRounds == 0) // if its the first round, handle fullstop logic.
+            if (getCompletedRounds() == 0) // if its the first round, handle fullstop logic.
             {
                 if (i < getMsg().length()) {
                     if (getMsg()[i] == '.') fullstop_placed = true;
@@ -157,7 +157,7 @@ void Encoder::makeGrid()
 
         starting_col++;
         if (starting_col == getGridSize() / 2) {
-            if (completedRounds == 0) // if its the first round, handle fullstop logic.
+            if (getCompletedRounds() == 0) // if its the first round, handle fullstop logic.
             {
                 // Center cell
                 if (i < getMsg().length()) {
@@ -208,7 +208,7 @@ void Encoder::encrypt()
 
     
     // If there's more rounds to do, handle it here.
-    while (completedRounds < totalRounds)
+    while (getCompletedRounds() < getTotalRounds())
     {
         setMsg(getEncryptedMsg()); // update the msg to the current encrypted msg.
         setGridSize(minDiamondGridSize(getMsg().size())); // update the grid size to be the minimum grid size of the new msg.

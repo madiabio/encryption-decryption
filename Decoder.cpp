@@ -57,10 +57,10 @@ void Decoder::decode()
 	int stop_col = getGridSize() / 2;
 
 	// if in last round of decryption, look for fullstop.
-	if (completedRounds == totalRounds-1)
+	if (getCompletedRounds() == getTotalRounds()-1)
 	{
 		// inspect for fullstop.
-		for (auto& ch : encryptedMsg) 
+		for (auto& ch : getEncryptedMsg())
 		{
 			if (ch == '.') 
 			{ 
@@ -179,7 +179,7 @@ void Decoder::setGridSize(int g)
 {
 	if (g <= 0) throw std::invalid_argument("Grid size must be greater than zero.");
 	if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
-	if (g < sqrt(encryptedMsg.length())) throw std::invalid_argument("Grid size too small for encrypted message length.");
+	if (g < sqrt(getEncryptedMsg().length())) throw std::invalid_argument("Grid size too small for encrypted message length.");
 	gridSize = g;
 }
 
@@ -187,7 +187,7 @@ void Decoder::decrypt()
 {
 	// Make grid & encode based off of current params
 
-	setEncryptedMsg(encryptedMsg); // verify the encryptedMsg is ok.
+	setEncryptedMsg(getEncryptedMsg()); // verify the encryptedMsg is ok.
 	setGridSize(getGridSize()); // verify gridsize is ok.
 	makeGrid();
 	decode();
@@ -195,17 +195,18 @@ void Decoder::decrypt()
 	printRoundInfo("Decrypted", getMsg());
 
 	// If there's more rounds to do, handle it here.
-	while (completedRounds < totalRounds)
+	while (getCompletedRounds() < getTotalRounds())
 	{
+		if (!isPerfectSquareOfOddNumber(getMsg().length())) trimToPerfectSquareOfOddNumberLength(msg); // Trim to the correct length if necessary
 		setEncryptedMsg(getMsg()); // Set the new encrypted message to be the output of the previous decryption.
-		if (!isPerfectSquareOfOddNumber(encryptedMsg.length())) trimToPerfectSquareOfOddNumberLength(encryptedMsg); // Trim to the correct length if necessary
-		setGridSize(sqrt(encryptedMsg.length())); // update the grid size
+
+		setGridSize(sqrt(getEncryptedMsg().length())); // update the grid size
 
 		setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the grid
 		makeGrid(); // make the grid again
 
 		decode(); // update the encrypted getMsg() with the new encrypted getMsg().
-		setCompletedRounds(completedRounds + 1); // finish the round
+		setCompletedRounds(getCompletedRounds() + 1); // finish the round
 		printRoundInfo("Decrypted", getMsg());
 	}
 
