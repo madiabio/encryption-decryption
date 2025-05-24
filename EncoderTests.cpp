@@ -20,6 +20,12 @@ TEST(EncoderTest, AutoGridSizeConstructorInitializesMembers)
 
 }
 
+TEST(EncoderTest, AutoGridSizeDoesntSetGridSizeToOne)
+{
+    std::string message = "a";
+    Encoder encoder(message, 1);
+    EXPECT_EQ(encoder.getGridSize(), 3);
+}
 TEST(EncoderTest, AutoGridSizeWorks)
 {
     std::string message = "ABCDE";
@@ -161,7 +167,6 @@ TEST(EncoderTest, OneRoundEncryptionSimple)
     int gridSize = 3;
     Encoder encoder(message, 1, gridSize);
 
-    encoder.encrypt();
     auto encryptedMsg = encoder.getEncryptedMsg();
 
     EXPECT_EQ(encryptedMsg[1], 'A');
@@ -174,7 +179,6 @@ TEST(EncoderTest, OneRoundEncryptionGenTsoManualGrid)
     int gridSize = 7;
     Encoder encoder(message, 1, gridSize);
 
-    encoder.encrypt();
     auto encryptedMsg = encoder.getEncryptedMsg();
 
     // col 1
@@ -236,14 +240,3 @@ TEST(EncoderTest, TwoRoundEncryptionCorrectSize)
     auto encryptedMsg = encoder.getEncryptedMsg();
     EXPECT_EQ(encryptedMsg.length(), 25);
 }
-
-
-/*
-TEST(EncoderTest, ManyRoundEncryptionThrowsNoErrors)
-{
-    std::string message = "A.";
-    int gridSize = 3;
-    Encoder encoder(message, 10, gridSize);
-    auto encryptedMsg = encoder.getEncryptedMsg();
-}
-*/

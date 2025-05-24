@@ -73,16 +73,74 @@ TEST(DecoderTest, SingleRoundManualGridsizeMyFullNameBigGrids)
     }
 }
 
-TEST(DecoderTest, TrimToPerfectSquareOfOddNumberWorks)
+TEST(DecoderTest, TwoRoundDecryptionWorksSimple)
 {
-    std::string message = "abcde";
-    Encoder e(message, 2);
+    std::string message = "a.";
+    int numRounds = 2;
+    int gridSize = 3;
+    Encoder e(message, numRounds, gridSize);
+
     auto encryptedMsg = e.getEncryptedMsg();
-    EXPECT_EQ(encryptedMsg.length(), 25);
 
-    Decoder d(encryptedMsg, 1);
-    auto decryptedMsg = d.getMsg();
-    d.trimToPerfectSquareOfOddNumberLength(decryptedMsg);
+    Decoder d(encryptedMsg, numRounds);
 
-    EXPECT_EQ(decryptedMsg.length(), 9);
+    std::string decryptedMsg = d.getMsg();
+
+    EXPECT_EQ("a", decryptedMsg);
+}
+
+TEST(DecoderTest, ThreeRoundDecryptionWorksSimple)
+{
+    std::string message = "a.";
+    int numRounds = 3;
+    int gridSize = 3;
+    Encoder e(message, numRounds, gridSize);
+
+    auto encryptedMsg = e.getEncryptedMsg();
+
+    Decoder d(encryptedMsg, numRounds);
+
+    std::string decryptedMsg = d.getMsg();
+
+    EXPECT_EQ("a", decryptedMsg);
+}
+
+TEST(DecoderTest, Scenario1)
+{
+    std::string message = "MADELINEABIO";
+    int totalRounds = 1;
+    Encoder e(message, totalRounds);
+    auto encryptedMsg = e.getEncryptedMsg();
+    Decoder d(encryptedMsg, totalRounds);
+	EXPECT_EQ(d.getMsg(), e.getMsg());
+}
+
+TEST(DecoderTest, Scenario2)
+{
+    std::string message = "MADELINEABIO";
+    int totalRounds = 1;
+    Encoder e(message, totalRounds);
+    auto encryptedMsg = e.getEncryptedMsg();
+    Decoder d(encryptedMsg, totalRounds);
+	EXPECT_EQ(d.getMsg(), e.getMsg());
+}
+
+TEST(DecoderTest, TwoRoundScenario3)
+{
+    std::string message = "I ENJOY THIS COURSE";
+    int totalRounds = 2;
+    Encoder e(message, totalRounds);
+    auto encryptedMsg = e.getEncryptedMsg();
+    Decoder d(encryptedMsg, totalRounds);
+    EXPECT_EQ(d.getMsg(), "IENJOYTHISCOURSE");
+
+}
+TEST(DecoderTest, Scenario3)
+{
+    std::string message = "I ENJOY THIS COURSE";
+    int totalRounds = 3;
+    Encoder e(message, totalRounds);
+    auto encryptedMsg = e.getEncryptedMsg();
+    Decoder d(encryptedMsg, totalRounds);
+    EXPECT_EQ(d.getMsg(), "IENJOYTHISCOURSE");
 }

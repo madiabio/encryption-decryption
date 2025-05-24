@@ -5,6 +5,10 @@
 #include "pch.h"
 #include "MessageHandler.h"
 #include <string>
+#include <random>
+#include <ctime>
+#include <vector>
+#include <cmath>
 
 MessageHandler::MessageHandler() : msg(""), encryptedMsg(""), gridSize(1), totalRounds(0), completedRounds(0) {}
 MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : msg(removeWhitespace(m)), encryptedMsg(e), gridSize(0), completedRounds(0)
@@ -21,6 +25,14 @@ MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r
 	setGridSize(g);
 	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
 	makeGrid();
+}
+
+
+char MessageHandler::getRandomLetter()
+{
+	static std::mt19937 rng(static_cast<unsigned int>(std::time(nullptr)));
+	static std::uniform_int_distribution<int> dist(0, 25);
+	return static_cast<char>('A' + dist(rng));
 }
 
 void MessageHandler::makeGrid()
@@ -50,6 +62,18 @@ void MessageHandler::printGrid() const
 	}
 }
 
+void MessageHandler::printEncryptedMsg() const
+{
+	std::cout << encryptedMsg << std::endl;
+}
+
+void MessageHandler::printRoundInfo() const
+{
+	std::cout << "=================== ROUND: " << completedRounds << "===================" << std::endl;
+	std::cout << "Encrypted Msg: " << encryptedMsg << std::endl;
+	printGrid();
+	std::cout << "======================================================================" << std::endl;
+}
 void MessageHandler::setGrid(std::vector<std::vector<char>> newGrid)
 {
 	grid = newGrid;
@@ -58,7 +82,7 @@ void MessageHandler::setGrid(std::vector<std::vector<char>> newGrid)
 
 void MessageHandler::setGridSize(int g)
 {
-	if (g <= 0) throw std::invalid_argument("Grid size must be greater than zero.");
+	if (g < 3) throw std::invalid_argument("Grid size must be greater or equal to 3.");
 	if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
 	int minSize = minDiamondGridSize(msg.size());
 	if (g < minSize) throw std::invalid_argument("Grid size too small.");

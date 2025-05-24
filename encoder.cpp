@@ -17,13 +17,6 @@ Encoder::Encoder(const std::string& m, int r, int g) : MessageHandler(m, "", r, 
     encrypt(); 
 }
 
-char Encoder::getRandomLetter()
-{
-    static std::mt19937 rng(static_cast<unsigned int>(std::time(nullptr)));
-    static std::uniform_int_distribution<int> dist(0, 25);
-    return static_cast<char>('A' + dist(rng));
-}
-
 void Encoder::makeGrid()
 {
     // Fill the grid with random uppercase letters
@@ -174,6 +167,8 @@ void Encoder::encrypt()
     makeGrid();
     encode();
     setCompletedRounds(1);
+    printRoundInfo();
+
     
     // If there's more rounds to do, handle it here.
     while (completedRounds < totalRounds)
@@ -186,6 +181,7 @@ void Encoder::encrypt()
 
         encode(); // update the encrypted msg with the new encrypted msg.
         setCompletedRounds(completedRounds + 1); // finish the round
+        printRoundInfo();
     }
 }
 

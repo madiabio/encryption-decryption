@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="MessageHandlerTests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
     <ClCompile Include="MessageHandler.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -20,18 +17,25 @@
     <ClCompile Include="DecoderTests.cpp">
       <Filter>tests</Filter>
     </ClCompile>
+    <ClCompile Include="encrypt_decrypt.cpp" />
+    <ClCompile Include="Menu.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageHandler.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="Encoder.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="Decoder.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageHandler.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -45,5 +49,9 @@
     <Filter Include="tests">
       <UniqueIdentifier>{9906c254-015c-4a20-98b6-825e26ac4419}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

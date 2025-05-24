@@ -11,19 +11,6 @@ class Encoder : public MessageHandler
 {
 private:
     /// <summary>
-    /// Helper function to remove whitespace before encryption.
-    /// </summary>
-    /// <param name="str">String to remove whitespace from.</param>
-    /// <returns></returns>
-    static std::string removeWhitespace(std::string str);
-
-    /// <summary>
-    /// Gets a random upper case letter between A-Z.
-    /// </summary>
-    /// <returns>Returns a random upper case letter.</returns>
-    virtual char getRandomLetter();
-    /// <summary>
-
     /// Creates or initializes a grid structure. Overrides a virtual function from a base class.
     /// This method differs from the base class by first initializing the grid using random letters,
     /// then filling it with the encrypted message.
@@ -36,6 +23,10 @@ private:
     /// </summary>
     void encode();
 
+    /// <summary>
+    /// Performs encrpytion based upon the number of encryption rounds. Updates the encryptedMsg member.
+    /// </summary>
+    void encrypt();
 public:
 
     /// <summary>
@@ -63,12 +54,6 @@ public:
     /// <param name="r">Number of encryption rounds</param> 
     /// <param name="g">Size of grid</param>
     Encoder(const std::string& m, int r, int g);
-    
-    /// <summary>
-    /// Performs encrpytion based upon the number of encryption rounds. Updates the encryptedMsg member.
-    /// </summary>
-    void encrypt();
-
 };
 
 

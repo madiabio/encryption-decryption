@@ -33,7 +33,8 @@ void Decoder::makeGrid()
 	{
 		for (int k = 0; k < gridSize; ++k)
 		{
-			grid[k][j] = encryptedMsg[i];
+			if (i < encryptedMsg.size()) grid[k][j] = encryptedMsg[i];
+			else grid[k][j] = getRandomLetter();
 			++i;
 		}
 	}
@@ -114,14 +115,14 @@ void Decoder::decode()
         // down & left diagonal
         for (row = gridSize / 2; row < bottom_row_of_layer - 1; ++row) {
 			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
-			decryptedMsg += grid[row][current_col];
+				decryptedMsg += grid[row][current_col];
 			current_col--;
         }
 
         // up & left diagonal
         for (row = bottom_row_of_layer - 1; row > gridSize / 2; --row) {
 			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
-			decryptedMsg += grid[row][current_col];
+				decryptedMsg += grid[row][current_col];
             current_col--;
         }
 
@@ -153,7 +154,25 @@ void Decoder::trimToPerfectSquareOfOddNumberLength(std::string& str)
 	str.erase(n * n); // Trim to the largest odd perfect square length
 }
 
+bool Decoder::isPerfectSquareOfOddNumber(int n)
+{
+	if (n <= 0) return false;
 
+	float root_f = std::sqrt(static_cast<float>(n));
+	int root = static_cast<int>(root_f);
+
+	// Check if root is an integer and odd, and root*root == n
+	return (root_f == root) && (root % 2 == 1) && (root * root == n);
+}
+
+void Decoder::setGridSize(int g)
+{
+
+	if (g <= 0) throw std::invalid_argument("Grid size must be greater than zero.");
+	if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
+	if (g < sqrt(encryptedMsg.length())) throw std::invalid_argument("Grid size too small.");
+	gridSize = g;
+}
 
 void Decoder::decrypt()
 {
@@ -161,37 +180,21 @@ void Decoder::decrypt()
 	makeGrid();
 	decode();
 	setCompletedRounds(1);
+	printRoundInfo();
 
 	// If there's more rounds to do, handle it here.
 	while (completedRounds < totalRounds)
 	{
-		if ( completedRounds == totalRounds ) // if its the last round, do special stuff.
-		{
-			// check if fullstop is present, remove all chars after the fullstop if there is one.
-			size_t pos = msg.find('.');
-			if (pos != std::string::npos) {
-				msg.erase(pos + 1); // Keeps the fullstop, removes everything after
-			}
-			else
-			{
-				// otherwise, just proceed as normal.
-				int x;
-			}
+		setEncryptedMsg(msg); // Set the new encrypted message to be the output of the previous decryption.
+		if (!isPerfectSquareOfOddNumber(encryptedMsg.length())) trimToPerfectSquareOfOddNumberLength(encryptedMsg); // Trim to the correct length if necessary
+		setGridSize(sqrt(encryptedMsg.length())); // update the grid size
 
-		}
-		else // otherwise, keep doing it like this.
-		{
-			// 1) check if lenght of last round's output is a perfect square of an odd number.
-				// if not, remove characters until it is one.
-
-			setEncryptedMsg(msg); // Set the new encrypted message to be the output of the previous decryption.
-			setGridSize(minDiamondGridSize(msg.size())); // update the grid size for the new string length
-			setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
-			makeGrid(); // make the grid again
-		}
+		setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
+		makeGrid(); // make the grid again
 
 		decode(); // update the encrypted msg with the new encrypted msg.
 		setCompletedRounds(completedRounds + 1); // finish the round
+		printRoundInfo();
 	}
 
 }

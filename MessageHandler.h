@@ -57,6 +57,52 @@ protected:
 	/// <returns></returns>
 	std::string removeWhitespace(std::string str);
 
+	/// <summary>
+	/// Gets a random upper case letter between A-Z.
+	/// </summary>
+	/// <returns>Returns a random upper case letter.</returns>
+	char getRandomLetter();
+
+	/// <summary>
+	/// Sets the unencrypted message.
+	/// </summary>
+	/// <param name="m">Unencrypted message.</param>
+	void setMsg(const std::string& m) { msg = m; }
+
+	/// <summary>
+	///	Sets the encrypted message.
+	/// </summary>
+	/// <param name="e">Encrypted message.</param>
+	void setEncryptedMsg(const std::string& e) { encryptedMsg = e; }
+
+	/// <summary>
+	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.
+	/// </summary>
+	/// <param name="r">The total number of rounds to set.</param>
+	void setTotalRounds(int r) { (r < 0) ? throw std::invalid_argument("Total rounds must be greater than zero.") : totalRounds = r; }
+
+	/// <summary>
+	/// Sets the number of completed rounds if valid. If new number < 0, throws invalid argument.
+	/// </summary>
+	/// <param name="rc">The number of rounds that have been completed.</param>
+	void setCompletedRounds(int rc) { (rc < 0) ? throw std::invalid_argument("Number of completed rounds must be greater than zero.") : completedRounds = rc; }
+
+	/// <summary>
+	/// Sets the grid to a new two-dimensional character array.
+	/// </summary>
+	/// <param name="newGrid">The new grid to assign, represented as a two-dimensional vector of characters.</param>
+	void setGrid(std::vector<std::vector<char>> newGrid);
+
+	/// <summary>
+	/// Puts the encrypted message in its grid format.
+	/// </summary>
+	virtual void makeGrid() = 0;
+
+	/// <summary>
+	/// Sets the grid size to the specified value if valid. If new number < 0, throws invalid argument.
+	/// </summary>
+	/// <param name="g">The new grid size.</param>
+	virtual void setGridSize(int g);
 public:
 	/// <summary>
 	/// Default constructor.
@@ -124,51 +170,18 @@ public:
 	void printGrid() const;
 
 	/// <summary>
-	/// Puts the encrypted message in its grid format.
+	/// Prints the encoded message.
 	/// </summary>
-	virtual void makeGrid();
+	void printEncryptedMsg() const;
 
 	/// <summary>
-	/// Sets the unencrypted message.
+	/// Prints the current round num, the encrypted message, and the grid.
 	/// </summary>
-	/// <param name="m">Unencrypted message.</param>
-	virtual void setMsg(const std::string& m) { msg = m; }
-
-	/// <summary>
-	///	Sets the encrypted message.
-	/// </summary>
-	/// <param name="e">Encrypted message.</param>
-	virtual void setEncryptedMsg(const std::string& e) { encryptedMsg = e; }
-
-	/// <summary>
-	/// Sets the grid size to the specified value if valid. If new number < 0, throws invalid argument.
-	/// </summary>
-	/// <param name="g">The new grid size.</param>
-	virtual void setGridSize(int g);
-
-	/// <summary>
-	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.
-	/// </summary>
-	/// <param name="r">The total number of rounds to set.</param>
-	virtual void setTotalRounds(int r) { (r < 0) ? throw std::invalid_argument("Total rounds must be greater than zero.") : totalRounds = r; }
-
-	/// <summary>
-	/// Sets the number of completed rounds if valid. If new number < 0, throws invalid argument.
-	/// </summary>
-	/// <param name="rc">The number of rounds that have been completed.</param>
-	virtual void setCompletedRounds(int rc) { (rc < 0) ? throw std::invalid_argument("Number of completed rounds must be greater than zero.") : completedRounds = rc; }
-	
-	/// <summary>
-	/// Sets the grid to a new two-dimensional character array.
-	/// </summary>
-	/// <param name="newGrid">The new grid to assign, represented as a two-dimensional vector of characters.</param>
-	virtual void setGrid(std::vector<std::vector<char>> newGrid);
-
+	void printRoundInfo() const;
 
 	/// <summary>
 	/// Virtual destructor.
 	/// </summary>
 	virtual ~MessageHandler() {}
-
 };
 

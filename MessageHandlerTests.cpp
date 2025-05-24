@@ -2,11 +2,6 @@
 #include <sstream>
 #include <iostream>
 
-TEST(TestCaseName, TestName) {
-  EXPECT_EQ(1, 1);
-  EXPECT_TRUE(true);
-}
-
 TEST(MessageHandlerTest, DefaultConstructorInitializesMembers) 
 {
 	MessageHandler h;
@@ -62,61 +57,4 @@ TEST(MessageHandlerTest, ManualGridSizeConstructorThrowsForInvalidGridSize)
     std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
     std::string encryptedMessage = "TRAGTARHEEEELAENDEKNNESNWOCOSRCNISDENAHTLOATCLUYM";
     EXPECT_THROW(MessageHandler h(message, encryptedMessage, -1, 6), std::invalid_argument);
-}
-
-TEST(MessageHandlerTest, SetNewMessageWorks)
-{
-    MessageHandler h;
-    std::string newMsg = "new message";
-    h.setMsg(newMsg);
-    EXPECT_EQ(h.getMsg(), newMsg);
-  
-}
-
-TEST(MessageHandlerTest, SetNewEncryptedMessageWorks)
-{
-    MessageHandler h;
-    std::string newEncryptedMsg = "new encrypted message";
-    h.setEncryptedMsg(newEncryptedMsg);
-    EXPECT_EQ(h.getEncryptedMsg(), newEncryptedMsg);
-}
-
-TEST(MessageHandlerTest, SetNewGridSizeWorks)
-{
-    std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
-    std::string encryptedMessage = "TRAGTARHEEEELAENDEKNNESNWOCOSRCNISDENAHTLOATCLUYM";
-    MessageHandler h(message, encryptedMessage, 1);
-    int newGridSize = 11;
-
-    h.setGridSize(newGridSize);
-    EXPECT_EQ(h.getGridSize(), newGridSize);
-
-    newGridSize = 10;
-    EXPECT_THROW(h.setGridSize(newGridSize), std::invalid_argument);
-
-
-    newGridSize = -1;
-    EXPECT_THROW(h.setGridSize(newGridSize), std::invalid_argument);
-    
-}
-TEST(MessageHandlerTest, SetNewTotalRoundsWorks)
-{
-    MessageHandler h;
-    int newTotalRounds = 2;
-    h.setTotalRounds(newTotalRounds);
-    EXPECT_EQ(h.getTotalRounds(), newTotalRounds);
-
-    newTotalRounds = -1;
-    EXPECT_THROW(h.setTotalRounds(newTotalRounds), std::invalid_argument);
-}
-
-TEST(MessageHandlerTest, SetNewCompletedRoundsWorks)
-{
-    MessageHandler h;
-    int newCompletedRounds = 2;
-    h.setCompletedRounds(newCompletedRounds);
-    EXPECT_EQ(h.getCompletedRounds(), newCompletedRounds);
-
-    newCompletedRounds = -1;
-    EXPECT_THROW(h.setCompletedRounds(newCompletedRounds), std::invalid_argument);
 }
