@@ -55,7 +55,7 @@ void MessageHandler::setGrid(std::vector<std::vector<char>> newGrid)
 }
 
 
-void MessageHandler::setGridSize(int g) 
+void MessageHandler::setGridSize(int g)
 {
 	if (g <= 0) throw std::invalid_argument("Grid size must be greater than zero.");
 	if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");

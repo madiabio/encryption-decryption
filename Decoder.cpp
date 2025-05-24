@@ -18,8 +18,9 @@ Decoder::Decoder(const std::string& e, int r)
 	}
 
 	// This should handle any other problems with the input.
-	setGridSize(root);
+	setGridSize(static_cast<int>(std::sqrt(encryptedMsg.length())));
 	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
+	makeGrid();
 
 	decrypt();
 }
@@ -32,7 +33,6 @@ void Decoder::makeGrid()
 	{
 		for (int k = 0; k < gridSize; ++k)
 		{
-			if (i == (encryptedMsg.length())) { return; } // if we reach the end of the message, break out of the loop.
 			grid[k][j] = encryptedMsg[i];
 			++i;
 		}
@@ -131,40 +131,28 @@ void Decoder::decode()
 			decryptedMsg += grid[row][current_col+1];
         }
     }
-	setMsg(decryptedMsg);
+	msg = decryptedMsg;
 }
 
 void Decoder::decrypt()
 {
-	if (totalRounds == 1)
+	if (totalRounds > 0)
 	{
 		// Make grid & encode based off of current params
 		makeGrid();
 		decode();
 		setCompletedRounds(1);
 	}
-	else
+
+	// If there's more rounds to do, handle it here.
+	for (int round = 1; round < totalRounds; ++round)
 	{
-		for (int round = 0; round < totalRounds; ++round)
-		{
-			int newSize;
-			if (round == totalRounds - 1) newSize = minDiamondGridSize(encryptedMsg.size());
-			else newSize = static_cast<int>(std::sqrt(encryptedMsg.length()));
-			setGridSize(newSize); // update the grid size for the new string length
-			setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
-			makeGrid(); // make the grid for the current round.
-			decode(); // update the encrypted msg with the new encrypted msg.
-			encryptedMsg = msg; // update the encrypted msg to be the previously decoded msg.
-			setCompletedRounds(round+1); // finish the round
-		}
-
+		encryptedMsg = msg;
+		setGridSize(minDiamondGridSize(msg.size())); // update the grid size for the new string length
+		setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
+		makeGrid(); // make the grid again
+		decode(); // update the encrypted msg with the new encrypted msg.
+		setCompletedRounds(round); // finish the round
 	}
-}
 
-void Decoder::setGridSize(int g)
-{
-	if (g <= 0) throw std::invalid_argument("Grid size must be greater than zero.");
-	if (g % 2 == 0) throw std::invalid_argument("Grid size must be a perfect root of an odd number.");
-	if (g < std::sqrt(encryptedMsg.length())) throw std::invalid_argument("Grid size too small.");
-	gridSize = g;
 }

@@ -116,8 +116,8 @@ void Encoder::encode()
 {
     // Flatten grid.
     std::string newEncryptedMsg = "";
-    for (size_t col = 0; col < gridSize; ++col) {
-        for (size_t row = 0; row < gridSize; ++row) {
+    for (size_t col = 0; col < grid.size(); ++col) {
+        for (size_t row = 0; row < grid.size(); ++row) {
             newEncryptedMsg += grid[row][col];
         }
     }
