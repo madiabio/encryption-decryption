@@ -218,7 +218,7 @@ TEST(EncoderTest, OneRoundEncryptionGenTsoManualGrid)
 }
 
 
-TEST(EncoderTest, TwoRoundEncryptionWorksNoErrors)
+TEST(EncoderTest, TwoRoundEncryptionThrowsNoErrors)
 {
     std::string message = "A.";
     int gridSize = 3;
@@ -228,7 +228,7 @@ TEST(EncoderTest, TwoRoundEncryptionWorksNoErrors)
     auto encryptedMsg = encoder.getEncryptedMsg();
 }
 
-TEST(EncoderTest, ManyRoundEncryptionWorksNoErrors)
+TEST(EncoderTest, ManyRoundEncryptionThrowsNoErrors)
 {
     std::string message = "A.";
     int gridSize = 3;

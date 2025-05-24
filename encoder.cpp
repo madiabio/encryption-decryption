@@ -136,7 +136,7 @@ void Encoder::encrypt()
     setCompletedRounds(1);
 
     // If there's more rounds to do, handle it here.
-    for (int round = 1; round < totalRounds; ++round)
+    for (int round = 2; round <= totalRounds; ++round)
     {
         msg = encryptedMsg;
         setGridSize(pow(gridSize,2)); // update the grid size to be the next square number of the string length. This will make it be so that the decryptoin algrotihm can get gridsize as sqrt(len)
