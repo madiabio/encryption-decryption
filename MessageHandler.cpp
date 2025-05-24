@@ -9,24 +9,19 @@
 #include <ctime>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 
-MessageHandler::MessageHandler() : msg(""), encryptedMsg(""), gridSize(1), totalRounds(0), completedRounds(0) {}
-MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : msg(removeWhitespace(m)), encryptedMsg(e), gridSize(0), completedRounds(0)
+MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : msg(removeWhitespace(m)), encryptedMsg(e), gridSize(1), completedRounds(0)
 {
 	setTotalRounds(r);
-	setGridSize(minDiamondGridSize(msg.size()));
 	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
-	makeGrid();
 }
 
 MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r, int g) : msg(removeWhitespace(m)), encryptedMsg(e), completedRounds(0)
 {
 	setTotalRounds(r);
-	setGridSize(g);
 	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
-	makeGrid();
 }
-
 
 char MessageHandler::getRandomLetter()
 {
@@ -35,20 +30,6 @@ char MessageHandler::getRandomLetter()
 	return static_cast<char>('A' + dist(rng));
 }
 
-void MessageHandler::makeGrid()
-{
-	int idx = 0;
-	for (int col = 0; col < gridSize; ++col) {
-		for (int row = 0; row < gridSize; ++row) {
-			if (idx < this->encryptedMsg.size()) {
-				grid[row][col] = this->encryptedMsg[idx++];
-			}
-			else {
-				grid[row][col] = '*';
-			}
-		}
-	}
-}
 
 void MessageHandler::printGrid() const
 {
@@ -74,20 +55,10 @@ void MessageHandler::printRoundInfo(std::string msgType, std::string& output) co
 	printGrid();
 	std::cout << "======================================================================" << std::endl;
 }
+
 void MessageHandler::setGrid(std::vector<std::vector<char>> newGrid)
 {
 	grid = newGrid;
-}
-
-
-void MessageHandler::setGridSize(int g)
-{
-	if (g < 3) throw std::invalid_argument("Grid size must be greater or equal to 3.");
-	if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
-	int minSize = minDiamondGridSize(msg.size());
-	if (g < minSize) throw std::invalid_argument("Grid size too small.");
-	gridSize = g;
-
 }
 
 int MessageHandler::diamondCellCount(int n) {

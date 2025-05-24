@@ -6,15 +6,49 @@
 #include <vector>
 #include <cmath>
 
-Encoder::Encoder(const std::string& m, int r) : MessageHandler(m, "", r) 
+Encoder::Encoder(const std::string& m, int r) : MessageHandler(m, "", r)
 { 
-    encrypt(); 
+    setMsg(removeWhitespace(m));
+    setGridSize(minDiamondGridSize(msg.size()));
 }
 
-Encoder::Encoder(const std::string& m, int r, int g) : MessageHandler(m, "", r, g) 
+Encoder::Encoder(const std::string& m, int r, int g) : MessageHandler(m, "", r)
 { 
-    setGridSize(g); // update the grid size
-    encrypt(); 
+    setMsg(removeWhitespace(m));
+    setGridSize(g);
+}
+
+void Encoder::setGridSize(int g)
+{
+    if (g < 3) throw std::invalid_argument("Grid size must be greater than or equal to 3.");
+    if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
+    int minSize = minDiamondGridSize(msg.size());
+    if (g < minSize) throw std::invalid_argument("Grid size too small for message length.");
+    gridSize = g;
+
+}
+
+void Encoder::setMsg(const std::string& m)
+{
+    // Check for more than one fullstop
+    if (std::count(m.begin(), m.end(), '.') > 1)
+        throw std::invalid_argument("Only one fullstop can be in the message.");
+
+    // Check that all characters are A-Z, a-z, or '.'
+    for (char c : m) {
+        if (c != '.' && !((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))) {
+            throw std::invalid_argument("Message can only contain letters A-Z, a-z, and at most one fullstop.");
+        }
+    }
+
+    if (m.empty()) throw std::invalid_argument("Message cannot be empty.");
+
+    // Convert all letters to uppercase
+    std::string upperMsg = m;
+    std::transform(upperMsg.begin(), upperMsg.end(), upperMsg.begin(),
+        [](unsigned char c) { return (c >= 'a' && c <= 'z') ? std::toupper(c) : c; });
+
+    msg = upperMsg;
 }
 
 void Encoder::makeGrid()
@@ -163,6 +197,9 @@ void Encoder::encrypt()
     // for one round:
 
     // Make grid & encode based off of current params
+    
+    setMsg(msg); // check msg is ok.
+    setGridSize(gridSize); // check grid size is ok.
     setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
     makeGrid();
     encode();

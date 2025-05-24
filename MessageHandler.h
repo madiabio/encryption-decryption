@@ -3,6 +3,9 @@
 /// Handles members that will be shared by derived classes.
 /// <\summary>
 #pragma once
+#include <string>
+#include <vector>
+
 class MessageHandler
 {
 protected:
@@ -64,24 +67,6 @@ protected:
 	char getRandomLetter();
 
 	/// <summary>
-	/// Sets the unencrypted message.
-	/// </summary>
-	/// <param name="m">Unencrypted message.</param>
-	void setMsg(const std::string& m) { msg = m; }
-
-	/// <summary>
-	///	Sets the encrypted message.
-	/// </summary>
-	/// <param name="e">Encrypted message.</param>
-	void setEncryptedMsg(const std::string& e) { encryptedMsg = e; }
-
-	/// <summary>
-	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.
-	/// </summary>
-	/// <param name="r">The total number of rounds to set.</param>
-	void setTotalRounds(int r) { (r < 0) ? throw std::invalid_argument("Total rounds must be greater than zero.") : totalRounds = r; }
-
-	/// <summary>
 	/// Sets the number of completed rounds if valid. If new number < 0, throws invalid argument.
 	/// </summary>
 	/// <param name="rc">The number of rounds that have been completed.</param>
@@ -99,15 +84,16 @@ protected:
 	virtual void makeGrid() = 0;
 
 	/// <summary>
-	/// Sets the grid size to the specified value if valid. If new number < 0, throws invalid argument.
+	/// Sets the grid size to the specified value 
 	/// </summary>
 	/// <param name="g">The new grid size.</param>
-	virtual void setGridSize(int g);
+	virtual void setGridSize(int g) = 0;
+
 public:
 	/// <summary>
 	/// Default constructor.
 	/// </summary>
-	MessageHandler();
+	MessageHandler() : msg(""), encryptedMsg(""), gridSize(1), totalRounds(1), completedRounds(0) {}
 
 	/// <summary>
 	/// Constructor that takes in unencrypted message, encrypted message and number of rounds. 
@@ -118,6 +104,7 @@ public:
 	/// <param name="r">Number of rounds</param> 
 	/// <param name="g">Size of grid</param>
 	MessageHandler(const std::string& m, const std::string& e, int r);
+
 	/// <summary>
 	/// Constructor that takes in unencrypted message, encrypted message, number of rounds and grid size. 
 	/// To be used with manual grid size setting.
@@ -127,6 +114,24 @@ public:
 	/// <param name="r">Number of rounds</param> 
 	/// <param name="g">Size of grid</param>
 	MessageHandler(const std::string& m, const std::string& e, int r, int g);
+
+	/// <summary>
+	/// Sets the unencrypted message.
+	/// </summary>
+	/// <param name="m">Unencrypted message.</param>
+	virtual void setMsg(const std::string& m) { msg = m; }
+
+	/// <summary>
+	///	Sets the encrypted message.
+	/// </summary>
+	/// <param name="e">Encrypted message.</param>
+	virtual void setEncryptedMsg(const std::string& e) { encryptedMsg = e; }
+
+	/// <summary>
+	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.
+	/// </summary>
+	/// <param name="r">The total number of rounds to set.</param>
+	void setTotalRounds(int r) { (r <= 0) ? throw std::invalid_argument("Total rounds must be greater than zero.") : totalRounds = r; }
 
 	/// <summary>
 	/// Gets the unencrypted message.

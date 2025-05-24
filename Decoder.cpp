@@ -9,20 +9,29 @@ Decoder::Decoder(const std::string& e, int r)
 	setEncryptedMsg(e);
 	setTotalRounds(r);
 	setCompletedRounds(0);
-
-	// catch if encrypted msg length is not an odd perfect square
-	int len = static_cast<int>(encryptedMsg.length());
-	int root = static_cast<int>(std::sqrt(len));
-	if (root * root != len || root % 2 == 0) {
-		throw std::invalid_argument("Encrypted message length must be an odd perfect square.");
-	}
-
 	// This should handle any other problems with the input.
 	setGridSize(static_cast<int>(std::sqrt(encryptedMsg.length())));
 	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
 	makeGrid();
+}
 
-	decrypt();
+void Decoder::setEncryptedMsg(const std::string& e)
+{
+	if (e.empty()) throw std::invalid_argument("Encrypted message cannot be empty.");
+	if (!isPerfectSquareOfOddNumber(e.length())) throw std::invalid_argument("Encrypted message must be length such that it is the perfect square of an odd number.");
+	
+	// Check for more than one fullstop
+	if (std::count(e.begin(), e.end(), '.') > 1)
+		throw std::invalid_argument("Only one fullstop can be in the encrypted message.");
+
+	// Check that all characters are A-Z, a-z, or '.'
+	for (char c : e) {
+		if (c != '.' && !((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))) {
+			throw std::invalid_argument("Encrypted message can only contain letters A-Z, a-z, and at most one fullstop.");
+		}
+	}
+
+	encryptedMsg = e;
 }
 
 void Decoder::makeGrid()
@@ -39,7 +48,6 @@ void Decoder::makeGrid()
 		}
 	}
 }
-
 
 void Decoder::decode()
 {
@@ -165,18 +173,22 @@ bool Decoder::isPerfectSquareOfOddNumber(int n)
 	return (root_f == root) && (root % 2 == 1) && (root * root == n);
 }
 
+
+
 void Decoder::setGridSize(int g)
 {
-
 	if (g <= 0) throw std::invalid_argument("Grid size must be greater than zero.");
 	if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
-	if (g < sqrt(encryptedMsg.length())) throw std::invalid_argument("Grid size too small.");
+	if (g < sqrt(encryptedMsg.length())) throw std::invalid_argument("Grid size too small for encrypted message length.");
 	gridSize = g;
 }
 
 void Decoder::decrypt()
 {
 	// Make grid & encode based off of current params
+
+	setEncryptedMsg(encryptedMsg); // verify encrypted msg is ok.
+	setGridSize(gridSize); // verify gridsize is ok.
 	makeGrid();
 	decode();
 	setCompletedRounds(1);

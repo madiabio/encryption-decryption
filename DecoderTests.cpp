@@ -75,7 +75,7 @@ TEST(DecoderTest, SingleRoundManualGridsizeMyFullNameBigGrids)
 
 TEST(DecoderTest, TwoRoundDecryptionWorksSimple)
 {
-    std::string message = "a.";
+    std::string message = "A.";
     int numRounds = 2;
     int gridSize = 3;
     Encoder e(message, numRounds, gridSize);
@@ -86,12 +86,12 @@ TEST(DecoderTest, TwoRoundDecryptionWorksSimple)
 
     std::string decryptedMsg = d.getMsg();
 
-    EXPECT_EQ("a", decryptedMsg);
+    EXPECT_EQ("A", decryptedMsg);
 }
 
 TEST(DecoderTest, ThreeRoundDecryptionWorksSimple)
 {
-    std::string message = "a.";
+    std::string message = "A.";
     int numRounds = 3;
     int gridSize = 3;
     Encoder e(message, numRounds, gridSize);
@@ -102,7 +102,7 @@ TEST(DecoderTest, ThreeRoundDecryptionWorksSimple)
 
     std::string decryptedMsg = d.getMsg();
 
-    EXPECT_EQ("a", decryptedMsg);
+    EXPECT_EQ("A", decryptedMsg);
 }
 
 TEST(DecoderTest, Scenario1)

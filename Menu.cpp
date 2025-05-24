@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "Menu.h"
+#include "Encoder.h"
+#include "Decoder.h"
 #include <iostream>
-Menu::Menu() : str(""), gridSize(-1), totalRounds(0), state("lvlOne")
+Menu::Menu() : str(""), gridSize(-2), totalRounds(1), state("lvlOne")
 {
 	lvlOne();
 }
@@ -78,6 +80,9 @@ void Menu::lvlTwoEncryption()
 	transitions.push_back(&Menu::lvlThreeMultiEncryption);
 	transitions.push_back(&Menu::lvlOne);
 
+	Encoder e;
+	encoder = e;
+
 	std::cout << "*****************************************************" << std::endl;
 	std::cout << "Menu - Lvl 2 : Encryption" << std::endl;
 	std::cout << "1. Enter a message" << std::endl;
@@ -98,7 +103,6 @@ void Menu::lvlTwoDecryption()
 	transitions.push_back(&Menu::instantiateDecoder);
 	transitions.push_back(&Menu::lvlOne);
 
-
 	std::cout << "****************************************************************************" << std::endl;
 	std::cout << "Menu - Lvl 2 : Decryption" << std::endl;
 	std::cout << "1. Enter a message" << std::endl;
@@ -114,7 +118,7 @@ void Menu::lvlThreeSingleEncryption()
 {
 	if (str.empty())
 	{
-		std::cout << "Cannot proceed with empty message. Returing to previous state." << std::endl;
+		std::cout << "Error: Cannot proceed with empty message. Returing to previous state." << std::endl;
 		lvlTwoEncryption();
 	}
 	else
@@ -143,7 +147,7 @@ void Menu::lvlThreeMultiEncryption()
 {
 	if (str.empty())
 	{
-		std::cout << "Cannot proceed with empty message. Returing to previous state." << std::endl;
+		std::cout << "Error: Cannot proceed with empty message. Returing to previous state." << std::endl;
 		lvlTwoEncryption();
 	}
 	else
@@ -167,21 +171,14 @@ void Menu::lvlThreeMultiEncryption()
 
 void Menu::instantiateDecoder()
 {
-	if (str.size() <= 0)
+	try
 	{
-		std::cout << "Message must be non empty."; // TODO: Move this to the decoder constructor.
+		Decoder d(str, totalRounds);
+		d.decrypt();
 	}
-	else
-	{ 
-		try
-		{
-			Decoder d(str, totalRounds);
-			decoder = d;
-		}
-		catch (std::invalid_argument& error)
-		{
-			std::cout << "Error: " << error.what() << std::endl;
-		}
+	catch (std::exception& error)
+	{
+		std::cout << "Error: " << error.what() << std::endl;
 	}
 	displayCurrentStateMenu();
 
@@ -194,14 +191,19 @@ void Menu::instantiateEncoder()
 		if (gridSize == -1) // Automatically choose grid size.
 		{
 			Encoder e(str, totalRounds);
-			encoder = e;
+			e.encrypt();
 		}
-		else // Manually choose grid size.
+		else if (gridSize > 0) // Manually choose grid size (total rounds = 1)
 		{
-			Encoder e(str, totalRounds, gridSize);
+			Encoder e(str, 1, gridSize);
+			e.encrypt();
+		}
+		else if (gridSize == -2)
+		{
+			throw std::invalid_argument("Cannot proceed with unset grid choice.");
 		}
 	}
-	catch (std::invalid_argument& error)
+	catch (std::exception& error)
 	{
 		std::cout << "Error: " << error.what() << std::endl;
 	}
@@ -211,74 +213,85 @@ void Menu::instantiateEncoder()
 
 void Menu::setStr()
 {
-    std::string s;
-    while (true) {
-        std::cout << "Enter message: ";
-        std::getline(std::cin, s); // Reads the whole line, including spaces
+	std::string s;
+	std::cout << "Enter message: ";
+	std::getline(std::cin, s);
+	try
+	{
+		if (s.empty())
+		{
+			throw std::invalid_argument("Message cannot be empty.");
+		}
+		if (state == "lvlTwoEncryption")
+		{
+			Encoder e(s);
+		}
+		else if (state == "lvlTwoDecryption")
+		{
+			Decoder d(s, totalRounds);
 
-        if (s.empty()) {
-            std::cout << "Message cannot be empty. Please try again." << std::endl;
-            continue;
-        }
-
-        // Check for non-ASCII characters
-        bool isAscii = true;
-        for (char c : s) {
-            if (static_cast<unsigned char>(c) > 127) {
-                isAscii = false;
-                break;
-            }
-        }
-        if (!isAscii) {
-            std::cout << "Message contains non-ASCII characters. Please enter only ASCII characters." << std::endl;
-            continue;
-        }
-
-        str = s;
-        break;
-    }
-    displayCurrentStateMenu();
+		}
+		str = s;
+	}
+	catch (std::exception& error)
+	{
+		std::cout << "Error: " << error.what() << std::endl;
+	}
+	displayCurrentStateMenu();
 }
 
 void Menu::setTotalRounds()
 {
 	int r;
-	while (true) {
-		std::cout << "Enter num rounds: ";
-		std::cin >> r;
+	std::string line;
+	std::cout << "Enter num rounds: ";
+	std::getline(std::cin, line);
+	try 
+	{
+		if (line.empty())
+		{
+			throw std::invalid_argument("Number of rounds cannot be empty.");
+		}
 
-		if (std::cin.fail() || r <= 0) {
-			std::cout << "Invalid input. Please enter an integer larger than 1." << std::endl;
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		r = std::stoi(line);
+		if (state == "lvlThreeMultiEncryption")
+		{
+			Encoder e("test", r);
 		}
-		else {
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear any extra input
-			break;
+		else if (state == "lvlTwoDecryption")
+		{
+			Decoder d(r);
 		}
+		totalRounds = r;
 	}
-	totalRounds = r;
+	catch (std::exception& error) 
+	{
+		std::cout << "Error: " << error.what() << std::endl;
+	}
 	displayCurrentStateMenu();
 }
 
 void Menu::setGridSize()
 {
 	int g;
-	while (true) {
-		std::cout << "Enter grid size: ";
-		std::cin >> g;
+	std::string line;
+	std::cout << "Enter grid size: ";
+	std::getline(std::cin, line);
 
-		if (std::cin.fail()) {
-			std::cout << "Invalid input. Please ensure an integer is being inputted." << std::endl;
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	try 
+	{
+		if (line.empty())
+		{
+			throw std::invalid_argument("Grid size cannot be empty.");
 		}
-		else {
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear any extra input
-			break;
-		}
+
+		g = std::stoi(line);
+		Encoder e(str, 1, g);
+		gridSize = g;
 	}
-	gridSize = g;
+	catch (std::exception& error) {
+		std::cout << "Error: " << error.what() << std::endl;
+	}
 	displayCurrentStateMenu();
 }
 

@@ -22,7 +22,7 @@ TEST(EncoderTest, AutoGridSizeConstructorInitializesMembers)
 
 TEST(EncoderTest, AutoGridSizeDoesntSetGridSizeToOne)
 {
-    std::string message = "a";
+    std::string message = "A";
     Encoder encoder(message, 1);
     EXPECT_EQ(encoder.getGridSize(), 3);
 }

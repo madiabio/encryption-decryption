@@ -23,16 +23,28 @@ private:
     /// </summary>
     void encode();
 
-    /// <summary>
-    /// Performs encrpytion based upon the number of encryption rounds. Updates the encryptedMsg member.
-    /// </summary>
-    void encrypt();
+
 public:
 
     /// <summary>
     /// Default constructor.
     /// </summary>
     Encoder() : MessageHandler() {}
+
+    /// <summary>
+    /// Constructor that takes in a message and nothing else. 
+    /// Sets number of encryption rounds to 1 by default.
+    /// Automatic grid size.
+    /// </summary>
+    /// <param name="m"> Message </param>
+    Encoder(const std::string& m) : MessageHandler("", "", 1) { setMsg(removeWhitespace(m)); }
+
+    /// <summary>
+    /// Constructor that takes in a grid size and nothing else.
+    /// Sets number of encryption rounds to 1 by default.
+    /// </summary>
+    /// <param name="g"></param>
+    Encoder(int g) : MessageHandler("", "", 1) { setGridSize(g); }
 
     /// <summary>
     /// Constructor that takes in an unencrypted message, the number of desired encryption rounds, and the grid size.
@@ -54,6 +66,23 @@ public:
     /// <param name="r">Number of encryption rounds</param> 
     /// <param name="g">Size of grid</param>
     Encoder(const std::string& m, int r, int g);
+
+    /// <summary>
+    /// Performs encrpytion based upon the number of encryption rounds. Updates the encryptedMsg member.
+    /// </summary>
+    void encrypt();
+
+    /// <summary>
+    /// Sets the grid size.
+    /// </summary>
+    /// <param name="g">New grid size.</param>
+    void setGridSize(int g) override;
+
+    /// <summary>
+    /// Sets the message
+    /// </summary>
+    /// <param name="m">New msg string</param>
+    void setMsg(const std::string& m) override;
 };
 
 
