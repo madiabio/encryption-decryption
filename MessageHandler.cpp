@@ -10,7 +10,7 @@ MessageHandler::MessageHandler() : msg(""), encryptedMsg(""), gridSize(1), total
 MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : msg(removeWhitespace(m)), encryptedMsg(e), gridSize(0), completedRounds(0)
 {
 	setTotalRounds(r);
-	setGridSize(minDiamondGridSize(m.size()));
+	setGridSize(minDiamondGridSize(msg.size()));
 	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
 	makeGrid();
 }

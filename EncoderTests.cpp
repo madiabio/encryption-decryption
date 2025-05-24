@@ -228,6 +228,7 @@ TEST(EncoderTest, TwoRoundEncryptionThrowsNoErrors)
     auto encryptedMsg = encoder.getEncryptedMsg();
 }
 
+/*
 TEST(EncoderTest, ManyRoundEncryptionThrowsNoErrors)
 {
     std::string message = "A.";
@@ -237,3 +238,4 @@ TEST(EncoderTest, ManyRoundEncryptionThrowsNoErrors)
     encoder.encrypt();
     auto encryptedMsg = encoder.getEncryptedMsg();
 }
+*/

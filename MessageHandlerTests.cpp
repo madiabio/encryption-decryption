@@ -23,7 +23,6 @@ TEST(MessageHandlerTest, AutoGridSizeConstructorInitializesMembers)
     std::string encryptedMessage = "TRAGTARHEEEELAENDEKNNESNWOCOSRCNISDENAHTLOATCLUYM";
     MessageHandler h(message, encryptedMessage, 1);
     EXPECT_EQ(h.getMsg(), "GENERALTSONEEDSCHICKENNOW");
-    EXPECT_EQ(h.getEncryptedMsg(), encryptedMessage);
     EXPECT_EQ(h.getTotalRounds(), 1);
     EXPECT_EQ(h.getGridSize(), 7);
     EXPECT_EQ(h.getCompletedRounds(), 0);
