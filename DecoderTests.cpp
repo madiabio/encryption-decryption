@@ -84,5 +84,5 @@ TEST(DecoderTest, TrimToPerfectSquareOfOddNumberWorks)
     auto decryptedMsg = d.getMsg();
     d.trimToPerfectSquareOfOddNumberLength(decryptedMsg);
 
-    EXPECT_EQ(encryptedMsg.length(), 9);
+    EXPECT_EQ(decryptedMsg.length(), 9);
 }

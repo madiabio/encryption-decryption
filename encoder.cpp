@@ -43,26 +43,43 @@ void Encoder::makeGrid()
 
         // up & right diagonal
         for (int row = gridSize / 2; row > top_row_of_layer; --row) {
-            if (i < msg.length()) {
-                if (msg[i] == '.') fullstop_placed = true;
-                grid[row][current_col] = msg[i++];
+            if (completedRounds == 0) // if its the first round, handle the fullstop logic.
+            {
+                if (i < msg.length()) {
+                    if (msg[i] == '.') fullstop_placed = true;
+                    grid[row][current_col] = msg[i++];
+                }
+                else if (!fullstop_placed) {
+                    grid[row][current_col] = '.';
+                    fullstop_placed = true;
+                }
             }
-            else if (!fullstop_placed) {
-                grid[row][current_col] = '.';
-                fullstop_placed = true;
+            else // if its not the first round, ignore fullstop logic.
+            {
+                if (i < msg.length()) grid[row][current_col] = msg[i++];
+                else return;
             }
+                    
             current_col++;
         }
 
         // down & right diagonal
         for (int row = top_row_of_layer; row < gridSize / 2; ++row) {
-            if (i < msg.length()) {
-                if (msg[i] == '.') fullstop_placed = true;
-                grid[row][current_col] = msg[i++];
+            if (completedRounds == 0) // if its the first round, handle fullstop logic.
+            {
+                if (i < msg.length()) {
+                    if (msg[i] == '.') fullstop_placed = true;
+                    grid[row][current_col] = msg[i++];
+                }
+                else if (!fullstop_placed) {
+                    grid[row][current_col] = '.';
+                    fullstop_placed = true;
+                }
             }
-            else if (!fullstop_placed) {
-                grid[row][current_col] = '.';
-                fullstop_placed = true;
+            else // if its not the first round, ignore fullstop logic.
+            {
+                if (i < msg.length()) grid[row][current_col] = msg[i++];
+                else return;
             }
             current_col++;
         }
@@ -71,40 +88,64 @@ void Encoder::makeGrid()
 
         // down & left diagonal
         for (int row = gridSize / 2; row < bottom_row_of_layer - 1; ++row) {
-            if (i < msg.length()) {
-                if (msg[i] == '.') fullstop_placed = true;
-                grid[row][current_col] = msg[i++];
+            if (completedRounds == 0) // if its the first round, handle fullstop logic.
+            {
+                if (i < msg.length()) {
+                    if (msg[i] == '.') fullstop_placed = true;
+                    grid[row][current_col] = msg[i++];
+                }
+                else if (!fullstop_placed) {
+                    grid[row][current_col] = '.';
+                    fullstop_placed = true;
+                }
             }
-            else if (!fullstop_placed) {
-                grid[row][current_col] = '.';
-                fullstop_placed = true;
+            else // if its not the first round, ignore fullstop logic.
+            {
+                if (i < msg.length()) grid[row][current_col] = msg[i++];
+                else return;
             }
             current_col--;
         }
 
         // up & left diagonal
         for (int row = bottom_row_of_layer - 1; row > gridSize / 2; --row) {
-            if (i < msg.length()) {
-                if (msg[i] == '.') fullstop_placed = true;
-                grid[row][current_col] = msg[i++];
+            if (completedRounds == 0) // if its the first round, handle fullstop logic.
+            {
+                if (i < msg.length()) {
+                    if (msg[i] == '.') fullstop_placed = true;
+                    grid[row][current_col] = msg[i++];
+                }
+                else if (!fullstop_placed) {
+                    grid[row][current_col] = '.';
+                    fullstop_placed = true;
+                }
             }
-            else if (!fullstop_placed) {
-                grid[row][current_col] = '.';
-                fullstop_placed = true;
+            else // if its not the first round, ignore fullstop logic.
+            {
+                if (i < msg.length()) grid[row][current_col] = msg[i++];
+                else return;
             }
             current_col--;
         }
 
         starting_col++;
         if (starting_col == gridSize / 2) {
-            // Center cell
-            if (i < msg.length()) {
-                if (msg[i] == '.') fullstop_placed = true;
-                grid[gridSize / 2][gridSize / 2] = msg[i++];
+            if (completedRounds == 0) // if its the first round, handle fullstop logic.
+            {
+                // Center cell
+                if (i < msg.length()) {
+                    if (msg[i] == '.') fullstop_placed = true;
+                    grid[gridSize / 2][gridSize / 2] = msg[i++];
+                }
+                else if (!fullstop_placed) {
+                    grid[gridSize / 2][gridSize / 2] = '.';
+                    fullstop_placed = true;
+                }
             }
-            else if (!fullstop_placed) {
-                grid[gridSize / 2][gridSize / 2] = '.';
-                fullstop_placed = true;
+            else // if its not the first round, ignore fullstop logic.
+            {
+                if (i < msg.length()) grid[gridSize / 2][gridSize / 2] = msg[i++];
+                else return;
             }
         }
     }
