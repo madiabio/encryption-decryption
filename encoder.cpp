@@ -54,8 +54,8 @@ void Encoder::setMsg(const std::string& m)
 void Encoder::makeGrid()
 {
     // Fill the grid with random uppercase letters
-    for (int row = 0; row < gridSize; ++row) {
-        for (int col = 0; col < gridSize; ++col) {
+    for (int row = 0; row < getGridSize(); ++row) {
+        for (int col = 0; col < getGridSize(); ++col) {
             grid[row][col] = getRandomLetter();
         }
     }
@@ -64,12 +64,12 @@ void Encoder::makeGrid()
     int starting_col = 0;
     bool fullstop_placed = false;
 
-    while ((i < msg.length() || !fullstop_placed) && starting_col < (gridSize / 2)) {
+    while ((i < msg.length() || !fullstop_placed) && starting_col < (getGridSize() / 2)) {
         int top_row_of_layer = starting_col;
         int current_col = starting_col;
 
         // up & right diagonal
-        for (int row = gridSize / 2; row > top_row_of_layer; --row) {
+        for (int row = getGridSize() / 2; row > top_row_of_layer; --row) {
             if (completedRounds == 0) // if its the first round, handle the fullstop logic.
             {
                 if (i < msg.length()) {
@@ -91,7 +91,7 @@ void Encoder::makeGrid()
         }
 
         // down & right diagonal
-        for (int row = top_row_of_layer; row < gridSize / 2; ++row) {
+        for (int row = top_row_of_layer; row < getGridSize() / 2; ++row) {
             if (completedRounds == 0) // if its the first round, handle fullstop logic.
             {
                 if (i < msg.length()) {
@@ -111,10 +111,10 @@ void Encoder::makeGrid()
             current_col++;
         }
 
-        int bottom_row_of_layer = gridSize - top_row_of_layer;
+        int bottom_row_of_layer = getGridSize() - top_row_of_layer;
 
         // down & left diagonal
-        for (int row = gridSize / 2; row < bottom_row_of_layer - 1; ++row) {
+        for (int row = getGridSize() / 2; row < bottom_row_of_layer - 1; ++row) {
             if (completedRounds == 0) // if its the first round, handle fullstop logic.
             {
                 if (i < msg.length()) {
@@ -135,7 +135,7 @@ void Encoder::makeGrid()
         }
 
         // up & left diagonal
-        for (int row = bottom_row_of_layer - 1; row > gridSize / 2; --row) {
+        for (int row = bottom_row_of_layer - 1; row > getGridSize() / 2; --row) {
             if (completedRounds == 0) // if its the first round, handle fullstop logic.
             {
                 if (i < msg.length()) {
@@ -156,22 +156,22 @@ void Encoder::makeGrid()
         }
 
         starting_col++;
-        if (starting_col == gridSize / 2) {
+        if (starting_col == getGridSize() / 2) {
             if (completedRounds == 0) // if its the first round, handle fullstop logic.
             {
                 // Center cell
                 if (i < msg.length()) {
                     if (msg[i] == '.') fullstop_placed = true;
-                    grid[gridSize / 2][gridSize / 2] = msg[i++];
+                    grid[getGridSize() / 2][getGridSize() / 2] = msg[i++];
                 }
                 else if (!fullstop_placed) {
-                    grid[gridSize / 2][gridSize / 2] = '.';
+                    grid[getGridSize() / 2][getGridSize() / 2] = '.';
                     fullstop_placed = true;
                 }
             }
             else // if its not the first round, ignore fullstop logic.
             {
-                if (i < msg.length()) grid[gridSize / 2][gridSize / 2] = msg[i++];
+                if (i < msg.length()) grid[getGridSize() / 2][getGridSize() / 2] = msg[i++];
                 else return;
             }
         }
@@ -199,8 +199,8 @@ void Encoder::encrypt()
     // Make grid & encode based off of current params
     
     setMsg(msg); // check msg is ok.
-    setGridSize(gridSize); // check grid size is ok.
-    setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
+    setGridSize(getGridSize()); // check grid size is ok.
+    setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the grid
     makeGrid();
     encode();
     setCompletedRounds(1);
@@ -213,7 +213,7 @@ void Encoder::encrypt()
         setMsg(encryptedMsg); // update the msg to the current encrypted msg.
         setGridSize(minDiamondGridSize(msg.size())); // update the grid size to be the minimum grid size of the new msg.
         
-        setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the new grid
+        setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the new grid
         makeGrid(); // make (fill) the new grid
 
         encode(); // update the encrypted msg with the new encrypted msg.
