@@ -4,15 +4,17 @@
 #include <ctime>
 #include <string>
 #include <vector>
+#include <cmath>
 
-
-Encoder::Encoder(const std::string& m, int r) : MessageHandler(removeWhitespace(m), "", r) 
+Encoder::Encoder(const std::string& m, int r) : MessageHandler(m, "", r) 
 { 
+
     encrypt(); 
 }
 
-Encoder::Encoder(const std::string& m, int r, int g) : MessageHandler(removeWhitespace(m), "", r, g) 
+Encoder::Encoder(const std::string& m, int r, int g) : MessageHandler(m, "", r, g) 
 { 
+    setGridSize(g); // update the grid size for the new string length
     encrypt(); 
 }
 
@@ -109,14 +111,6 @@ void Encoder::makeGrid()
     }
 }
 
-std::string Encoder::removeWhitespace(std::string str)
-{
-    str.erase(
-        std::remove_if(str.begin(), str.end(),
-            [](unsigned char c) { return std::isspace(c); }),
-        str.end());
-    return str;
-}
 
 void Encoder::encode()
 {
@@ -136,6 +130,7 @@ void Encoder::encrypt()
 {
 
     // Make grid & encode based off of current params
+    setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
     makeGrid();
     encode();
     setCompletedRounds(1);
@@ -144,7 +139,7 @@ void Encoder::encrypt()
     for (int round = 1; round < totalRounds; ++round)
     {
         msg = encryptedMsg;
-        setGridSize(minDiamondGridSize(msg.size())); // update the grid size for the new string length
+        setGridSize(pow(gridSize,2)); // update the grid size to be the next square number of the string length. This will make it be so that the decryptoin algrotihm can get gridsize as sqrt(len)
         setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
         makeGrid(); // make the grid again
         encode(); // update the encrypted msg with the new encrypted msg.

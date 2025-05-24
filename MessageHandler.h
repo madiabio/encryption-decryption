@@ -50,7 +50,12 @@ protected:
 	/// <returns>The smallest integer grid size that can accommodate the entire message in a diamond pattern.</returns>
 	int minDiamondGridSize(int messageLength);
 
-
+	/// <summary>
+	/// Cleans the string of whitespace.
+	/// </summary>
+	/// <param name="str">String to remove whitespace from.</param>
+	/// <returns></returns>
+	std::string removeWhitespace(std::string str);
 
 public:
 	/// <summary>

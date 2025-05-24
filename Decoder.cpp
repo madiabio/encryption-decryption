@@ -3,8 +3,13 @@
 #include <string>
 #include <cmath>
 
-Decoder::Decoder(const std::string& e, int r) : MessageHandler("", e, r)
+Decoder::Decoder(const std::string& e, int r)
 {
+	setMsg("");
+	setEncryptedMsg(e);
+	setTotalRounds(r);
+	setCompletedRounds(0);
+
 	// catch if encrypted msg length is not an odd perfect square
 	int len = static_cast<int>(encryptedMsg.length());
 	int root = static_cast<int>(std::sqrt(len));
@@ -92,14 +97,14 @@ void Decoder::decode()
 
         // up & right diagonal
         for (row = gridSize / 2; row > top_row_of_layer; --row) {
-			if (grid[row][current_col] == '.' && fullstop) { break; }
+			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
 			decryptedMsg += grid[row][current_col];
             current_col++;
         }
 
         // down & right diagonal
         for (row = top_row_of_layer; row < gridSize / 2; ++row) {
-			if (grid[row][current_col] == '.' && fullstop) { break; }
+			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
 			decryptedMsg += grid[row][current_col];
             current_col++;
         }
@@ -108,21 +113,21 @@ void Decoder::decode()
 
         // down & left diagonal
         for (row = gridSize / 2; row < bottom_row_of_layer - 1; ++row) {
-			if (grid[row][current_col] == '.' && fullstop) { break; }
+			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
 			decryptedMsg += grid[row][current_col];
 			current_col--;
         }
 
         // up & left diagonal
         for (row = bottom_row_of_layer - 1; row > gridSize / 2; --row) {
-			if (grid[row][current_col] == '.' && fullstop) { break; }
+			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
 			decryptedMsg += grid[row][current_col];
             current_col--;
         }
 
         starting_col++;
         if (starting_col == gridSize / 2) {
-			if (grid[row][current_col+1] == '.' && fullstop) { break; }
+			if (grid[row][current_col+1] == '.' && fullstop) { setMsg(decryptedMsg); return; }
 			decryptedMsg += grid[row][current_col+1];
         }
     }
@@ -142,13 +147,17 @@ void Decoder::decrypt()
 	{
 		for (int round = 0; round < totalRounds; ++round)
 		{
-			makeGrid(); // make the grid for the current round.
-			setGridSize(static_cast<int>(std::sqrt(encryptedMsg.length()))); // update the grid size for the new string length
+			int newSize;
+			if (round == totalRounds - 1) newSize = minDiamondGridSize(encryptedMsg.size());
+			else newSize = static_cast<int>(std::sqrt(encryptedMsg.length()));
+			setGridSize(newSize); // update the grid size for the new string length
 			setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize))); // set the grid
+			makeGrid(); // make the grid for the current round.
 			decode(); // update the encrypted msg with the new encrypted msg.
-			setCompletedRounds(round); // finish the round
 			encryptedMsg = msg; // update the encrypted msg to be the previously decoded msg.
+			setCompletedRounds(round+1); // finish the round
 		}
+
 	}
 }
 

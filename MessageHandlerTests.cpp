@@ -22,7 +22,7 @@ TEST(MessageHandlerTest, AutoGridSizeConstructorInitializesMembers)
     std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
     std::string encryptedMessage = "TRAGTARHEEEELAENDEKNNESNWOCOSRCNISDENAHTLOATCLUYM";
     MessageHandler h(message, encryptedMessage, 1);
-    EXPECT_EQ(h.getMsg(), message);
+    EXPECT_EQ(h.getMsg(), "GENERALTSONEEDSCHICKENNOW");
     EXPECT_EQ(h.getEncryptedMsg(), encryptedMessage);
     EXPECT_EQ(h.getTotalRounds(), 1);
     EXPECT_EQ(h.getGridSize(), 7);
@@ -34,7 +34,7 @@ TEST(MessageHandlerTest, ManualGridSizeConstructorInitializesMembers)
     std::string message = "GENERAL TSO NEEDS CHICKEN NOW";
     std::string encryptedMessage = "TRAGTARHEEEELAENDEKNNESNWOCOSRCNISDENAHTLOATCLUYM";
     MessageHandler h(message, encryptedMessage, 1, 7);
-    EXPECT_EQ(h.getMsg(), message);
+    EXPECT_EQ(h.getMsg(), "GENERALTSONEEDSCHICKENNOW");
     EXPECT_EQ(h.getEncryptedMsg(), encryptedMessage);
     EXPECT_EQ(h.getTotalRounds(), 1);
     EXPECT_EQ(h.getGridSize(), 7);
