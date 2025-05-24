@@ -10,8 +10,8 @@ Decoder::Decoder(const std::string& e, int r)
 	setTotalRounds(r);
 	setCompletedRounds(0);
 	// This should handle any other problems with the input.
-	setGridSize(static_cast<int>(std::sqrt(encryptedMsg.length())));
-	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
+	setGridSize(static_cast<int>(std::sqrt(getEncryptedMsg().length())));
+	setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize())));
 	makeGrid();
 }
 

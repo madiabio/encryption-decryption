@@ -48,7 +48,7 @@ public:
 	/// <summary>
 	/// Sets decoder with just encryption rounds. Encrypted string must be set before running encrypt.
 	/// </summary>
-	Decoder(int r) : MessageHandler("aaabbbccc", "", r) {}
+	Decoder(int r) : MessageHandler("", "", r) {}
 
 	/// <summary>  
 	/// Constructor that takes in an encrypted message and the number of encrypted rounds performed on it.  

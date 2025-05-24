@@ -3,9 +3,12 @@
 #include "Encoder.h"
 #include "Decoder.h"
 #include <iostream>
-Menu::Menu() : str(""), gridSize(-2), totalRounds(1), state("lvlOne")
+Menu::Menu() : str(""), gridSize(-2), totalRounds(1), state("None") {}
+
+void Menu::start()
 {
-	lvlOne();
+	std::cout << "Welcome to the Encryption/Decryption Menu!" << std::endl;
+	lvlOne(); // Start with level one menu
 }
 
 void Menu::quit()
@@ -39,6 +42,7 @@ void Menu::transition()
 	}
 
 	std::string line;
+	int input;
 	while (true) {
 		std::cout << "Enter choice: ";
 		std::getline(std::cin, line);
@@ -79,9 +83,6 @@ void Menu::lvlTwoEncryption()
 	transitions.push_back(&Menu::lvlThreeSingleEncryption);
 	transitions.push_back(&Menu::lvlThreeMultiEncryption);
 	transitions.push_back(&Menu::lvlOne);
-
-	Encoder e;
-	encoder = e;
 
 	std::cout << "*****************************************************" << std::endl;
 	std::cout << "Menu - Lvl 2 : Encryption" << std::endl;
@@ -224,11 +225,11 @@ void Menu::setStr()
 		}
 		if (state == "lvlTwoEncryption")
 		{
-			Encoder e(s);
+			Encoder e(s); // Check its valid for encoder to construct with this string.
 		}
 		else if (state == "lvlTwoDecryption")
 		{
-			Decoder d(s, totalRounds);
+			Decoder d(s, 1); // Check its valid for decoder to construct with this string.
 
 		}
 		str = s;
@@ -256,11 +257,11 @@ void Menu::setTotalRounds()
 		r = std::stoi(line);
 		if (state == "lvlThreeMultiEncryption")
 		{
-			Encoder e("test", r);
+			Encoder e("test", r); // Check its valid for encoder to construct with this number of rounds.
 		}
 		else if (state == "lvlTwoDecryption")
 		{
-			Decoder d(r);
+			Decoder d(r); // Check its valid for decoder to construct with this number of rounds.
 		}
 		totalRounds = r;
 	}
@@ -286,7 +287,7 @@ void Menu::setGridSize()
 		}
 
 		g = std::stoi(line);
-		Encoder e(str, 1, g);
+		Encoder e(str, 1, g); // Check its valid for encoder to construct with this size of grid, given the previously inputted message string.
 		gridSize = g;
 	}
 	catch (std::exception& error) {

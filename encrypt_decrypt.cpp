@@ -7,6 +7,7 @@
 int main()
 {
 	Menu menu;
+	menu.start(); // Start the menu loop.
 	return 0;
 }
 

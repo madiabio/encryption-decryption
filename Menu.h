@@ -4,22 +4,6 @@
 class Menu
 {
 private:
-
-	/// <summary>
-	/// Decoder that will be instantiated.
-	/// </summary>
-	Decoder decoder;
-
-	/// <summary>
-	/// Encoder that will be instantiated.
-	/// </summary>
-	Encoder encoder;
-
-	/// <summary>
-	/// The input given at the command line.
-	/// </summary>
-	int input;
-
 	/// <summary>
 	/// Message to either encrypt or decrypt.
 	/// </summary>
@@ -131,8 +115,12 @@ public:
 	Menu();
 
 	/// <summary>
+	/// Starts the menu loop.
+	/// </summary>
+	void start();
+
+	/// <summary>
 	/// Default destructor
 	/// </summary>
 	~Menu() {}
-
 };
