@@ -15,7 +15,7 @@ private:
 	/// Sets the size of the grid if it is valid.
 	/// </summary>
 	/// <param name="g">New grid size</param>
-	void setGridSize(int g) override;
+	void updateGridSize(int g) override;
 
 	/// <summary>  
 	/// Unravels the grid in the diamond pattern and updates msg.
@@ -48,7 +48,7 @@ public:
 	/// <summary>
 	/// Sets decoder with just encryption rounds. Encrypted string must be set before running encrypt.
 	/// </summary>
-	Decoder(int r) : MessageHandler("", "", r) { setTotalRounds(r); }
+	Decoder(int r) : MessageHandler("", "", r) { updateTotalRounds(r); }
 
 	/// <summary>  
 	/// Constructor that takes in an encrypted message and the number of encrypted rounds performed on it.  
@@ -71,5 +71,5 @@ public:
 	/// <summary>
 	/// Automatically sets the grid size to the square root of the length of the encrypted message string.
 	/// </summary>
-	void setGridSize() override;
+	void updateGridSize() override;
 };

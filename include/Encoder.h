@@ -44,7 +44,7 @@ public:
     /// Sets number of encryption rounds to 1 by default.
     /// </summary>
     /// <param name="g"></param>
-    Encoder(int g) : MessageHandler("", "", 1) { setGridSize(g); }
+    Encoder(int g) : MessageHandler("", "", 1) { updateGridSize(g); }
 
     /// <summary>
     /// Constructor that takes in an unencrypted message, the number of desired encryption rounds, and the grid size.
@@ -76,12 +76,12 @@ public:
     /// Sets the grid size.
     /// </summary>
     /// <param name="g">New grid size.</param>
-    void setGridSize(int g) override;
+    void updateGridSize(int g) override;
 
     /// <summary>
     /// Automatically sets the grid size based upon the unencrypted message.
     /// </summary>
-    void setGridSize() override;
+    void updateGridSize() override;
 
     /// <summary>
     /// Sets the message

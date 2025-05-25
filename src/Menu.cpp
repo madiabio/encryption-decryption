@@ -19,7 +19,7 @@ void Menu::quit()
 
 void Menu::lvlOne()
 {
-	state = "lvlOne";
+	setState("lvlOne");
 	transitions.clear(); // Clear previous choices before adding new ones
 	transitions.push_back(&Menu::lvlTwoEncryption);
 	transitions.push_back(&Menu::lvlTwoDecryption);
@@ -52,9 +52,9 @@ void Menu::transition()
 		// Try to convert input to integer
 		try {
 			input = std::stoi(line);
-			if (prevState != state) 
+			if (getPrevState() != getState()) 
 			{
-				prevState = state; // Save the current state before transitioning
+				setPrevState(getState()); // Save the current state before transitioning
 			}
 		}
 		catch (const std::invalid_argument&) {
@@ -66,7 +66,7 @@ void Menu::transition()
 			continue;
 		}
 
-		if (input < 1 || input > static_cast<int>(transitions.size())) {
+		if (input < 1 || input > static_cast<int>(f.size())) {
 			std::cout << "Invalid input. Please enter an integer corresponding to the available choices." << std::endl;
 			continue;
 		}
@@ -77,16 +77,16 @@ void Menu::transition()
 
 void Menu::lvlTwoEncryption()
 {
-	state = "lvlTwoEncryption";
+	setState("lvlTwoEncryption");
 	transitions.clear(); // Clear previous choices before adding new ones
-	transitions.push_back(&Menu::setStr);
+	transitions.push_back(&Menu::updateMessage);
 	transitions.push_back(&Menu::lvlThreeSingleEncryption);
 	transitions.push_back(&Menu::lvlThreeMultiEncryption);
 	transitions.push_back(&Menu::lvlOne);
 
-	if (prevState != state)
+	if (getPrevState()!= getState())
 	{
-		str = ""; // reset msg if necessary.
+		str.clear(); // reset msg if necessary.
 	}
 
 	std::cout << "*****************************************************" << std::endl;
@@ -102,17 +102,17 @@ void Menu::lvlTwoEncryption()
 
 void Menu::lvlTwoDecryption()
 {
-	state = "lvlTwoDecryption";
+	setState("lvlTwoDecryption");
 	transitions.clear(); // Clear previous choices before adding new ones
-	transitions.push_back(&Menu::setStr);
-	transitions.push_back(&Menu::setTotalRounds);
+	transitions.push_back(&Menu::updateMessage);
+	transitions.push_back(&Menu::updateTotalRounds);
 	transitions.push_back(&Menu::instantiateDecoder);
 	transitions.push_back(&Menu::lvlOne);
 
-	if (prevState != state)
+	if (getPrevState()!= getState())
 	{
-		totalRounds = 0; // reset total rounds if necessary.
-		str = ""; // reset msg if necessary.
+		setTotalRounds(0); // reset total rounds if necessary.
+		str.clear(); // reset msg if necessary.
 	}
 
 	std::cout << "****************************************************************************" << std::endl;
@@ -136,17 +136,17 @@ void Menu::lvlThreeSingleEncryption()
 	else
 	{
 
-		state = "lvlThreeSingleEncryption";
+		setState("lvlThreeSingleEncryption");
 		transitions.clear(); // Clear previous choices before adding new ones
-		transitions.push_back(&Menu::setGridSize);
+		transitions.push_back(&Menu::updateGridSize);
 		transitions.push_back(&Menu::autoGridSize);
 		transitions.push_back(&Menu::instantiateEncoder);
 		transitions.push_back(&Menu::lvlTwoEncryption);
 
-		if (prevState != state)
+		if (getPrevState()!= getState())
 		{
-			totalRounds = 1; // total rounds is always 1 at this state.
-			e.setTotalRounds(1); // total rounds is always 1 for this state.
+			setTotalRounds(1); // total rounds is always 1 at this state.
+			e.updateTotalRounds(1); // total rounds is always 1 for this state.
 		}
 
 		std::cout << "*****************************************************" << std::endl;
@@ -171,19 +171,19 @@ void Menu::lvlThreeMultiEncryption()
 	else
 	{
 
-		state = "lvlThreeMultiEncryption";
+		setState("lvlThreeMultiEncryption");
 		transitions.clear(); // Clear previous choices before adding new ones
-		transitions.push_back(&Menu::setTotalRounds);
+		transitions.push_back(&Menu::updateTotalRounds);
 		transitions.push_back(&Menu::instantiateEncoder);
 		transitions.push_back(&Menu::lvlTwoEncryption);
 
-		if (prevState != state)
+		if (getPrevState()!= getState())
 		{
-			totalRounds = 0; // reset total rounds if necessary.
+			setTotalRounds(0); // reset total rounds if necessary.
 		}
 
-		gridSize = -1; // automatically choose grid size.
-		e.setGridSize(); // automatically choose grid size.
+		setGridSize(-1); // automatically choose grid size.
+		e.updateGridSize(); // automatically choose grid size.
 
 		std::cout << "****************************************************************************" << std::endl;
 		std::cout << "Menu - Lvl 3 : Encryption" << std::endl;
@@ -200,7 +200,7 @@ void Menu::instantiateDecoder()
 {
 	try
 	{
-		if (totalRounds == 0) throw std::invalid_argument("Cannot decrypt without setting total rounds > 0.");
+		if (getTotalRounds() == 0) throw std::invalid_argument("Cannot decrypt without setting total rounds > 0.");
 		d.decrypt();
 	}
 	catch (std::exception& error)
@@ -214,15 +214,15 @@ void Menu::instantiateEncoder()
 {
 	try
 	{
-		if (gridSize >= -1 && totalRounds > 0) e.encrypt(); // Grid size was set. 
-		else if (gridSize == -2) throw std::invalid_argument("Cannot proceed with unset grid choice."); // Grid size wasn't set
-		else if (totalRounds == 0) throw std::invalid_argument("Cannot decrypt without setting total rounds > 0."); // Total rounds not set.
+		if (getGridSize() >= -1 && getTotalRounds() > 0) e.encrypt(); // Grid size was set. 
+		else if (getGridSize() == -2) throw std::invalid_argument("Cannot proceed with unset grid choice."); // Grid size wasn't set
+		else if (getTotalRounds() == 0) throw std::invalid_argument("Cannot decrypt without setting total rounds > 0."); // Total rounds not set.
 	}
 	catch (std::exception& error) { std::cout << "Error: " << error.what() << std::endl; }
 	displayCurrentStateMenu();
 }
 
-void Menu::setStr()
+void Menu::updateMessage()
 {
 	std::string s;
 	std::cout << "Enter message: ";
@@ -241,7 +241,7 @@ void Menu::setStr()
 	displayCurrentStateMenu();
 }
 
-void Menu::setTotalRounds()
+void Menu::updateTotalRounds()
 {
 	int r;
 	std::string line;
@@ -257,13 +257,13 @@ void Menu::setTotalRounds()
 		r = std::stoi(line);
 		if (state == "lvlThreeMultiEncryption")
 		{
-			e.setTotalRounds(r); // Check its valid for encoder to construct with this number of rounds.
+			e.updateTotalRounds(r); // Check its valid for encoder to construct with this number of rounds.
 		}
 		else if (state == "lvlTwoDecryption")
 		{
-			d.setTotalRounds(r); // Check its valid for decoder to construct with this number of rounds.
+			d.updateTotalRounds(r); // Check its valid for decoder to construct with this number of rounds.
 		}
-		totalRounds = r;
+		setTotalRounds(r);
 	}
 	catch (std::exception& error) 
 	{
@@ -272,7 +272,7 @@ void Menu::setTotalRounds()
 	displayCurrentStateMenu();
 }
 
-void Menu::setGridSize()
+void Menu::updateGridSize()
 {
 	int g;
 	std::string line;
@@ -287,8 +287,8 @@ void Menu::setGridSize()
 		}
 
 		g = std::stoi(line);
-		e.setGridSize(g); // Check its valid for encoder to construct with this size of grid, given the previously inputted message string. (grid size is only ever set for encoder)
-		gridSize = g;
+		e.updateGridSize(g); // Check its valid for encoder to construct with this size of grid, given the previously inputted message string. (grid size is only ever set for encoder)
+		setGridSize(g);
 	}
 	catch (std::exception& error) {
 		std::cout << "Error: " << error.what() << std::endl;
@@ -298,9 +298,9 @@ void Menu::setGridSize()
 
 void Menu::autoGridSize()
 {
-	gridSize = -1;
+	setGridSize(-1);
 	std::cout << "Grid size will be automatically chosen." << std::endl;
-	e.setGridSize();
+	e.updateGridSize();
 	displayCurrentStateMenu();
 }
 

@@ -65,15 +65,20 @@ private:
 	void lvlThreeMultiEncryption();
 
 	/// <summary>
-	/// Sets the string (message to encrypt/decrypt)
+	/// Prompts user to update the string (message to encrypt/decrypt) and saves it to the encoder/decoder depending on the state.
 	/// </summary>
-	void setStr();
+	void updateMessage();
 
 	/// <summary>
-	/// Sets the number of decryption/encryption rounds.
+	/// Prompts user to update the number of decryption/encryption rounds & saves it to the encoder/decoder depending on the state.
 	/// </summary>
-	void setTotalRounds();
-	
+	void updateTotalRounds();
+
+	/// <summary>
+	/// Sets the grid size to -1 so when the encoder is instantiated the control will flow to auto grid size option.
+	/// </summary>
+	void autoGridSize();
+
 	/// <summary>
 	/// Instantaites a decoder based upon the totalRounds and the message.
 	/// </summary>
@@ -100,19 +105,87 @@ private:
 	void transitionToPreviousState();
 
 	/// <summary>
+	/// Prompts the user to update the gridSize saved to the encoder/decoder according to the state.
+	/// </summary>
+	void updateGridSize();
+
+	/// <summary>
+	/// Sets string
+	/// </summary>
+	/// <param name="s">New string to set</param>
+	void setStr(std::string s) { str = s; }
+
+	/// <summary>
+	/// Sets the state
+	/// </summary>
+	/// <param name="newState">New state to set</param>
+	void setState(std::string newState) { state = newState; }
+
+	/// <summary>
+	/// Sets the previous state
+	/// </summary>
+	/// <param name="newPrevState">New previous state to set.</param>
+	void setPrevState(std::string newPrevState) { prevState = newPrevState; }
+
+	/// <summary>
+	/// Sets the gridSize member variable.
+	/// </summary>
+	/// <param name="g">New gridSize to set.</param>
+	void setGridSize(int g) { gridSize = g; }
+
+	/// <summary>
+	/// Sets the total rounds member variable.
+	/// </summary>
+	/// <param name="r">New totalRounds value</param>
+	void setTotalRounds(int r) { totalRounds = r; }
+
+	/// <summary>
 	/// Quits the program
 	/// </summary>
 	void quit();
 
 	/// <summary>
-	/// Sets gridSize for when the encoder is instantiated 
+	/// Gets the current state
 	/// </summary>
-	void setGridSize();
+	/// <returns>Current state</returns>
+	std::string getState() const { return state; }
 
 	/// <summary>
-	/// Sets the grid size to -1 so when the encoder is instantiated the control will flow to auto grid size option.
+	/// Gets the previous state
 	/// </summary>
-	void autoGridSize();
+	/// <returns>Previous state</returns>
+	std::string getPrevState() const { return prevState; }
+
+	/// <summary>
+	/// Gets grid size
+	/// </summary>
+	/// <returns>gridSize</returns>
+	int getGridSize() const { return gridSize; }
+
+	/// <summary>
+	/// Gets total rounds
+	/// </summary>
+	/// <returns>totalRounds</returns>
+	int getTotalRounds() const { return totalRounds; }
+
+	/// <summary>
+	/// Gets str
+	/// </summary>
+	/// <returns>str</returns>
+	std::string getStr() const { return str; }
+
+	/// <summary>
+	/// Gets the decoder
+	/// </summary>
+	/// <returns>The Decoder d</returns>
+	Decoder getDecoder() const { return d; }
+
+	/// <summary>
+	/// Gets the encoder
+	/// </summary>
+	/// <returns>The Encoder e</returns>
+	Encoder getEncoder() const { return e; }
+
 public:
 	/// <summary>
 	/// Default constructor.

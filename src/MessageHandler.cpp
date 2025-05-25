@@ -13,12 +13,12 @@
 
 MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : msg(removeWhitespace(m)), encryptedMsg(e), gridSize(1), completedRounds(0)
 {
-	setTotalRounds(r);
+	updateTotalRounds(r);
 }
 
 MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r, int g) : msg(removeWhitespace(m)), encryptedMsg(e), completedRounds(0)
 {
-	setTotalRounds(r);
+	updateTotalRounds(r);
 }
 
 char MessageHandler::getRandomLetter()

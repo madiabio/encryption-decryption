@@ -126,18 +126,18 @@ public:
 	/// Sets the grid size to the specified value.
 	/// </summary>
 	/// <param name="g">The new grid size.</param>
-	virtual void setGridSize(int g) = 0;
+	virtual void updateGridSize(int g) = 0;
 
 	/// <summary>
 	/// Sets grid size automatically.
 	/// </summary>
-	virtual void setGridSize() = 0;
+	virtual void updateGridSize() = 0;
 
 	/// <summary>
 	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.
 	/// </summary>
 	/// <param name="r">The total number of rounds to set.</param>
-	void setTotalRounds(int r) { (r <= 0) ? throw std::invalid_argument("Total rounds must be greater than zero.") : totalRounds = r; }
+	void updateTotalRounds(int r) { (r <= 0) ? throw std::invalid_argument("Total rounds must be greater than zero.") : totalRounds = r; }
 
 	/// <summary>
 	/// Gets the unencrypted message.
