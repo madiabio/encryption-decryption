@@ -4,6 +4,11 @@
 class Menu
 {
 private:
+
+	Encoder e;
+
+	Decoder d;
+	
 	/// <summary>
 	/// Message to either encrypt or decrypt.
 	/// </summary>
