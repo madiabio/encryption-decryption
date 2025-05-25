@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-class Menu
+class Menu final
 {
 private:
 

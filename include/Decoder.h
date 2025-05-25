@@ -3,7 +3,7 @@
 /// <summary>  
 /// Tools to decode an encrypted message.  
 /// </summary>  
-class Decoder : public MessageHandler  
+class Decoder final: public MessageHandler
 {  
 private:  
 	/// <summary>  

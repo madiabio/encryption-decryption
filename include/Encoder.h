@@ -7,7 +7,7 @@
 /// <summary>
 /// Class with tools to encrypt a message using the encryption algorithm.
 /// </summary>
-class Encoder : public MessageHandler
+class Encoder final: public MessageHandler
 {
 private:
 
