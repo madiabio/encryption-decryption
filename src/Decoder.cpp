@@ -46,7 +46,7 @@ void Decoder::makeGrid()
 		for (int k = 0; k < getGridSize(); ++k)
 		{
 			if (i < getEncryptedMsg().size()) grid[k][j] = getEncryptedMsg()[i];
-			else grid[k][j] = getRandomLetter();
+			else grid[k][j] = generateRandomLetter();
 			++i;
 		}
 	}

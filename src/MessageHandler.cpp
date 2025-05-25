@@ -21,7 +21,7 @@ MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r
 	setTotalRounds(r);
 }
 
-char MessageHandler::getRandomLetter()
+char MessageHandler::generateRandomLetter()
 {
 	static std::mt19937 rng(static_cast<unsigned int>(std::time(nullptr)));
 	static std::uniform_int_distribution<int> dist(0, 25);
