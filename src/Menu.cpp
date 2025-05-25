@@ -37,10 +37,6 @@ void Menu::lvlOne()
 
 void Menu::transition()
 {
-	if (prevState != state) {
-		prevState = state; // Save the current state before transitioning
-	}
-
 	std::string line;
 	int input;
 	while (true) {
@@ -56,6 +52,10 @@ void Menu::transition()
 		// Try to convert input to integer
 		try {
 			input = std::stoi(line);
+			if (prevState != state) 
+			{
+				prevState = state; // Save the current state before transitioning
+			}
 		}
 		catch (const std::invalid_argument&) {
 			std::cout << "Invalid input. Please enter an integer corresponding to the available choices." << std::endl;
@@ -84,6 +84,11 @@ void Menu::lvlTwoEncryption()
 	transitions.push_back(&Menu::lvlThreeMultiEncryption);
 	transitions.push_back(&Menu::lvlOne);
 
+	if (prevState != state)
+	{
+		str = ""; // reset msg if necessary.
+	}
+
 	std::cout << "*****************************************************" << std::endl;
 	std::cout << "Menu - Lvl 2 : Encryption" << std::endl;
 	std::cout << "1. Enter a message" << std::endl;
@@ -103,6 +108,12 @@ void Menu::lvlTwoDecryption()
 	transitions.push_back(&Menu::setTotalRounds);
 	transitions.push_back(&Menu::instantiateDecoder);
 	transitions.push_back(&Menu::lvlOne);
+
+	if (prevState != state)
+	{
+		totalRounds = 0; // reset total rounds if necessary.
+		str = ""; // reset msg if necessary.
+	}
 
 	std::cout << "****************************************************************************" << std::endl;
 	std::cout << "Menu - Lvl 2 : Decryption" << std::endl;
@@ -124,6 +135,7 @@ void Menu::lvlThreeSingleEncryption()
 	}
 	else
 	{
+
 		state = "lvlThreeSingleEncryption";
 		transitions.clear(); // Clear previous choices before adding new ones
 		transitions.push_back(&Menu::setGridSize);
@@ -131,8 +143,11 @@ void Menu::lvlThreeSingleEncryption()
 		transitions.push_back(&Menu::instantiateEncoder);
 		transitions.push_back(&Menu::lvlTwoEncryption);
 
-		totalRounds = 1; // total rounds is always 1 at this state.
-		e.setTotalRounds(1); // total rounds is always 1 for this state.
+		if (prevState != state)
+		{
+			totalRounds = 1; // total rounds is always 1 at this state.
+			e.setTotalRounds(1); // total rounds is always 1 for this state.
+		}
 
 		std::cout << "*****************************************************" << std::endl;
 		std::cout << "Menu - Lvl 3 : Encryption" << std::endl;
@@ -142,7 +157,7 @@ void Menu::lvlThreeSingleEncryption()
 		std::cout << "4. Back" << std::endl;
 		std::cout << "*****************************************************" << std::endl;
 
-		transition();s
+		transition();
 	}
 }
 
@@ -155,11 +170,17 @@ void Menu::lvlThreeMultiEncryption()
 	}
 	else
 	{
+
 		state = "lvlThreeMultiEncryption";
 		transitions.clear(); // Clear previous choices before adding new ones
 		transitions.push_back(&Menu::setTotalRounds);
 		transitions.push_back(&Menu::instantiateEncoder);
 		transitions.push_back(&Menu::lvlTwoEncryption);
+
+		if (prevState != state)
+		{
+			totalRounds = 0; // reset total rounds if necessary.
+		}
 
 		gridSize = -1; // automatically choose grid size.
 		e.setGridSize(); // automatically choose grid size.
@@ -179,7 +200,7 @@ void Menu::instantiateDecoder()
 {
 	try
 	{
-		// d = Decoder(str, totalRounds); // reset d with current values.
+		if (totalRounds == 0) throw std::invalid_argument("Cannot decrypt without setting total rounds > 0.");
 		d.decrypt();
 	}
 	catch (std::exception& error)
@@ -187,19 +208,18 @@ void Menu::instantiateDecoder()
 		std::cout << "Error: " << error.what() << std::endl;
 	}
 	displayCurrentStateMenu();
-
 }
 
 void Menu::instantiateEncoder()
 {
 	try
 	{
-		if (gridSize >= -1) e.encrypt(); // Grid size was set. 
+		if (gridSize >= -1 && totalRounds > 0) e.encrypt(); // Grid size was set. 
 		else if (gridSize == -2) throw std::invalid_argument("Cannot proceed with unset grid choice."); // Grid size wasn't set
+		else if (totalRounds == 0) throw std::invalid_argument("Cannot decrypt without setting total rounds > 0."); // Total rounds not set.
 	}
 	catch (std::exception& error) { std::cout << "Error: " << error.what() << std::endl; }
 	displayCurrentStateMenu();
-
 }
 
 void Menu::setStr()

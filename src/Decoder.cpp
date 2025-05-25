@@ -102,9 +102,6 @@ void Decoder::decode()
         int top_row_of_layer = starting_col;
         int current_col = starting_col;
 
-		// TODO: refactor this to the MessageHandler class and replace the inner function that happens inside of the diagonal code with a function call so it can be overridden
-		// by each child class.
-
         // up & right diagonal
         for (row = getGridSize() / 2; row > top_row_of_layer; --row) {
 			if (grid[row][current_col] == '.' && fullstop) { setMsg(decryptedMsg); return; }
