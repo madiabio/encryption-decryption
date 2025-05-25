@@ -75,6 +75,11 @@ private:
 	void updateTotalRounds();
 
 	/// <summary>
+	/// Prompts the user to update the gridSize saved to the encoder/decoder according to the state.
+	/// </summary>
+	void updateGridSize();
+
+	/// <summary>
 	/// Sets the grid size to -1 so when the encoder is instantiated the control will flow to auto grid size option.
 	/// </summary>
 	void autoGridSize();
@@ -98,16 +103,6 @@ private:
 	/// Shows the menu of the current state.
 	/// </summary>
 	void displayCurrentStateMenu();
-
-	/// <summary>
-	/// Returns to the previous state.
-	/// </summary>
-	void transitionToPreviousState();
-
-	/// <summary>
-	/// Prompts the user to update the gridSize saved to the encoder/decoder according to the state.
-	/// </summary>
-	void updateGridSize();
 
 	/// <summary>
 	/// Sets string

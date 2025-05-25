@@ -58,11 +58,9 @@ void Encoder::setMsg(const std::string& m)
 
 void Encoder::makeGrid()
 {
-    // Fill the grid with random uppercase letters
-    for (int row = 0; row < getGridSize(); ++row) {
-        for (int col = 0; col < getGridSize(); ++col) {
-            grid[row][col] = getRandomLetter();
-        }
+    // Fill the grid with random uppercase letters using std::generate
+    for (auto& row : grid) {
+        std::generate(row.begin(), row.end(), [this]() { return getRandomLetter(); });
     }
 
     int i = 0;

@@ -66,7 +66,7 @@ void Menu::transition()
 			continue;
 		}
 
-		if (input < 1 || input > static_cast<int>(f.size())) {
+		if (input < 1 || input > static_cast<int>(transitions.size())) {
 			std::cout << "Invalid input. Please enter an integer corresponding to the available choices." << std::endl;
 			continue;
 		}
