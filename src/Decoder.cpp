@@ -10,7 +10,7 @@ Decoder::Decoder(const std::string& e, int r)
 	setTotalRounds(r);
 	setCompletedRounds(0);
 
-	setGridSize(static_cast<int>(std::sqrt(getEncryptedMsg().length())));
+	setGridSize();
 	setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize())));
 	makeGrid();
 }
@@ -19,7 +19,7 @@ void Decoder::setEncryptedMsg(const std::string& e)
 {
 	auto newEncryptedMsg = e;
 	newEncryptedMsg = removeWhitespace(e);
-	
+
 	// Check for more than one fullstop
 	if (std::count(e.begin(), e.end(), '.') > 1)
 		throw std::invalid_argument("Only one fullstop can be in the encrypted message.");
@@ -31,6 +31,7 @@ void Decoder::setEncryptedMsg(const std::string& e)
 		}
 	}
 
+	if (!newEncryptedMsg.empty() && !isPerfectSquareOfOddNumber(newEncryptedMsg.length())) throw std::invalid_argument("Encrypted message must be length such that it is the perfect square of an odd number.");
 	encryptedMsg = newEncryptedMsg;
 }
 
@@ -174,7 +175,10 @@ bool Decoder::isPerfectSquareOfOddNumber(int n)
 	return (root_f == root) && (root % 2 == 1) && (root * root == n);
 }
 
-
+void Decoder::setGridSize()
+{
+	setGridSize(static_cast<int>(std::sqrt(getEncryptedMsg().length())));
+}
 
 void Decoder::setGridSize(int g)
 {
@@ -203,8 +207,7 @@ void Decoder::decrypt()
 			setEncryptedMsg(getMsg()); // Set the new encrypted message to be the output of the previous decryption.
 		}
 
-		setGridSize(sqrt(getEncryptedMsg().length())); // update the grid size
-
+		setGridSize(); // update the grid size
 		setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the grid
 		makeGrid(); // make the grid again
 

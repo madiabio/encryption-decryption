@@ -129,6 +129,11 @@ public:
 	virtual void setGridSize(int g) = 0;
 
 	/// <summary>
+	/// Sets grid size automatically.
+	/// </summary>
+	virtual void setGridSize() = 0;
+
+	/// <summary>
 	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.
 	/// </summary>
 	/// <param name="r">The total number of rounds to set.</param>

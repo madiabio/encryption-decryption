@@ -132,6 +132,7 @@ void Menu::lvlThreeSingleEncryption()
 		transitions.push_back(&Menu::lvlTwoEncryption);
 
 		totalRounds = 1; // total rounds is always 1 at this state.
+		e.setTotalRounds(1); // total rounds is always 1 for this state.
 
 		std::cout << "*****************************************************" << std::endl;
 		std::cout << "Menu - Lvl 3 : Encryption" << std::endl;
@@ -141,7 +142,7 @@ void Menu::lvlThreeSingleEncryption()
 		std::cout << "4. Back" << std::endl;
 		std::cout << "*****************************************************" << std::endl;
 
-		transition();
+		transition();s
 	}
 }
 
@@ -161,6 +162,7 @@ void Menu::lvlThreeMultiEncryption()
 		transitions.push_back(&Menu::lvlTwoEncryption);
 
 		gridSize = -1; // automatically choose grid size.
+		e.setGridSize(); // automatically choose grid size.
 
 		std::cout << "****************************************************************************" << std::endl;
 		std::cout << "Menu - Lvl 3 : Encryption" << std::endl;
@@ -192,25 +194,10 @@ void Menu::instantiateEncoder()
 {
 	try
 	{
-		if (gridSize == -1) // Automatically choose grid size (total rounds = unknown)
-		{
-			e = Encoder(str, totalRounds); // reset e with current values so it auto sets the grid size.
-			e.encrypt();
-		}
-		else if (gridSize > 0) // Manually choose grid size (total rounds = 1)
-		{
-			e.setTotalRounds(1);
-			e.encrypt();
-		}
-		else if (gridSize == -2)
-		{
-			throw std::invalid_argument("Cannot proceed with unset grid choice.");
-		}
+		if (gridSize >= -1) e.encrypt(); // Grid size was set. 
+		else if (gridSize == -2) throw std::invalid_argument("Cannot proceed with unset grid choice."); // Grid size wasn't set
 	}
-	catch (std::exception& error)
-	{
-		std::cout << "Error: " << error.what() << std::endl;
-	}
+	catch (std::exception& error) { std::cout << "Error: " << error.what() << std::endl; }
 	displayCurrentStateMenu();
 
 }
@@ -222,19 +209,9 @@ void Menu::setStr()
 	std::getline(std::cin, s);
 	try
 	{
-		if (s.empty())
-		{
-			throw std::invalid_argument("Message cannot be empty.");
-		}
-		if (state == "lvlTwoEncryption")
-		{
-			e.setMsg(s); // Check its valid for encoder to construct with this string.
-		}
-		else if (state == "lvlTwoDecryption")
-		{
-			d.setEncryptedMsg(s); // Check its valid for decoder to construct with this string.
-
-		}
+		if (s.empty()) throw std::invalid_argument("Message cannot be empty.");
+		if (state == "lvlTwoEncryption") e.setMsg(s); // Check its valid for encoder to construct with this string.
+		else if (state == "lvlTwoDecryption") d.setEncryptedMsg(s); // Check its valid for decoder to construct with this string.
 		str = s;
 	}
 	catch (std::exception& error)
@@ -303,6 +280,7 @@ void Menu::autoGridSize()
 {
 	gridSize = -1;
 	std::cout << "Grid size will be automatically chosen." << std::endl;
+	e.setGridSize();
 	displayCurrentStateMenu();
 }
 

@@ -10,7 +10,7 @@ Encoder::Encoder(const std::string& m, int r)
 { 
     setMsg(m);
     setTotalRounds(r);
-    setGridSize(minDiamondGridSize(getMsg().size())); // auto set gridsize
+    setGridSize(); // auto set gridsize
 }
 
 Encoder::Encoder(const std::string& m, int r, int g)
@@ -27,6 +27,11 @@ void Encoder::setGridSize(int g)
     int minSize = minDiamondGridSize(getMsg().size());
     if (g < minSize) throw std::invalid_argument("Grid size too small for message length.");
     gridSize = g;
+}
+
+void Encoder::setGridSize()
+{
+    setGridSize(minDiamondGridSize(getMsg().size()));
 }
 
 void Encoder::setMsg(const std::string& m)

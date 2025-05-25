@@ -79,6 +79,11 @@ public:
     void setGridSize(int g) override;
 
     /// <summary>
+    /// Automatically sets the grid size based upon the unencrypted message.
+    /// </summary>
+    void setGridSize() override;
+
+    /// <summary>
     /// Sets the message
     /// </summary>
     /// <param name="m">New msg string</param>

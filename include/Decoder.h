@@ -12,9 +12,9 @@ private:
 	void makeGrid() override;  
 
 	/// <summary>
-	/// Sets the size of the grid. This function overrides a virtual function from a base class to
-	/// handle the square root of the length of the encrypted message.
+	/// Sets the size of the grid if it is valid.
 	/// </summary>
+	/// <param name="g">New grid size</param>
 	void setGridSize(int g) override;
 
 	/// <summary>  
@@ -62,5 +62,14 @@ public:
 	/// </summary>
 	void decrypt();
 
+	/// <summary>
+	/// Sets the encrypted message.
+	/// </summary>
+	/// <param name="e">Encrypted message to set.</param>
 	void setEncryptedMsg(const std::string& e) override;
+
+	/// <summary>
+	/// Automatically sets the grid size to the square root of the length of the encrypted message string.
+	/// </summary>
+	void setGridSize() override;
 };

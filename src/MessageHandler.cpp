@@ -14,13 +14,11 @@
 MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : msg(removeWhitespace(m)), encryptedMsg(e), gridSize(1), completedRounds(0)
 {
 	setTotalRounds(r);
-	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
 }
 
 MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r, int g) : msg(removeWhitespace(m)), encryptedMsg(e), completedRounds(0)
 {
 	setTotalRounds(r);
-	setGrid(std::vector<std::vector<char>>(gridSize, std::vector<char>(gridSize)));
 }
 
 char MessageHandler::getRandomLetter()
@@ -50,7 +48,7 @@ void MessageHandler::printEncryptedMsg() const
 
 void MessageHandler::printRoundInfo(std::string msgType, std::string& output) const
 {
-	std::cout << "=================== ROUND: " << completedRounds << "===================" << std::endl;
+	std::cout << "=================== ROUND: " << getCompletedRounds() << " ===================" << std::endl;
 	std::cout << msgType << " message: " << output << std::endl;
 	printGrid();
 	std::cout << "======================================================================" << std::endl;
