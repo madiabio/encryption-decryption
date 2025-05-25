@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "Encoder.h"
+#include "Decoder.h"
 class Menu final
 {
 private:

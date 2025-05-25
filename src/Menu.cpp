@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "../include/Menu.h"
 #include "../include/Encoder.h"
 #include "../include/Decoder.h"

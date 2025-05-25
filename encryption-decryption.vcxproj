@@ -106,7 +106,7 @@
     <ClInclude Include="include\MessageHandler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="encrypt_decrypt.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Decoder.cpp" />
     <ClCompile Include="src\Encoder.cpp" />
     <ClCompile Include="src\Menu.cpp" />
@@ -118,6 +118,9 @@
       <SubType>
       </SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="UML Diagram.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,13 +2,14 @@
 /// Base class for encoding and decoding messages.
 /// Handles member functions that will be shared by derived classes.
 /// <\summary>
-#include "pch.h"
 #include "../include/MessageHandler.h"
 #include <string>
 #include <random>
 #include <ctime>
 #include <vector>
 #include <cmath>
+#include <iostream>
+#include <stdexcept>
 #include <algorithm>
 
 MessageHandler::MessageHandler(const std::string& m, const std::string& e, int r) : MessageHandler(m, e, r, 0) {}
@@ -46,7 +47,7 @@ void MessageHandler::printEncryptedMsg() const
 	std::cout << encryptedMsg << std::endl;
 }
 
-void MessageHandler::printRoundInfo(std::string msgType, std::string& output) const
+void MessageHandler::printRoundInfo(const std::string& msgType, const std::string& output) const
 {
 	std::cout << "=================== ROUND: " << getCompletedRounds() << " ===================" << std::endl;
 	std::cout << msgType << " message: " << output << std::endl;

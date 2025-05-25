@@ -1,8 +1,8 @@
-#include "pch.h"
 #include "../include/Decoder.h"
 #include <string>
 #include <cmath>
-
+#include <stdexcept>
+#include <algorithm>
 Decoder::Decoder(const std::string& e, int r) : Decoder(e)
 {
 	setMsg("");

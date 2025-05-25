@@ -3,9 +3,10 @@
 /// Handles members that will be shared by derived classes.
 /// <\summary>
 #pragma once
+#include <stdexcept>
+#include <algorithm>
 #include <string>
 #include <vector>
-
 class MessageHandler
 {
 protected:
@@ -189,7 +190,7 @@ public:
 	/// Prints the current round num, the encrypted message, and the grid.
 	/// </summary>
 	/// <param name="msgType">Either 'encrypted' or 'unencrypted'.</param>
-	void printRoundInfo(std::string msgType, std::string& output) const;
+	void printRoundInfo(const std::string& msgType, const std::string& output) const;
 
 	/// <summary>
 	/// Virtual destructor.

@@ -1,11 +1,11 @@
-#include "pch.h"
 #include "../include/Encoder.h"
 #include <random>
 #include <ctime>
 #include <string>
 #include <vector>
 #include <cmath>
-
+#include <stdexcept>
+#include <algorithm>
 Encoder::Encoder(const std::string& m, int r) : Encoder(m, r, minDiamondGridSize(removeWhitespace(m).size())) {}
 
 Encoder::Encoder(const std::string& m, int r, int g)
