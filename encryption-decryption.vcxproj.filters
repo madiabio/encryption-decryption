@@ -42,6 +42,6 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="UML Diagram.png" />
+    <Image Include="UML-Diagram.png" />
   </ItemGroup>
 </Project>
