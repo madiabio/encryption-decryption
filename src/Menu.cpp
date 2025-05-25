@@ -14,7 +14,7 @@ void Menu::start()
 void Menu::quit()
 {
 	std::cout << "Exiting program..." << std::endl;
-	exit(0); // or set a flag to break menu loop
+	exit(0); 
 }
 
 void Menu::lvlOne()
@@ -131,7 +131,8 @@ void Menu::lvlThreeSingleEncryption()
 		transitions.push_back(&Menu::instantiateEncoder);
 		transitions.push_back(&Menu::lvlTwoEncryption);
 
-		totalRounds = 1;
+		totalRounds = 1; // total rounds is always 1 at this state.
+
 		std::cout << "*****************************************************" << std::endl;
 		std::cout << "Menu - Lvl 3 : Encryption" << std::endl;
 		std::cout << "1. Enter a grid size" << std::endl;
@@ -191,7 +192,7 @@ void Menu::instantiateEncoder()
 {
 	try
 	{
-		if (gridSize == -1) // Automatically choose grid size.
+		if (gridSize == -1) // Automatically choose grid size (total rounds = unknown)
 		{
 			Encoder e(str, totalRounds);
 			e.encrypt();
