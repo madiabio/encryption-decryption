@@ -186,7 +186,7 @@ void Decoder::setGridSize(int g)
 
 void Decoder::decrypt()
 {
-
+	auto temp = getEncryptedMsg();
 	// If there's more rounds to do, handle it here.
 	while (getCompletedRounds() < getTotalRounds())
 	{
@@ -212,5 +212,6 @@ void Decoder::decrypt()
 		setCompletedRounds(getCompletedRounds() + 1); // finish the round
 		printRoundInfo("Decrypted", getMsg());
 	}
-
+	setCompletedRounds(0); // reset completed rounds back to 0.
+	setEncryptedMsg(temp); // reset encrypted msg back to what it was.
 }

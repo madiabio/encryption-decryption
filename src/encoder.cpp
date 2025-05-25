@@ -194,22 +194,25 @@ void Encoder::encode()
 }
 void Encoder::encrypt()
 {
+    auto tempMsg = getMsg();
+    auto tempGridSize = getGridSize();
+
     if (getMsg().empty()) throw std::invalid_argument("Encryption cannot be performed with empty msg.");
     if (getTotalRounds() < 1) throw std::invalid_argument("Encryption cannot be performed with total rounds set to less than 1.");
 
-    // If there's more rounds to do, handle it here.
     while (getCompletedRounds() < getTotalRounds())
     {
         if (getCompletedRounds() == 0)
         {
             setMsg(getMsg());
-            setGridSize(minDiamondGridSize(getMsg().size())); // update the grid size to be the minimum grid size of the new msg.
+            setGridSize(gridSize); // update the grid size to be what it was initially.
         }
         else
         {
             setMsg(getEncryptedMsg()); // update the msg to the current encrypted msg.
             setGridSize(minDiamondGridSize(getMsg().size())); // update the grid size to be the minimum grid size of the new msg.
         }
+
         setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the new grid
         makeGrid(); // make (fill) the new grid
 
@@ -217,5 +220,8 @@ void Encoder::encrypt()
         setCompletedRounds(getCompletedRounds() + 1); // finish the round
         printRoundInfo("Encrypted", getEncryptedMsg());
     }
-}
 
+    setCompletedRounds(0); // reset completed rounds back to 0.
+    setMsg(tempMsg); // reset msg back to what it was.
+    setGridSize(tempGridSize); // reset grid size to minimum grid size.
+}

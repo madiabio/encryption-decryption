@@ -177,7 +177,7 @@ void Menu::instantiateDecoder()
 {
 	try
 	{
-		Decoder d(str, totalRounds);
+		// d = Decoder(str, totalRounds); // reset d with current values.
 		d.decrypt();
 	}
 	catch (std::exception& error)
@@ -194,12 +194,12 @@ void Menu::instantiateEncoder()
 	{
 		if (gridSize == -1) // Automatically choose grid size (total rounds = unknown)
 		{
-			Encoder e(str, totalRounds);
+			e = Encoder(str, totalRounds); // reset e with current values so it auto sets the grid size.
 			e.encrypt();
 		}
 		else if (gridSize > 0) // Manually choose grid size (total rounds = 1)
 		{
-			Encoder e(str, 1, gridSize);
+			e.setTotalRounds(1);
 			e.encrypt();
 		}
 		else if (gridSize == -2)
@@ -228,11 +228,11 @@ void Menu::setStr()
 		}
 		if (state == "lvlTwoEncryption")
 		{
-			Encoder e(s); // Check its valid for encoder to construct with this string.
+			e.setMsg(s); // Check its valid for encoder to construct with this string.
 		}
 		else if (state == "lvlTwoDecryption")
 		{
-			Decoder d(s, 1); // Check its valid for decoder to construct with this string.
+			d.setMsg(s); // Check its valid for decoder to construct with this string.
 
 		}
 		str = s;
@@ -260,11 +260,11 @@ void Menu::setTotalRounds()
 		r = std::stoi(line);
 		if (state == "lvlThreeMultiEncryption")
 		{
-			Encoder e("test", r); // Check its valid for encoder to construct with this number of rounds.
+			e.setTotalRounds(r); // Check its valid for encoder to construct with this number of rounds.
 		}
 		else if (state == "lvlTwoDecryption")
 		{
-			Decoder d(r); // Check its valid for decoder to construct with this number of rounds.
+			d.setTotalRounds(r); // Check its valid for decoder to construct with this number of rounds.
 		}
 		totalRounds = r;
 	}
@@ -290,7 +290,7 @@ void Menu::setGridSize()
 		}
 
 		g = std::stoi(line);
-		Encoder e(str, 1, g); // Check its valid for encoder to construct with this size of grid, given the previously inputted message string.
+		e.setGridSize(g); // Check its valid for encoder to construct with this size of grid, given the previously inputted message string. (grid size is only ever set for encoder)
 		gridSize = g;
 	}
 	catch (std::exception& error) {
