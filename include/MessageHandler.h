@@ -114,30 +114,30 @@ public:
 	/// Sets the unencrypted message.
 	/// </summary>
 	/// <param name="m">Unencrypted message.</param>
-	virtual void setMsg(const std::string& m) { msg = m; }
+	virtual void setMsg(const std::string& m) { msg = removeWhitespace(m); }
 
 	/// <summary>
 	///	Sets the encrypted message.
 	/// </summary>
 	/// <param name="e">Encrypted message.</param>
-	virtual void setEncryptedMsg(const std::string& e) { encryptedMsg = e; }
+	virtual void setEncryptedMsg(const std::string& e) { encryptedMsg = removeWhitespace(e); }
 
 	/// <summary>
 	/// Sets the grid size to the specified value.
 	/// </summary>
 	/// <param name="g">The new grid size.</param>
-	virtual void updateGridSize(int g) = 0;
+	virtual void setGridSize(int g) = 0;
 
 	/// <summary>
 	/// Sets grid size automatically.
 	/// </summary>
-	virtual void updateGridSize() = 0;
+	virtual void setGridSize() = 0;
 
 	/// <summary>
 	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.
 	/// </summary>
 	/// <param name="r">The total number of rounds to set.</param>
-	void updateTotalRounds(int r) { (r <= 0) ? throw std::invalid_argument("Total rounds must be greater than zero.") : totalRounds = r; }
+	void setTotalRounds(int r) { (r <= 0) ? throw std::invalid_argument("Total rounds must be greater than zero.") : totalRounds = r; }
 
 	/// <summary>
 	/// Gets the unencrypted message.

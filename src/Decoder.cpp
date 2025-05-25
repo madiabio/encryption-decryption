@@ -3,17 +3,19 @@
 #include <string>
 #include <cmath>
 
-Decoder::Decoder(const std::string& e, int r)
+Decoder::Decoder(const std::string& e, int r) : Decoder(e)
 {
 	setMsg("");
-	setEncryptedMsg(e);
-	updateTotalRounds(r);
+	setTotalRounds(r);
 	setCompletedRounds(0);
-
-	updateGridSize();
+	setEncryptedMsg(e);
+	setGridSize();
 	setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize())));
 	makeGrid();
 }
+
+Decoder::Decoder(const std::string& e) : Decoder(e, 1) {}
+
 
 void Decoder::setEncryptedMsg(const std::string& e)
 {
@@ -172,12 +174,12 @@ bool Decoder::isPerfectSquareOfOddNumber(int n)
 	return (root_f == root) && (root % 2 == 1) && (root * root == n);
 }
 
-void Decoder::updateGridSize()
+void Decoder::setGridSize()
 {
-	updateGridSize(static_cast<int>(std::sqrt(getEncryptedMsg().length())));
+	setGridSize(static_cast<int>(std::sqrt(getEncryptedMsg().length())));
 }
 
-void Decoder::updateGridSize(int g)
+void Decoder::setGridSize(int g)
 {
 	if (g <= 0) throw std::invalid_argument("Grid size must be greater than zero.");
 	if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
@@ -204,7 +206,7 @@ void Decoder::decrypt()
 			setEncryptedMsg(getMsg()); // Set the new encrypted message to be the output of the previous decryption.
 		}
 
-		updateGridSize(); // update the grid size
+		setGridSize(); // update the grid size
 		setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the grid
 		makeGrid(); // make the grid again
 

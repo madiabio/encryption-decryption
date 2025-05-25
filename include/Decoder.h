@@ -15,7 +15,7 @@ private:
 	/// Sets the size of the grid if it is valid.
 	/// </summary>
 	/// <param name="g">New grid size</param>
-	void updateGridSize(int g) override;
+	void setGridSize(int g) override;
 
 	/// <summary>  
 	/// Unravels the grid in the diamond pattern and updates msg.
@@ -43,15 +43,17 @@ public:
 	/// <summary>
 	/// Sets decoder to just do 1 round of decryption using just the encryptedMsg string.
 	/// </summary>
-	Decoder(const std::string& e) : MessageHandler("", "", 1) { setEncryptedMsg(e); }
+	/// <param name="e">Encrypted message</param>  
+	Decoder(const std::string& e);
 
 	/// <summary>
 	/// Sets decoder with just encryption rounds. Encrypted string must be set before running encrypt.
 	/// </summary>
-	Decoder(int r) : MessageHandler("", "", r) { updateTotalRounds(r); }
+	/// <param name="r">Number of decryption rounds to perform.</param>  
+	Decoder(int r) : Decoder("") { setTotalRounds(r); }
 
 	/// <summary>  
-	/// Constructor that takes in an encrypted message and the number of encrypted rounds performed on it.  
+	/// Constructor that takes in an encrypted message and the number of encrypted rounds performed on it.
 	/// </summary>  
 	/// <param name="e">Encrypted message</param>  
 	/// <param name="r">Number of decryption rounds to perform.</param>  
@@ -71,5 +73,5 @@ public:
 	/// <summary>
 	/// Automatically sets the grid size to the square root of the length of the encrypted message string.
 	/// </summary>
-	void updateGridSize() override;
+	void setGridSize() override;
 };

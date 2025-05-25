@@ -6,21 +6,15 @@
 #include <vector>
 #include <cmath>
 
-Encoder::Encoder(const std::string& m, int r)
-{ 
-    setMsg(m);
-    updateTotalRounds(r);
-    updateGridSize(); // auto set gridsize
-}
+Encoder::Encoder(const std::string& m, int r) : Encoder(m, r, minDiamondGridSize(removeWhitespace(m).size())) {}
 
 Encoder::Encoder(const std::string& m, int r, int g)
-{ 
+{
     setMsg(m);
-    updateTotalRounds(r);
-    updateGridSize(g); // manually set gridsize
+    setTotalRounds(r);
+    setGridSize(g);
 }
-
-void Encoder::updateGridSize(int g)
+void Encoder::setGridSize(int g)
 {
     if (g < 3) throw std::invalid_argument("Grid size must be greater than or equal to 3.");
     if (g % 2 == 0) throw std::invalid_argument("Grid size must be an odd number.");
@@ -29,9 +23,9 @@ void Encoder::updateGridSize(int g)
     gridSize = g;
 }
 
-void Encoder::updateGridSize()
+void Encoder::setGridSize()
 {
-    updateGridSize(minDiamondGridSize(getMsg().size()));
+    setGridSize(minDiamondGridSize(getMsg().size()));
 }
 
 void Encoder::setMsg(const std::string& m)
@@ -58,7 +52,7 @@ void Encoder::setMsg(const std::string& m)
 
 void Encoder::makeGrid()
 {
-    // Fill the grid with random uppercase letters using std::generate
+    // Fill the grid with random uppercase letters
     for (auto& row : grid) {
         std::generate(row.begin(), row.end(), [this]() { return getRandomLetter(); });
     }
@@ -208,12 +202,12 @@ void Encoder::encrypt()
         if (getCompletedRounds() == 0)
         {
             setMsg(getMsg());
-            updateGridSize(gridSize); // update the grid size to be what it was initially.
+            setGridSize(gridSize); // update the grid size to be what it was initially.
         }
         else
         {
             setMsg(getEncryptedMsg()); // update the msg to the current encrypted msg.
-            updateGridSize(minDiamondGridSize(getMsg().size())); // update the grid size to be the minimum grid size of the new msg.
+            setGridSize(minDiamondGridSize(getMsg().size())); // update the grid size to be the minimum grid size of the new msg.
         }
 
         setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the new grid
@@ -226,5 +220,5 @@ void Encoder::encrypt()
 
     setCompletedRounds(0); // reset completed rounds back to 0.
     setMsg(tempMsg); // reset msg back to what it was.
-    updateGridSize(tempGridSize); // reset grid size to minimum grid size.
+    setGridSize(tempGridSize); // reset grid size to minimum grid size.
 }

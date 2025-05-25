@@ -146,8 +146,8 @@ void Menu::lvlThreeSingleEncryption()
 		if (getPrevState()!= getState())
 		{
 			setTotalRounds(1); // total rounds is always 1 at this state.
-			e.updateTotalRounds(1); // total rounds is always 1 for this state.
-		}
+			e.setTotalRounds(1); // total rounds is always 1 for this state.
+		}	
 
 		std::cout << "*****************************************************" << std::endl;
 		std::cout << "Menu - Lvl 3 : Encryption" << std::endl;
@@ -183,7 +183,7 @@ void Menu::lvlThreeMultiEncryption()
 		}
 
 		setGridSize(-1); // automatically choose grid size.
-		e.updateGridSize(); // automatically choose grid size.
+		e.setGridSize(); // automatically choose grid size.
 
 		std::cout << "****************************************************************************" << std::endl;
 		std::cout << "Menu - Lvl 3 : Encryption" << std::endl;
@@ -257,11 +257,11 @@ void Menu::updateTotalRounds()
 		r = std::stoi(line);
 		if (state == "lvlThreeMultiEncryption")
 		{
-			e.updateTotalRounds(r); // Check its valid for encoder to construct with this number of rounds.
+			e.setTotalRounds(r); // Check its valid for encoder to construct with this number of rounds.
 		}
 		else if (state == "lvlTwoDecryption")
 		{
-			d.updateTotalRounds(r); // Check its valid for decoder to construct with this number of rounds.
+			d.setTotalRounds(r); // Check its valid for decoder to construct with this number of rounds.
 		}
 		setTotalRounds(r);
 	}
@@ -287,7 +287,7 @@ void Menu::updateGridSize()
 		}
 
 		g = std::stoi(line);
-		e.updateGridSize(g); // Check its valid for encoder to construct with this size of grid, given the previously inputted message string. (grid size is only ever set for encoder)
+		e.setGridSize(g); // Check its valid for encoder to construct with this size of grid, given the previously inputted message string. (grid size is only ever set for encoder)
 		setGridSize(g);
 	}
 	catch (std::exception& error) {
@@ -300,7 +300,7 @@ void Menu::autoGridSize()
 {
 	setGridSize(-1);
 	std::cout << "Grid size will be automatically chosen." << std::endl;
-	e.updateGridSize();
+	e.setGridSize();
 	displayCurrentStateMenu();
 }
 

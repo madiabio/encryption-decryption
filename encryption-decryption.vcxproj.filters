@@ -8,10 +8,10 @@
     <ClCompile Include="src\Encoder.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Menu.cpp">
+    <ClCompile Include="src\MessageHandler.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\MessageHandler.cpp">
+    <ClCompile Include="src\Menu.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -22,10 +22,10 @@
     <ClInclude Include="include\Encoder.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu.h">
+    <ClInclude Include="include\MessageHandler.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\MessageHandler.h">
+    <ClInclude Include="include\Menu.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
