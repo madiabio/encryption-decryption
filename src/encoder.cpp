@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Encoder.h"
+#include "../include/Encoder.h"
 #include <random>
 #include <ctime>
 #include <string>

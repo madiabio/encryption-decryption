@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
-#include "Decoder.h"
 #include "pch.h"
+#include "../include/Decoder.h"
 
 TEST(DecoderTest, EncryptedMessageNotOddPerfectSquare) 
 {

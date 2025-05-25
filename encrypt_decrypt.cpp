@@ -1,8 +1,8 @@
 #include "pch.h"
-#include "Decoder.h"
-#include "Encoder.h"
-#include "MessageHandler.h"
-#include "Menu.h"
+#include "include/Decoder.h"
+#include "include/Encoder.h"
+#include "include/MessageHandler.h"
+#include "include/Menu.h"
 
 int main()
 {

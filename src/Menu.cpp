@@ -1,7 +1,7 @@
 #include "pch.h"
-#include "Menu.h"
-#include "Encoder.h"
-#include "Decoder.h"
+#include "../include/Menu.h"
+#include "../include/Encoder.h"
+#include "../include/Decoder.h"
 #include <iostream>
 Menu::Menu() : str(""), gridSize(-2), totalRounds(1), state("None") {}
 

@@ -1,41 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="MessageHandler.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="Encoder.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="EncoderTests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="Decoder.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="DecoderTests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
     <ClCompile Include="encrypt_decrypt.cpp" />
-    <ClCompile Include="Menu.cpp">
+    <ClCompile Include="src\Decoder.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\encoder.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menu.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MessageHandler.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\DecoderTests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\EncoderTests.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="include\Decoder.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="Encoder.h">
+    <ClInclude Include="include\Encoder.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="Decoder.h">
+    <ClInclude Include="include\Menu.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="MessageHandler.h">
+    <ClInclude Include="include\MessageHandler.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
+    <ClInclude Include="include\pch.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

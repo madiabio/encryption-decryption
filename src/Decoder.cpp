@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Decoder.h"
+#include "../include/Decoder.h"
 #include <string>
 #include <cmath>
 

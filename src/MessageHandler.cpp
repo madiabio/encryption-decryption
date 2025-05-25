@@ -3,7 +3,7 @@
 /// Handles member functions that will be shared by derived classes.
 /// <\summary>
 #include "pch.h"
-#include "MessageHandler.h"
+#include "../include/MessageHandler.h"
 #include <string>
 #include <random>
 #include <ctime>

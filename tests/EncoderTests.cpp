@@ -1,5 +1,6 @@
 #include "pch.h"
 
+
 TEST(EncoderTest, DefaultConstructorInitializesMembers)
 {
     Encoder encoder;
