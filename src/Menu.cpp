@@ -203,7 +203,7 @@ void Menu::instantiateDecoder()
 		if (getTotalRounds() == 0) throw std::invalid_argument("Cannot decrypt without setting total rounds > 0.");
 		d.decrypt();
 	}
-	catch (std::exception& error)
+	catch (const std::exception& error)
 	{
 		std::cout << "Error: " << error.what() << std::endl;
 	}
@@ -218,7 +218,7 @@ void Menu::instantiateEncoder()
 		else if (getGridSize() == -2) throw std::invalid_argument("Cannot proceed with unset grid choice."); // Grid size wasn't set
 		else if (getTotalRounds() == 0) throw std::invalid_argument("Cannot decrypt without setting total rounds > 0."); // Total rounds not set.
 	}
-	catch (std::exception& error) { std::cout << "Error: " << error.what() << std::endl; }
+	catch (const std::exception& error) { std::cout << "Error: " << error.what() << std::endl; }
 	displayCurrentStateMenu();
 }
 
@@ -234,7 +234,7 @@ void Menu::updateMessage()
 		else if (state == "lvlTwoDecryption") d.setEncryptedMsg(s); // Check its valid for decoder to construct with this string.
 		str = s;
 	}
-	catch (std::exception& error)
+	catch (const std::exception& error)
 	{
 		std::cout << "Error: " << error.what() << std::endl;
 	}
@@ -265,7 +265,7 @@ void Menu::updateTotalRounds()
 		}
 		setTotalRounds(r);
 	}
-	catch (std::exception& error) 
+	catch (const std::exception& error) 
 	{
 		std::cout << "Error: " << error.what() << std::endl;
 	}
@@ -290,7 +290,7 @@ void Menu::updateGridSize()
 		e.setGridSize(g); // Check its valid for encoder to construct with this size of grid, given the previously inputted message string. (grid size is only ever set for encoder)
 		setGridSize(g);
 	}
-	catch (std::exception& error) {
+	catch (const std::exception& error) {
 		std::cout << "Error: " << error.what() << std::endl;
 	}
 	displayCurrentStateMenu();
