@@ -232,7 +232,7 @@ void Menu::setStr()
 		}
 		else if (state == "lvlTwoDecryption")
 		{
-			d.setMsg(s); // Check its valid for decoder to construct with this string.
+			d.setEncryptedMsg(s); // Check its valid for decoder to construct with this string.
 
 		}
 		str = s;
