@@ -44,27 +44,27 @@ protected:
 	/// Returns the number of cells in a diamond for an odd grid size n
 	/// </summary>
 	/// <param name="n">Odd grid size n</param
-	int diamondCellCount(int n);
+	static int diamondCellCount(int n);
 
 	/// <summary>
 	/// Calculates the minimum grid size required to fit a message in a diamond-shaped grid.
 	/// </summary>
 	/// <param name="messageLength">The length of the message to be placed in the diamond grid.</param>
 	/// <returns>The smallest integer grid size that can accommodate the entire message in a diamond pattern.</returns>
-	int minDiamondGridSize(int messageLength);
+	static int minDiamondGridSize(int messageLength);
 
 	/// <summary>
 	/// Cleans the string of whitespace.
 	/// </summary>
 	/// <param name="str">String to remove whitespace from.</param>
 	/// <returns></returns>
-	std::string removeWhitespace(std::string str);
+	static std::string removeWhitespace(std::string str);
 
 	/// <summary>
 	/// Gets a random upper case letter between A-Z.
 	/// </summary>
 	/// <returns>Returns a random upper case letter.</returns>
-	char getRandomLetter();
+	static char generateRandomLetter();
 
 	/// <summary>
 	/// Sets the number of completed rounds if valid. If new number < 0, throws invalid argument.

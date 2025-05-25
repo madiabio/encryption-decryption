@@ -26,13 +26,13 @@ private:
 	/// returns true if n is a perfect square of an odd number.
 	/// </summary>
 	/// <param name="n">Int to check if it is a perfect square of an odd number.</param>
-	bool isPerfectSquareOfOddNumber(int n);
+	static bool isPerfectSquareOfOddNumber(int n);
 
 	/// <summary>
 	/// Removes characters from string str until the length is a perfect square of an odd number.
 	/// </summary>
 	/// <param name="str">String to remove chars from</param>
-	void trimToPerfectSquareOfOddNumberLength(std::string& str);
+	static void trimToPerfectSquareOfOddNumberLength(std::string& str);
 
 public:  
 	/// <summary>  
