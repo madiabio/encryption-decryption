@@ -83,11 +83,6 @@ protected:
 	/// </summary>
 	virtual void makeGrid() = 0;
 
-	/// <summary>
-	/// Sets the grid size to the specified value 
-	/// </summary>
-	/// <param name="g">The new grid size.</param>
-	virtual void setGridSize(int g) = 0;
 
 public:
 	/// <summary>
@@ -126,6 +121,12 @@ public:
 	/// </summary>
 	/// <param name="e">Encrypted message.</param>
 	virtual void setEncryptedMsg(const std::string& e) { encryptedMsg = e; }
+
+	/// <summary>
+	/// Sets the grid size to the specified value.
+	/// </summary>
+	/// <param name="g">The new grid size.</param>
+	virtual void setGridSize(int g) = 0;
 
 	/// <summary>
 	/// Sets the total number of rounds if valid. If new number < 0, throws invalid argument.

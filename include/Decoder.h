@@ -23,7 +23,7 @@ private:
 	void decode();
 
 	/// <summary>
-	/// returns true if n is a perfetc square of an odd number.
+	/// returns true if n is a perfect square of an odd number.
 	/// </summary>
 	/// <param name="n">Int to check if it is a perfect square of an odd number.</param>
 	bool isPerfectSquareOfOddNumber(int n);
@@ -41,14 +41,14 @@ public:
 	Decoder() : MessageHandler() {}  
 
 	/// <summary>
-	/// Sets decoder to automatically just do 1 round of encryption using just the error string.
+	/// Sets decoder to just do 1 round of decryption using just the encryptedMsg string.
 	/// </summary>
-	Decoder(const std::string& e) : MessageHandler("", "", 1, 1) {setEncryptedMsg(e); }
+	Decoder(const std::string& e) : MessageHandler("", "", 1) { setEncryptedMsg(e); }
 
 	/// <summary>
 	/// Sets decoder with just encryption rounds. Encrypted string must be set before running encrypt.
 	/// </summary>
-	Decoder(int r) : MessageHandler("", "", r) {}
+	Decoder(int r) : MessageHandler("", "", r) { setTotalRounds(r); }
 
 	/// <summary>  
 	/// Constructor that takes in an encrypted message and the number of encrypted rounds performed on it.  
@@ -58,7 +58,7 @@ public:
 	Decoder(const std::string& e, int r);  
 
 	/// <summary>
-	/// Decrypts the encrypted message based upon how many decryption rounds were given in the constructor.
+	/// Decrypts the encrypted message in totalRounds rounds.
 	/// </summary>
 	void decrypt();
 

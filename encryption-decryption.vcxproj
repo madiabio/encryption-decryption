@@ -104,24 +104,13 @@
     <ClInclude Include="include\Encoder.h" />
     <ClInclude Include="include\Menu.h" />
     <ClInclude Include="include\MessageHandler.h" />
-    <ClInclude Include="include\pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="encrypt_decrypt.cpp" />
     <ClCompile Include="src\Decoder.cpp" />
-    <ClCompile Include="src\encoder.cpp" />
+    <ClCompile Include="src\Encoder.cpp" />
     <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\MessageHandler.cpp" />
-    <ClCompile Include="src\pch.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(MSBuildThisFileDirectory)include;%(AdditionalIncludeDirectories);  $(ProjectDir)include
-</AdditionalIncludeDirectories>
-      <AdditionalUsingDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </AdditionalUsingDirectories>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="tests\DecoderTests.cpp" />
-    <ClCompile Include="tests\EncoderTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

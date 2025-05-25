@@ -6,16 +6,18 @@
 #include <vector>
 #include <cmath>
 
-Encoder::Encoder(const std::string& m, int r) : MessageHandler(m, "", r)
+Encoder::Encoder(const std::string& m, int r)
 { 
-    setMsg(removeWhitespace(m));
-    setGridSize(minDiamondGridSize(msg.size()));
+    setMsg(m);
+    setTotalRounds(r);
+    setGridSize(minDiamondGridSize(getMsg().size())); // auto set gridsize
 }
 
-Encoder::Encoder(const std::string& m, int r, int g) : MessageHandler(m, "", r)
+Encoder::Encoder(const std::string& m, int r, int g)
 { 
-    setMsg(removeWhitespace(m));
-    setGridSize(g);
+    setMsg(m);
+    setTotalRounds(r);
+    setGridSize(g); // manually set gridsize
 }
 
 void Encoder::setGridSize(int g)
@@ -25,30 +27,28 @@ void Encoder::setGridSize(int g)
     int minSize = minDiamondGridSize(getMsg().size());
     if (g < minSize) throw std::invalid_argument("Grid size too small for message length.");
     gridSize = g;
-
 }
 
 void Encoder::setMsg(const std::string& m)
 {
+    auto newMsg = m;
+    newMsg = removeWhitespace(m);
     // Check for more than one fullstop
     if (std::count(m.begin(), m.end(), '.') > 1)
         throw std::invalid_argument("Only one fullstop can be in the message.");
 
     // Check that all characters are A-Z, a-z, or '.'
-    for (char c : m) {
+    for (char c : newMsg) {
         if (c != '.' && !((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))) {
             throw std::invalid_argument("Message can only contain letters A-Z, a-z, and at most one fullstop.");
         }
     }
 
-    if (m.empty()) throw std::invalid_argument("Message cannot be empty.");
-
     // Convert all letters to uppercase
-    std::string upperMsg = m;
-    std::transform(upperMsg.begin(), upperMsg.end(), upperMsg.begin(),
+    std::transform(newMsg.begin(), newMsg.end(), newMsg.begin(),
         [](unsigned char c) { return (c >= 'a' && c <= 'z') ? std::toupper(c) : c; });
 
-    msg = upperMsg;
+    msg = newMsg;
 }
 
 void Encoder::makeGrid()
@@ -194,25 +194,22 @@ void Encoder::encode()
 }
 void Encoder::encrypt()
 {
-    // for one round:
+    if (getMsg().empty()) throw std::invalid_argument("Encryption cannot be performed with empty msg.");
+    if (getTotalRounds() < 1) throw std::invalid_argument("Encryption cannot be performed with total rounds set to less than 1.");
 
-    // Make grid & encode based off of current params
-    
-    setMsg(getMsg()); // check msg is ok.
-    setGridSize(getGridSize()); // check grid size is ok.
-    setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the grid
-    makeGrid();
-    encode();
-    setCompletedRounds(1);
-    printRoundInfo("Encrypted", getEncryptedMsg());
-
-    
     // If there's more rounds to do, handle it here.
     while (getCompletedRounds() < getTotalRounds())
     {
-        setMsg(getEncryptedMsg()); // update the msg to the current encrypted msg.
-        setGridSize(minDiamondGridSize(getMsg().size())); // update the grid size to be the minimum grid size of the new msg.
-        
+        if (getCompletedRounds() == 0)
+        {
+            setMsg(getMsg());
+            setGridSize(minDiamondGridSize(getMsg().size())); // update the grid size to be the minimum grid size of the new msg.
+        }
+        else
+        {
+            setMsg(getEncryptedMsg()); // update the msg to the current encrypted msg.
+            setGridSize(minDiamondGridSize(getMsg().size())); // update the grid size to be the minimum grid size of the new msg.
+        }
         setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize()))); // set the new grid
         makeGrid(); // make (fill) the new grid
 

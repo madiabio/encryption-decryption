@@ -5,22 +5,13 @@
     <ClCompile Include="src\Decoder.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\encoder.cpp">
+    <ClCompile Include="src\Encoder.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Menu.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\MessageHandler.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="tests\DecoderTests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="tests\EncoderTests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -37,9 +28,6 @@
     <ClInclude Include="include\MessageHandler.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\pch.h">
-      <Filter>include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -47,9 +35,6 @@
     </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{7c379918-80bd-447d-9c98-cb882c8adfc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="tests">
-      <UniqueIdentifier>{9906c254-015c-4a20-98b6-825e26ac4419}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

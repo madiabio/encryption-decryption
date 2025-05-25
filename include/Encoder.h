@@ -10,6 +10,7 @@
 class Encoder : public MessageHandler
 {
 private:
+
     /// <summary>
     /// Creates or initializes a grid structure. Overrides a virtual function from a base class.
     /// This method differs from the base class by first initializing the grid using random letters,
@@ -22,7 +23,6 @@ private:
     /// Collapses the grid into an encrypted message string.
     /// </summary>
     void encode();
-
 
 public:
 
@@ -68,7 +68,7 @@ public:
     Encoder(const std::string& m, int r, int g);
 
     /// <summary>
-    /// Performs encrpytion based upon the number of encryption rounds. Updates the encryptedMsg member.
+    /// Performs encrpytion for totalRounds rounds. Updates the encryptedMsg member.
     /// </summary>
     void encrypt();
 

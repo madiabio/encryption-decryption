@@ -9,7 +9,7 @@ Decoder::Decoder(const std::string& e, int r)
 	setEncryptedMsg(e);
 	setTotalRounds(r);
 	setCompletedRounds(0);
-	// This should handle any other problems with the input.
+
 	setGridSize(static_cast<int>(std::sqrt(getEncryptedMsg().length())));
 	setGrid(std::vector<std::vector<char>>(getGridSize(), std::vector<char>(getGridSize())));
 	makeGrid();
@@ -17,21 +17,21 @@ Decoder::Decoder(const std::string& e, int r)
 
 void Decoder::setEncryptedMsg(const std::string& e)
 {
-	if (e.empty()) throw std::invalid_argument("Encrypted message cannot be empty.");
-	if (!isPerfectSquareOfOddNumber(e.length())) throw std::invalid_argument("Encrypted message must be length such that it is the perfect square of an odd number.");
+	auto newEncryptedMsg = e;
+	newEncryptedMsg = removeWhitespace(e);
 	
 	// Check for more than one fullstop
 	if (std::count(e.begin(), e.end(), '.') > 1)
 		throw std::invalid_argument("Only one fullstop can be in the encrypted message.");
 
 	// Check that all characters are A-Z, a-z, or '.'
-	for (char c : e) {
+	for (char c : newEncryptedMsg) {
 		if (c != '.' && !((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))) {
 			throw std::invalid_argument("Encrypted message can only contain letters A-Z, a-z, and at most one fullstop.");
 		}
 	}
 
-	encryptedMsg = e;
+	encryptedMsg = newEncryptedMsg;
 }
 
 void Decoder::makeGrid()
@@ -147,6 +147,7 @@ void Decoder::decode()
 void Decoder::trimToPerfectSquareOfOddNumberLength(std::string& str)
 {
 	size_t len = str.length();
+
 	int n = static_cast<int>(std::sqrt(len));
 
 	// Ensure n is odd and n*n <= len
@@ -185,20 +186,22 @@ void Decoder::setGridSize(int g)
 
 void Decoder::decrypt()
 {
-	// Make grid & encode based off of current params
-
-	setEncryptedMsg(getEncryptedMsg()); // verify the encryptedMsg is ok.
-	setGridSize(getGridSize()); // verify gridsize is ok.
-	makeGrid();
-	decode();
-	setCompletedRounds(1);
-	printRoundInfo("Decrypted", getMsg());
 
 	// If there's more rounds to do, handle it here.
 	while (getCompletedRounds() < getTotalRounds())
 	{
-		if (!isPerfectSquareOfOddNumber(getMsg().length())) trimToPerfectSquareOfOddNumberLength(msg); // Trim to the correct length if necessary
-		setEncryptedMsg(getMsg()); // Set the new encrypted message to be the output of the previous decryption.
+		if (getCompletedRounds() == 0)
+		{
+			if (getEncryptedMsg().empty()) throw std::invalid_argument("Decryption cannot be performed if encrypted message is empty.");
+			if (!isPerfectSquareOfOddNumber(getEncryptedMsg().length())) throw std::invalid_argument("Encrypted message must be length such that it is the perfect square of an odd number.");
+			setEncryptedMsg(getEncryptedMsg()); // Keep the encrypted message as it was, verify its valid though.
+		
+		}
+		else
+		{
+			if (!isPerfectSquareOfOddNumber(getMsg().length())) trimToPerfectSquareOfOddNumberLength(msg); // Trim to the correct length if necessary
+			setEncryptedMsg(getMsg()); // Set the new encrypted message to be the output of the previous decryption.
+		}
 
 		setGridSize(sqrt(getEncryptedMsg().length())); // update the grid size
 
