@@ -20,7 +20,7 @@
 - It allows users to choose between encoding and decoding messages, set grid sizes, and view the results of their operations.
 
 ## UML Diagram
-![UML Diagram](uml-diagram.png)
+![UML Diagram](UML-Diagram.png)
 
 # OOP/C++ Concepts Used
 ## Basic C++ Coding
@@ -63,3 +63,11 @@
 - Many exceptions are thrown for invalid circumstances, mostly invalid_argument, with custom messages.  
 - Try/catch blocks are used in the Menu class to catch exceptions thrown by the Encoder and Decoder classes,
 - an anonymous function is used when filling the grid using std::generate.
+
+## Testing
+Unit tests were written in parallel with the development of the MessageHandler, Encoder, and Decoder classes. 
+Google Test framework was used for this, but as some refactoring was done after the tests were written, they are not currently functional.
+This may change in the future, in which case this section will be updated with the relevant information.
+
+The tests can be found in the `tests` directory and are included for the purpose of demonstrating my knowledge of unit testing and the Google Test framework, 
+but are not required for the application to function.
