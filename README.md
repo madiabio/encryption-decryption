@@ -1,7 +1,7 @@
 ﻿# Encrpytion/Decryption Application
 I wrote this in C++ to practice object-oriented programming. During this process, I learned how to use the Google Test framework, building upon the skills I gained from using MSTest to build an Excel clone in C# with test-driven development last year. I also enjoyed applying the understanding of finite-state machines I developed from taking an autonama theory course while in Utah to build the menu.
 
-While there are some things I may tweak in the future, I am excited about what I learned from the process and am overall satisfied with the end result. Check it out here: https://lnkd.in/gBYtMzjy
+While there are some things I may tweak in the future, I am excited about what I learned from the process and am overall satisfied with the end result.
 
 ## Compilation Instructions
 ```g++ -std=c++14 -Iinclude src/Menu.cpp src/Decoder.cpp src/Encoder.cpp src/MessageHandler.cpp main.cpp -o encryption-decryption```
