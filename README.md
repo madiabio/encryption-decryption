@@ -1,5 +1,5 @@
 ﻿# Encrpytion/Decryption Application
-I wrote this in C++ to practice object-oriented programming. During this process, I learned how to use the Google Test framework, building upon the skills I gained from using MSTest to build an Excel clone in C# with test-driven development last year. I also enjoyed applying the understanding of finite-state machines I developed from taking an automata theory course while in Utah to build the menu.
+I wrote this terminal based encryption client to practice object-oriented programming. This project refined my ability to discern when and how to apply object-oriented programming to a problem. During the process, I also learned how to use the Google Test framework which built upon the skills I gained using MSTest with C# projects in 2024.
 
 While there are some things I may tweak in the future, I am excited about what I learned from the process and am overall satisfied with the end result.
 
